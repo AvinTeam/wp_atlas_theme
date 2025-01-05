@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "vazir";
+  src: url("../fonts/Vazir-Bold-FD.eot");
+  src: url("../fonts/Vazir-Bold-FD.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir-Bold-FD.woff2") format("woff2"),
+    url("../fonts/Vazir-Bold-FD.woff") format("woff"),
+    url("../fonts/Vazir-Bold-FD.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "vazir";
+  src: url("../fonts/Vazir-FD.eot");
+  src: url("../fonts/Vazir-FD.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir-FD.woff2") format("woff2"),
+    url("../fonts/Vazir-FD.woff") format("woff"),
+    url("../fonts/Vazir-FD.ttf") format("truetype");
+}
+
+* {
+  font-family: vazir;
+}
+
+.d-n {
+  display: none;
+}
+
+.atlas_parent {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+
+.atlas-row {
+  display: flex;
+}
+
+
+.menu-preview {
+  margin: 5px 0px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.menu-preview input {
+padding: 5px;
+} 
+
+.center-type label {
+  padding-left: 10px;
+}
