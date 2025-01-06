@@ -47,12 +47,8 @@ function atlas_row_install()
         $admin_role->add_cap('delete_private_atlass');
     }
 
-
-
     global $wpdb;
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-
 
     $tabel_iran_area_row = $wpdb->prefix . 'atlas_iran_area';
     $wpdb_collate_atlas_row = $wpdb->collate;
@@ -62,33 +58,8 @@ function atlas_row_install()
         `province_id` int NOT NULL,
         PRIMARY KEY (`id`)
       ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=$wpdb_collate_atlas_row";
-    
+
     dbDelta($sql_iran_area);
-
-    
-      
-
-
-
-    // global $wpdb;
-    // $tabel_atlas_row = $wpdb->prefix . 'atlas_row';
-    // $wpdb_collate_atlas_row = $wpdb->collate;
-    // $sql = "CREATE TABLE IF NOT EXISTS `$tabel_atlas_row` (
-    //         `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
-    //         `full_name` varchar(50) CHARACTER SET utf8mb4 COLLATE $wpdb_collate_atlas_row NOT NULL DEFAULT '',
-    //         `mobile` varchar(11) COLLATE $wpdb_collate_atlas_row NOT NULL,
-    //         `avatar` varchar(20) CHARACTER SET utf8mb4 COLLATE $wpdb_collate_atlas_row NOT NULL DEFAULT 'no',
-    //         `ostan` int NOT NULL DEFAULT '0',
-    //         `description` text COLLATE $wpdb_collate_atlas_row,
-    //         `signature` longtext CHARACTER SET utf8mb4 COLLATE $wpdb_collate_atlas_row,
-    //         `status` varchar(20) COLLATE $wpdb_collate_atlas_row NOT NULL,
-    //         `created_at` timestamp NOT NULL,
-    //         PRIMARY KEY (`ID`),
-    //         UNIQUE KEY `mobile` (`mobile`)
-    //         ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=$wpdb_collate_atlas_row";
-
-
-    // dbDelta($sql);
 
 }
 

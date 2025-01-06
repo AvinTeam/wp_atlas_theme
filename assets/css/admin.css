@@ -22,7 +22,7 @@
 }
 
 .d-n {
-  display: none;
+  display: none !important;
 }
 
 .atlas_parent {
@@ -45,9 +45,83 @@
 }
 
 .menu-preview input {
-padding: 5px;
-} 
+  padding: 5px;
+}
 
 .center-type label {
   padding-left: 10px;
+}
+
+#subject_tagsinput {
+  float: right;
+  border-color: #000;
+}
+
+
+#subject_tagsinput span,
+#subject_tagsinput #subject_addTag {
+  float: right;
+}
+
+#subject_tagsinput span {
+  border: none;
+  background: #f6f7f4;
+  color: #000000;
+
+}
+
+#subject_tagsinput span a {
+  font-weight: 700;
+  color: red;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+
+#all_subject {
+  float: right;
+}
+
+#all_subject span {
+  float: right !important;
+  background: #cde69c;
+  display: block;
+  float: left;
+  padding: 5px;
+  text-decoration: none;
+  color: #638421;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-family: helvetica;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.active {
+  background-color:red !important;
+  color: #FFFFFF !important;
+}
+
+.button-error {
+  background: #b12222 !important;
+  border-color: #b12222!important;
+}
+.button-error:hover {
+  background: #961313!important;
+  border-color: #961313!important;
+}
+
+.atlas-teacher-row{
+  margin: 10px 0px;
+  display: flex;
+  gap: 2px;
+}
+
+.button-success {
+  background: #4ab122!important;
+  border-color: #4ab122!important;
+}
+.button-success:hover {
+  background: #139613!important;
+  border-color: #139613!important;
 }

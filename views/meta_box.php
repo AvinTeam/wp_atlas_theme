@@ -8,10 +8,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
 <style>
-
-
-
-
 .tagify__input {
     direction: rtl;
     /* راست‌چین کردن متن داخل ورودی */
@@ -194,17 +190,55 @@
                 </td>
             </tr>
             <tr>
-                <th>محتوا و موضوع </th>
-                <td>
-                    <input class="regular-text" name="atlas[subject]"
-                        value="<?=$atlas_institute[ 'subject' ]?>"><br><br>
-                    <input class="regular-text" name="atlas[subject]" id="subject" value="ایران,کانادا,استرالیا,مکزیک" />
+                <th>محتوا و موضوع <br><br>
+                    <div id="all_subject">
+                        <span>روخوانی</span>
+                        <span>حفظ</span>
+                        <span>ترجمه</span>
+                        <span>تدبر و تفسیر</span>
+                        <span>قرائت</span>
+                        <span>تجوید</span>
+                        <span>صوت و لحن</span>
+                        <span>مفاهیم و موضوعات</span>
+                    </div>
 
+
+                </th>
+                <td>
+                    <input class="regular-text" name="atlas[subject]" id="subject"
+                        value="<?=$atlas_institute[ 'subject' ]?>" />
                 </td>
             </tr>
             <tr>
                 <th>تعداد مربیان </th>
                 <td><input class="regular-text" name="atlas[coaches]" value="<?=$atlas_institute[ 'coaches' ]?>"></td>
+            </tr>
+            <tr>
+                <th>اساتید برجسته</th>
+                <td>
+                    <div class="teacher_list">
+                        <?php foreach ($atlas_institute[ 'teacher' ] as $teacher): ?>
+                        <div class="atlas-teacher-row"><input class="regular-text" name="atlas[teacher][]" value="<?=$teacher?>"> <button type="button" class="button button-primary button-error atlas-teacher-remove">حذف</button></div>
+                        <?php endforeach;?>
+                    </div>
+                    <button  type="button"  class="button button-primary button-success button-large atlas-teacher-add">افزودن</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </td>
             </tr>
 
             <tr>
@@ -229,3 +263,4 @@ wp_editor($post->post_content, 'content', [
     </div>
 
 </div>
+

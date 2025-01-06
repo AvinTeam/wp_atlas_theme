@@ -15,9 +15,6 @@ function atlasMap(state = 'تهران', city = 'تهران') {
     const lat = document.getElementById('map-lat').value;
     const lng = document.getElementById('map-lng').value;
 
-    console.log(lat);
-    console.log(lng);
-
     if (lat != "" && lng != "") {
         marker = L.marker([lat, lng]).addTo(map).bindPopup("اینجا را انتخاب کردید").openPopup();
         map.setView([lat, lng], 13);
@@ -57,40 +54,16 @@ function atlasMap(state = 'تهران', city = 'تهران') {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 jQuery(document).ready(function ($) {
 
 
-//   // Jquery Tag Input Starts
-//   $('#subject').tagsInput({
-//     'width': '100%',
-//     'height': '75%',
-//     'interactive': true,
-//     'defaultText': 'افزودن',
-//     'removeWithBackspace': true,
-//     'minChars': 0,
-//     'maxChars': 20, // if not provided there is no limit
-//     'placeholderColor': '#666666'
-//   });
-
-$('#subject').tagsInput({
-    'defaultText': 'تگ جدید',
-    'maxChars': 10,
-    'delimiter': [','], // جداکننده
-});
+    $('#subject').tagsInput({
+        'width': '340px',
+        'defaultText': 'افزودن',
+        'removeWithBackspace': true,
+        'interactive': true,
+        'delimiter': [','], // جداکننده
+    });
 
     atlasMap();
 
@@ -130,7 +103,6 @@ $('#subject').tagsInput({
 
     // 3. رویداد کلیک روی نقشه با مارکر
     map.on('click', function (e) {
-        console.log('click map');
         const {
             lat,
             lng
@@ -181,6 +153,228 @@ $('#subject').tagsInput({
         $('#map-lat').val(lat);
         $('#map-lng').val(lng);
     });
+
+
+
+
+    const $tagsInput = $('#subject_tagsinput');
+    const $spans = $('#all_subject span');
+    const $input = $('#subject');
+
+
+    function checkInputMatches(input = "") {
+
+        const $input = $('#subject');
+
+        const inputValue = $input.val().trim();
+
+        const inputWords = inputValue.split(',').map(word => word.trim());
+
+        if (input != "") {
+            inputWords.push(input);
+        }
+
+
+
+        $spans.each(function () {
+            const $span = $(this);
+            if (inputWords.includes($span.text())) {
+                $span.addClass('active');
+            } else {
+                $span.removeClass('active');
+            }
+        });
+    }
+
+    checkInputMatches();
+
+
+
+    $input.on('input', function () {
+        const inputValue = $(this).val().trim();
+
+        // بررسی اینکه آیا مقدار input با یکی از span‌ها برابر است
+        $spans.each(function () {
+            const $span = $(this);
+            if ($span.text() === inputValue) {
+                $span.addClass('activ');    // افزودن کلاس activ به span مرتبط
+            }
+        });
+        checkInputMatches();
+
+    });
+
+
+    // افزودن تگ با کلیک روی span
+    $spans.on('click', function () {
+        const $this = $(this);
+        const text = $this.text().trim();
+
+        // بررسی اینکه آیا تگ از قبل وجود دارد
+        const exists = $tagsInput.find(`span.tag:contains('${text}')`).length > 0;
+        if (!exists) {
+            // افزودن تگ به لیست
+            const newTag = `
+                    <span class="tag">
+                        <span>${text}&nbsp;&nbsp;</span>
+                        <a href="#" title="حذف">x</a>
+                    </span>
+                `;
+            $tagsInput.find('#subject_addTag').before(newTag);
+
+
+            let newimput = $input.val();
+            $input.val(newimput + ',' + text);
+
+            // افزودن کلاس active به span
+            checkInputMatches();
+
+        }
+    });
+
+
+    $('.tag a').click(function (e) {
+        e.preventDefault();
+
+
+        const $tag = $(this).closest('.tag');
+        const tagText = $tag.text().trim();
+
+        // حذف کلاس active از span مرتبط
+        $spans.filter(function () {
+            return $(this).text().trim() === tagText;
+        }).removeClass('active');
+
+
+        const tagText0 = $tag.find('span:first').text().trim();
+
+        let tags = $input.val();
+        tags = tags.split(',') // رشته را به آرایه تقسیم می‌کند
+            .filter(tag => tag.trim() !== tagText0) // حذف مقدار مدنظر
+            .join(','); // بازگرداندن به فرمت رشته
+        $input.val(tags);
+
+        // $tag.remove();
+
+
+        checkInputMatches();
+
+
+    });
+
+
+    // حذف تگ با کلیک روی x
+    $tagsInput.on('click', '.tag a', function (e) {
+        e.preventDefault();
+
+
+        const $tag = $(this).closest('.tag');
+        const tagText = $tag.text().trim();
+
+        // حذف کلاس active از span مرتبط
+        $spans.filter(function () {
+            return $(this).text().trim() === tagText;
+        }).removeClass('active');
+
+
+        const tagText0 = $tag.find('span:first').text().trim();
+
+        let tags = $input.val();
+        tags = tags.split(',') // رشته را به آرایه تقسیم می‌کند
+            .filter(tag => tag.trim() !== tagText0) // حذف مقدار مدنظر
+            .join(','); // بازگرداندن به فرمت رشته
+        $input.val(tags);
+
+        $tag.remove();
+
+        checkInputMatches();
+
+        // حذف تگ
+    });
+
+
+
+    $('#subject_tag').on('keydown', function (e) {
+        if (e.which === 13) {
+            const tagValue = $(this).val().trim(); // مقدار داخل input
+
+            checkInputMatches(tagValue);
+
+        }
+    });
+
+    $(document).on("click", ".atlas-teacher-add", function (e) {
+        e.preventDefault();
+        const newRow = `<div class="atlas-teacher-row"><input class="regular-text" name="atlas[teacher][]" value=""> <button class="button button-primary button-error atlas-teacher-remove">حذف</button></div>`;
+
+        $('.teacher_list').append(newRow);
+    });
+
+    $(document).on("click", ".atlas-teacher-remove", function (e) {
+        e.preventDefault();
+        $(this).closest("div").remove();
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 });

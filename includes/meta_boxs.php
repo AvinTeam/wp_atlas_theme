@@ -20,9 +20,6 @@ function atlas_meta_box()
     function atlas_file_meta_box_callback($post)
     {
 
-     
-
-
         $atlas_institute_default = [
 
             'responsible' => '',
@@ -44,15 +41,15 @@ function atlas_meta_box()
             'course-type' => [  ],
             'subject' => '',
             'coaches' => '',
+            'teacher' => [  ],
             'ayeha' => '',
          ];
 
-
         $atlas_institute_get = get_post_meta($post->ID, '_atlas_institute', true);
 
+        $atlas_institute_get = ($atlas_institute_get) ? $atlas_institute_get : [  ];
+
         $atlas_institute = array_merge($atlas_institute_default, $atlas_institute_get);
-
-
 
         $irandb = new Iran_Area;
         $ostan = $irandb->select(0);
@@ -71,7 +68,6 @@ function atlas_save_bax($post_id, $post, $updata)
     if (isset($_POST[ 'atlas' ])) {
 
         foreach ($_POST[ 'atlas' ] as $key => $value) {
-
             if ($key == 'responsible') {$_POST[ 'atlas' ][ $key ] = sanitize_text_field($value);}
             if ($key == 'responsible-mobile') {$_POST[ 'atlas' ][ $key ] = sanitize_phone($value);}
             if ($key == 'center-mode') {$_POST[ 'atlas' ][ $key ] = sanitize_text_field($value);}
@@ -88,8 +84,8 @@ function atlas_save_bax($post_id, $post, $updata)
             if ($key == 'course-type') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
             if ($key == 'subject') {$_POST[ 'atlas' ][ $key ] = sanitize_text_field($value);}
             if ($key == 'coaches') {$_POST[ 'atlas' ][ $key ] = absint($value);}
+            if ($key == 'teacher') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
             if ($key == 'ayeha') {$_POST[ 'atlas' ][ $key ] = sanitize_url($value);}
-
         }
 
         update_post_meta($post_id, '_atlas_institute', $_POST[ 'atlas' ]);
