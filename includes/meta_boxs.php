@@ -34,7 +34,14 @@ function atlas_meta_box()
                 'lng' => '',
              ],
             'address' => '',
-            'link' => '',
+            'link' => [
+                'site'=> '',
+                'eitaa'=> '',
+                'bale'=> '',
+                'rubika'=> '',
+                'telegram'=> '',
+                'instagram'=> '',
+            ],
             'gender' => [  ],
             'age' => [  ],
             'contacts' => '',
@@ -42,12 +49,14 @@ function atlas_meta_box()
             'subject' => '',
             'coaches' => '',
             'teacher' => [  ],
-            'ayeha' => '',
+            'ayeha' => 'yes',
          ];
 
         $atlas_institute_get = get_post_meta($post->ID, '_atlas_institute', true);
 
         $atlas_institute_get = ($atlas_institute_get) ? $atlas_institute_get : [  ];
+
+        if(isset($atlas_institute_get['link']) && !is_array($atlas_institute_get['link'])){ unset($atlas_institute_get['link']);}
 
         $atlas_institute = array_merge($atlas_institute_default, $atlas_institute_get);
 
@@ -77,7 +86,7 @@ function atlas_save_bax($post_id, $post, $updata)
             if ($key == 'city') {$_POST[ 'atlas' ][ $key ] = absint($value);}
             if ($key == 'map') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
             if ($key == 'address') {$_POST[ 'atlas' ][ $key ] = sanitize_textarea_field($value);}
-            if ($key == 'link') {$_POST[ 'atlas' ][ $key ] = sanitize_url($value);}
+            if ($key == 'link') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_url', $value);}
             if ($key == 'gender') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
             if ($key == 'age') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
             if ($key == 'contacts') {$_POST[ 'atlas' ][ $key ] = absint($value);}
@@ -85,7 +94,7 @@ function atlas_save_bax($post_id, $post, $updata)
             if ($key == 'subject') {$_POST[ 'atlas' ][ $key ] = sanitize_text_field($value);}
             if ($key == 'coaches') {$_POST[ 'atlas' ][ $key ] = absint($value);}
             if ($key == 'teacher') {$_POST[ 'atlas' ][ $key ] = array_map('sanitize_text_field', $value);}
-            if ($key == 'ayeha') {$_POST[ 'atlas' ][ $key ] = sanitize_url($value);}
+            if ($key == 'ayeha') {$_POST[ 'atlas' ][ $key ] = sanitize_text_field($value);}
         }
 
         update_post_meta($post_id, '_atlas_institute', $_POST[ 'atlas' ]);

@@ -1,4 +1,4 @@
-<?php (defined('ABSPATH')) || exit;?>
+<?php (defined('ABSPATH')) || exit; ?>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -10,16 +10,12 @@
 <style>
 .tagify__input {
     direction: rtl;
-    /* راست‌چین کردن متن داخل ورودی */
     text-align: right;
-    /* تنظیم راست‌چین بودن متن */
 }
 
 .tagify__tag {
     direction: rtl;
-    /* راست‌چین کردن تگ‌ها */
     text-align: right;
-    /* متن داخل تگ‌ها راست‌چین شود */
 }
 </style>
 
@@ -35,7 +31,7 @@
             </tr>
             <tr>
                 <th>شماره موبایل مسئول</th>
-                <td><input class="regular-text" name="atlas[responsible-mobile]"
+                <td><input class="regular-text onlyNumbersInput" name="atlas[responsible-mobile]"
                         value="<?=$atlas_institute[ 'responsible-mobile' ]?>"></td>
             </tr>
             <tr>
@@ -84,7 +80,10 @@
             </tr>
             <tr>
                 <th>شماره ارتباط با مرکز</th>
-                <td><input class="regular-text" name="atlas[phone]" value="<?=$atlas_institute[ 'phone' ]?>"></td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[phone]" value="<?=$atlas_institute[ 'phone' ]?> " aria-describedby="phone-description">
+                <p class="description" id="phone-description">با کد استان و بدون اعلائم اضافه ثبت شود</p>
+            </td>
+
             </tr>
             <tr>
                 <th>استان</th>
@@ -95,7 +94,7 @@
                         <?php foreach ($ostan as $key => $value): ?>
                         <option value="<?=$value->id?>" <?=selected($value->id, $atlas_institute[ 'ostan' ])?>>
                             <?=$value->name?></option>
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                     </select>
                 </td>
             </tr>
@@ -107,7 +106,7 @@
                         <?php foreach ($city as $key => $value): ?>
                         <option value="<?=$value->id?>" <?=selected($value->id, $atlas_institute[ 'city' ])?>>
                             <?=$value->name?></option>
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
 
                     </select>
                 </td>
@@ -133,7 +132,35 @@
             </tr>
             <tr>
                 <th>لینک سایت / فضای مجازی</th>
-                <td><input class="regular-text" name="atlas[link]" value="<?=$atlas_institute[ 'link' ]?>"></td>
+                <td class="form-link">
+                <table class="form-table">
+                    <tr>
+                        <th>آدرس سایت</th>
+                        <td><input class="regular-text" name="atlas[link][site]" value="<?=$atlas_institute[ 'link' ]['site']?>"></td>
+                    </tr>
+                    <tr>
+                        <th>کانال ایتا</th>
+                        <td><input class="regular-text" name="atlas[link][eitaa]" value="<?=$atlas_institute[ 'link' ]['eitaa']?>"></td>
+                    </tr>
+                    <tr>
+                        <th>کانال بله</th>
+                        <td><input class="regular-text" name="atlas[link][bale]" value="<?=$atlas_institute[ 'link' ]['bale']?>"></td>
+                    </tr>
+                    <tr>
+                        <th>کانال روبیکا</th>
+                        <td><input class="regular-text" name="atlas[link][rubika]" value="<?=$atlas_institute[ 'link' ]['rubika']?>"></td>
+                    </tr>
+                    <tr>
+                        <th>کانال تلگرام</th>
+                        <td><input class="regular-text" name="atlas[link][telegram]" value="<?=$atlas_institute[ 'link' ]['telegram']?>"></td>
+                    </tr>
+                    <tr>
+                        <th>کانال اینستاگرام</th>
+                        <td><input class="regular-text" name="atlas[link][instagram]" value="<?=$atlas_institute[ 'link' ]['instagram']?>"></td>
+                    </tr>
+
+                </table>
+            </td>
             </tr>
             <tr class="center-type">
                 <th>جنسیت هدف</th><?=$atlas_institute[ 'address' ]?>
@@ -174,7 +201,7 @@
             </tr>
             <tr>
                 <th>تعداد مخاطبین </th>
-                <td><input class="regular-text" name="atlas[contacts]" value="<?=$atlas_institute[ 'contacts' ]?>"></td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[contacts]" value="<?=$atlas_institute[ 'contacts' ]?>"></td>
             </tr>
             <tr class="center-type">
                 <th>قالب برگزیده دوره ها </th>
@@ -211,7 +238,7 @@
             </tr>
             <tr>
                 <th>تعداد مربیان </th>
-                <td><input class="regular-text" name="atlas[coaches]" value="<?=$atlas_institute[ 'coaches' ]?>"></td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[coaches]" value="<?=$atlas_institute[ 'coaches' ]?>"></td>
             </tr>
             <tr>
                 <th>اساتید برجسته</th>
@@ -219,31 +246,25 @@
                     <div class="teacher_list">
                         <?php foreach ($atlas_institute[ 'teacher' ] as $teacher): ?>
                         <div class="atlas-teacher-row"><input class="regular-text" name="atlas[teacher][]" value="<?=$teacher?>"> <button type="button" class="button button-primary button-error atlas-teacher-remove">حذف</button></div>
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                     </div>
                     <button  type="button"  class="button button-primary button-success button-large atlas-teacher-add">افزودن</button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </td>
             </tr>
 
             <tr>
                 <th>مرکز در سایت زندگی با آیه ها نمایش </th>
-                <td><input class="regular-text" name="atlas[ayeha]" value="<?=$atlas_institute[ 'ayeha' ]?>"></td>
+                <td class="center-type">
+                    <fieldset>
+                        <label><input type="radio" name="atlas[ayeha]" value="yes"
+                                <?=checked('yes', $atlas_institute[ 'ayeha' ])?>><span
+                                class="date-time-text">بله</span></label>
+
+                        <label><input type="radio" name="atlas[ayeha]" value="no"
+                                <?=checked('no', $atlas_institute[ 'ayeha' ])?>><span
+                                class="date-time-text">خیر</span></label>
+                    </fieldset>
+                </td>
             </tr>
 
 

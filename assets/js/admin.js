@@ -53,7 +53,6 @@ function atlasMap(state = 'تهران', city = 'تهران') {
 
 
 
-
 jQuery(document).ready(function ($) {
 
 
@@ -318,8 +317,10 @@ jQuery(document).ready(function ($) {
 
 
 
-
-
+    $('.onlyNumbersInput').on('input paste', function () {
+        // پاک کردن تمام کاراکترهای غیرعددی
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
 
 
 

@@ -1,7 +1,7 @@
 <?php
 
 (defined('ABSPATH')) || exit;
-define('ATLAS_VERSION', '1.0.0');
+define('ATLAS_VERSION', '1.0.3');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -48,5 +48,4 @@ if (is_admin()) {
 }
 
 
-
-// exit;
+//  exit;
