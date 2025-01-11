@@ -1,7 +1,7 @@
 <?php
 
 (defined('ABSPATH')) || exit;
-define('ATLAS_VERSION', '1.0.3');
+define('ATLAS_VERSION', '1.0.5');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -29,7 +29,6 @@ require_once ATLAS_CLASS . '/Iran_Area.php';
 
 require_once ATLAS_INCLUDES . '/init.php';
 
-
 require_once ATLAS_INCLUDES . '/ajax.php';
 
 // require_once ATLAS_INCLUDES . '/theme-function.php';
@@ -44,8 +43,8 @@ if (is_admin()) {
 
     // require_once ATLAS_INCLUDES . '/menu.php';
     require_once ATLAS_INCLUDES . '/install.php';
+    require_once ATLAS_INCLUDES . '/edit_user_table.php';
 
 }
-
 
 //  exit;

@@ -22,6 +22,7 @@ function atlas_meta_box()
 
         $atlas_institute_default = [
 
+            'operator' => '',
             'responsible' => '',
             'responsible-mobile' => '',
             'center-mode' => 'public',
@@ -35,13 +36,13 @@ function atlas_meta_box()
              ],
             'address' => '',
             'link' => [
-                'site'=> '',
-                'eitaa'=> '',
-                'bale'=> '',
-                'rubika'=> '',
-                'telegram'=> '',
-                'instagram'=> '',
-            ],
+                'site' => '',
+                'eitaa' => '',
+                'bale' => '',
+                'rubika' => '',
+                'telegram' => '',
+                'instagram' => '',
+             ],
             'gender' => [  ],
             'age' => [  ],
             'contacts' => '',
@@ -56,7 +57,7 @@ function atlas_meta_box()
 
         $atlas_institute_get = ($atlas_institute_get) ? $atlas_institute_get : [  ];
 
-        if(isset($atlas_institute_get['link']) && !is_array($atlas_institute_get['link'])){ unset($atlas_institute_get['link']);}
+        if (isset($atlas_institute_get[ 'link' ]) && !is_array($atlas_institute_get[ 'link' ])) {unset($atlas_institute_get[ 'link' ]);}
 
         $atlas_institute = array_merge($atlas_institute_default, $atlas_institute_get);
 
@@ -98,6 +99,13 @@ function atlas_save_bax($post_id, $post, $updata)
         }
 
         update_post_meta($post_id, '_atlas_institute', $_POST[ 'atlas' ]);
+
+        $operator = get_post_meta($post->ID, '_operator', true);
+        if (!$operator) {
+            $operator_id = ((current_user_can('operator'))) ? get_current_user_id() : 0;
+
+            update_post_meta($post_id, '_operator', $operator_id);
+        }
 
     }
 }
