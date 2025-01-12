@@ -21,7 +21,8 @@
   font-family: vazir;
 }
 
-.d-n {
+.d-n,
+#minor-publishing {
   display: none !important;
 }
 
@@ -98,32 +99,34 @@
 }
 
 #all_subject span.active {
-  background-color:red !important;
+  background-color: red !important;
   color: #FFFFFF !important;
 }
 
 .button-error {
   background: #b12222 !important;
-  border-color: #b12222!important;
-}
-.button-error:hover {
-  background: #961313!important;
-  border-color: #961313!important;
+  border-color: #b12222 !important;
 }
 
-.atlas-teacher-row{
+.button-error:hover {
+  background: #961313 !important;
+  border-color: #961313 !important;
+}
+
+.atlas-teacher-row {
   margin: 10px 0px;
   display: flex;
   gap: 2px;
 }
 
 .button-success {
-  background: #4ab122!important;
-  border-color: #4ab122!important;
+  background: #4ab122 !important;
+  border-color: #4ab122 !important;
 }
+
 .button-success:hover {
-  background: #139613!important;
-  border-color: #139613!important;
+  background: #139613 !important;
+  border-color: #139613 !important;
 }
 
 .form-link input {

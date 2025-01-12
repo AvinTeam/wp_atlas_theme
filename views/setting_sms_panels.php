@@ -8,7 +8,6 @@ global $title;
     <div class="wrap">
         <h1><?php echo esc_html($title) ?></h1>
 
-
         <hr class="wp-header-end">
 
         <?php if ($error = get_transient('error_mat')) {?>

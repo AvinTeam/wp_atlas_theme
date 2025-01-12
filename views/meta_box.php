@@ -80,9 +80,10 @@
             </tr>
             <tr>
                 <th>شماره ارتباط با مرکز</th>
-                <td><input class="regular-text onlyNumbersInput" name="atlas[phone]" value="<?=$atlas_institute[ 'phone' ]?> " aria-describedby="phone-description">
-                <p class="description" id="phone-description">با کد استان و بدون اعلائم اضافه ثبت شود</p>
-            </td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[phone]"
+                        value="<?=$atlas_institute[ 'phone' ]?> " aria-describedby="phone-description">
+                    <p class="description" id="phone-description">با کد استان و بدون اعلائم اضافه ثبت شود</p>
+                </td>
 
             </tr>
             <tr>
@@ -118,7 +119,7 @@
                     <input type="hidden" name="atlas[map][lat]" id="map-lat"
                         value="<?=$atlas_institute[ 'map' ][ 'lat' ]?>">
                     <input type="hidden" name="atlas[map][lng]" id="map-lng"
-                        value="<?=$atlas_institute[ 'map' ][ 'lat' ]?>">
+                        value="<?=$atlas_institute[ 'map' ][ 'lng' ]?>">
                     <div style=" width: 100%;height: 500px;" id="map"></div>
                 </td>
             </tr>
@@ -133,37 +134,43 @@
             <tr>
                 <th>لینک سایت / فضای مجازی</th>
                 <td class="form-link">
-                <table class="form-table">
-                    <tr>
-                        <th>آدرس سایت</th>
-                        <td><input class="regular-text" name="atlas[link][site]" value="<?=$atlas_institute[ 'link' ]['site']?>"></td>
-                    </tr>
-                    <tr>
-                        <th>کانال ایتا</th>
-                        <td><input class="regular-text" name="atlas[link][eitaa]" value="<?=$atlas_institute[ 'link' ]['eitaa']?>"></td>
-                    </tr>
-                    <tr>
-                        <th>کانال بله</th>
-                        <td><input class="regular-text" name="atlas[link][bale]" value="<?=$atlas_institute[ 'link' ]['bale']?>"></td>
-                    </tr>
-                    <tr>
-                        <th>کانال روبیکا</th>
-                        <td><input class="regular-text" name="atlas[link][rubika]" value="<?=$atlas_institute[ 'link' ]['rubika']?>"></td>
-                    </tr>
-                    <tr>
-                        <th>کانال تلگرام</th>
-                        <td><input class="regular-text" name="atlas[link][telegram]" value="<?=$atlas_institute[ 'link' ]['telegram']?>"></td>
-                    </tr>
-                    <tr>
-                        <th>کانال اینستاگرام</th>
-                        <td><input class="regular-text" name="atlas[link][instagram]" value="<?=$atlas_institute[ 'link' ]['instagram']?>"></td>
-                    </tr>
+                    <table class="form-table">
+                        <tr>
+                            <th>آدرس سایت</th>
+                            <td><input class="regular-text" name="atlas[link][site]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'site' ]?>"></td>
+                        </tr>
+                        <tr>
+                            <th>کانال ایتا</th>
+                            <td><input class="regular-text" name="atlas[link][eitaa]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'eitaa' ]?>"></td>
+                        </tr>
+                        <tr>
+                            <th>کانال بله</th>
+                            <td><input class="regular-text" name="atlas[link][bale]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'bale' ]?>"></td>
+                        </tr>
+                        <tr>
+                            <th>کانال روبیکا</th>
+                            <td><input class="regular-text" name="atlas[link][rubika]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'rubika' ]?>"></td>
+                        </tr>
+                        <tr>
+                            <th>کانال تلگرام</th>
+                            <td><input class="regular-text" name="atlas[link][telegram]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'telegram' ]?>"></td>
+                        </tr>
+                        <tr>
+                            <th>کانال اینستاگرام</th>
+                            <td><input class="regular-text" name="atlas[link][instagram]"
+                                    value="<?=$atlas_institute[ 'link' ][ 'instagram' ]?>"></td>
+                        </tr>
 
-                </table>
-            </td>
+                    </table>
+                </td>
             </tr>
             <tr class="center-type">
-                <th>جنسیت هدف</th><?=$atlas_institute[ 'address' ]?>
+                <th>جنسیت هدف</th>
                 <td>
                     <fieldset>
                         <label for="gender-woman">
@@ -201,7 +208,8 @@
             </tr>
             <tr>
                 <th>تعداد مخاطبین </th>
-                <td><input class="regular-text onlyNumbersInput" name="atlas[contacts]" value="<?=$atlas_institute[ 'contacts' ]?>"></td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[contacts]"
+                        value="<?=$atlas_institute[ 'contacts' ]?>"></td>
             </tr>
             <tr class="center-type">
                 <th>قالب برگزیده دوره ها </th>
@@ -238,17 +246,21 @@
             </tr>
             <tr>
                 <th>تعداد مربیان </th>
-                <td><input class="regular-text onlyNumbersInput" name="atlas[coaches]" value="<?=$atlas_institute[ 'coaches' ]?>"></td>
+                <td><input class="regular-text onlyNumbersInput" name="atlas[coaches]"
+                        value="<?=$atlas_institute[ 'coaches' ]?>"></td>
             </tr>
             <tr>
                 <th>اساتید برجسته</th>
                 <td>
                     <div class="teacher_list">
                         <?php foreach ($atlas_institute[ 'teacher' ] as $teacher): ?>
-                        <div class="atlas-teacher-row"><input class="regular-text" name="atlas[teacher][]" value="<?=$teacher?>"> <button type="button" class="button button-primary button-error atlas-teacher-remove">حذف</button></div>
+                        <div class="atlas-teacher-row"><input class="regular-text" name="atlas[teacher][]"
+                                value="<?=$teacher?>"> <button type="button"
+                                class="button button-primary button-error atlas-teacher-remove">حذف</button></div>
                         <?php endforeach; ?>
                     </div>
-                    <button  type="button"  class="button button-primary button-success button-large atlas-teacher-add">افزودن</button>
+                    <button type="button"
+                        class="button button-primary button-success button-large atlas-teacher-add">افزودن</button>
                 </td>
             </tr>
 
@@ -284,4 +296,3 @@ wp_editor($post->post_content, 'content', [
     </div>
 
 </div>
-

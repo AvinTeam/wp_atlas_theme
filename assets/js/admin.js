@@ -67,6 +67,17 @@ jQuery(document).ready(function ($) {
     atlasMap();
 
 
+    let is_city_value = $('#city').val();
+
+    if (is_city_value != 0) {
+        let is_city = $('#city option:selected').text();
+        let is_ostan = $('#ostan option:selected').text();
+        atlasMap(is_ostan, is_city);
+    }
+
+
+
+
     $('#ostan').on('change', function () {
 
         let formData = {
