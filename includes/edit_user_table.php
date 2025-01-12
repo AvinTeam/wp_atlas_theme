@@ -15,7 +15,7 @@ function show_institute_posts_count($output, $column_name, $user_id)
 
         $args = [
             'post_type' => 'institute',
-            'post_status' => 'publish',
+            'post_status' => [ 'publish', 'draft' ],
             'meta_query' => [
                 [
                     'key' => '_operator',
@@ -30,7 +30,7 @@ function show_institute_posts_count($output, $column_name, $user_id)
         $query = new WP_Query($args);
         $post_count = $query->found_posts;
 
-        $post_count = count_user_posts($user_id, 'institute');
+        //$post_count = count_user_posts($user_id, 'institute');
         $output = sprintf('<a href="%s" class="edit"><span aria-hidden="true">%d</span></a>', admin_url('edit.php?post_type=institute&author=' . $user_id), $post_count);
     }
 
