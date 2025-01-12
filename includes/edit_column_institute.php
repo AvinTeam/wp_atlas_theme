@@ -47,11 +47,17 @@ function sort_mat_total_points_column($query)
 {
 
     if (is_admin() && isset($_GET[ 'operator' ]) && !empty($_GET[ 'operator' ])) {
-        $area_id = intval($_GET[ 'operator' ]);
+        $operator_id = intval($_GET[ 'operator' ]);
         $query->query_vars[ 'meta_key' ] = '_operator';
-        $query->query_vars[ 'meta_value' ] = $area_id;
+        $query->query_vars[ 'meta_value' ] = $operator_id;
     }
 
+    
+    if (is_admin() && isset($_GET[ 'city' ]) && !empty($_GET[ 'city' ])) {
+        $city_id = intval($_GET[ 'city' ]);
+        $query->query_vars[ 'meta_key' ] = '_atlas_city';
+        $query->query_vars[ 'meta_value' ] = $city_id;
+    }
 
 
 }

@@ -133,3 +133,23 @@
   direction: ltr;
 
 }
+
+.province-list {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  line-height: 4;
+}
+
+.province-item {
+  width: 15%;
+  padding: 20px !important;
+  margin: 5px 10px !important;
+  border-radius: 20px !important;
+}
+
+.province-item:hover {
+  background: #135e96 !important;
+  border-color: #135e96 !important;
+  color: #fff !important;
+}

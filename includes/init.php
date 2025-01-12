@@ -1,12 +1,72 @@
 <?php
 
+
+
+add_action('init', 'atlas_panel_rewrite');
+function atlas_panel_rewrite()
+{
+
+    add_rewrite_rule(
+        ATLAS_PAGE_BASE . '/([^/]+)/?',
+        'index.php?atlas=$matches[1]',
+        'top'
+    );
+
+    add_rewrite_rule(
+        ATLAS_PAGE_BASE . '/?',
+        'index.php?atlas=dashboard',
+        'top'
+    );
+
+    flush_rewrite_rules();
+
+}
+
+add_filter('query_vars', 'atlas_query_vars');
+
+/**
+ * Filters the query variables allowed before processing.
+ *
+ * @param string[] $public_query_vars The array of allowed query variable names.
+ * @return string[] The array of allowed query variable names.
+ */
+function atlas_query_vars($public_query_vars)
+{
+
+    $public_query_vars[  ] = 'atlas';
+
+    return $public_query_vars;
+}
+
+add_filter('template_include', 'atlas_template_include');
+
+/**
+ * Filters the path of the current template before including it.
+ *
+ * @param string $template The path of the template to include.
+ * @return string The path of the template to include.
+ */
+function atlas_template_include($template)
+{
+
+    $atlas = get_query_var('atlas');
+    if ($atlas) {
+
+        $path = atlas_template_path($atlas);
+
+        if ($path) {return $path;}
+
+    }
+
+    return $template;
+}
+
+
 $atlas_iran_area = new Iran_Area;
 
 if (!$atlas_iran_area->num()) {
     $atlas = $atlas_iran_area->insert_old_data();
-    print_r($atlas);
 }
-
 
 function custom_login_redirect($redirect_to, $request, $user) {
     if (isset($user->roles) && in_array('operator', $user->roles)) {

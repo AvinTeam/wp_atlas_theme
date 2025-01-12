@@ -2,6 +2,59 @@
 
 (defined('ABSPATH')) || exit;
 
+function atlas_template_path($atlas_page = false)
+{
+
+    if (!$atlas_page) {return;}
+
+    if ($atlas_page) {
+
+        $page = explode('=', $atlas_page);
+
+
+
+        switch ($page[ 0 ]) {
+            case 'city':
+                $view = 'city';
+                break;
+            case 'institute':
+                $view = 'institute';
+                break;
+
+            default:
+                $view = '404';
+                break;
+        }
+
+        return ATLAS_VIEWS . 'page/' . $view . '.php';
+
+    }
+
+    return false;
+
+}
+function atlas_panel_title()
+{
+
+    switch (get_query_var('atlas')) {
+        case 'city':
+            $title = 'شهر';
+            break;
+        default:
+            $title = '404';
+            break;
+    }
+
+    return esc_html($title);
+
+}
+
+function atlas_pane_base_url($base = '')
+{
+    return site_url() . '/' . ATLAS_PAGE_BASE . '/' . $base;
+
+}
+
 function atlas_panel_js($path)
 {
     return ATLAS_JS . $path;
@@ -15,11 +68,6 @@ function atlas_panel_css($path)
 function atlas_panel_image($path)
 {
     return ATLAS_IMAGE . $path;
-}
-
-function atlas_panel_php($path)
-{
-    return ATLAS_PHP . $path;
 }
 
 function atlas_remote(string $url)
@@ -278,80 +326,26 @@ function atlas_send_sms($mobile, $type, $data = [  ])
 
     return $result;
 }
-function sanitize_phone($phone)
-{
-
-    /**
-     * Convert all chars to en digits
-     */
-    $western = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-    $persian = [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ];
-    $arabic = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ];
-    $phone = str_replace($persian, $western, $phone);
-    $phone = str_replace($arabic, $western, $phone);
-
-    //.9158636712   => 09158636712
-    if (strpos($phone, '.') === 0) {
-        $phone = '0' . substr($phone, 1);
-    }
-
-    //00989185223232 => 9185223232
-    if (strpos($phone, '0098') === 0) {
-        $phone = substr($phone, 4);
-    }
-    //0989108210911 => 9108210911
-    if (strlen($phone) == 13 && strpos($phone, '098') === 0) {
-        $phone = substr($phone, 3);
-    }
-    //+989156040160 => 9156040160
-    if (strlen($phone) == 13 && strpos($phone, '+98') === 0) {
-        $phone = substr($phone, 3);
-    }
-    //+98 9156040160 => 9156040160
-    if (strlen($phone) == 14 && strpos($phone, '+98 ') === 0) {
-        $phone = substr($phone, 4);
-    }
-    //989152532120 => 9152532120
-    if (strlen($phone) == 12 && strpos($phone, '98') === 0) {
-        $phone = substr($phone, 2);
-    }
-    //Prepend 0
-    if (strpos($phone, '0') !== 0) {
-        $phone = '0' . $phone;
-    }
-    /**
-     * check for all character was digit
-     */
-    if (!ctype_digit($phone)) {
-        return '';
-    }
-
-    if (strlen($phone) != 11) {
-        return '';
-    }
-
-    return $phone;
-
-}
 
 function atlas_cookie(): string
-{
+{        $is_key_cookie = atlas_rand_string(15);
 
-    if (!isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-        $is_key_cookie = atlas_rand_string(15);
-        ob_start();
+    // if (!isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-        setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
+    //     $is_key_cookie = atlas_rand_string(15);
+    //     ob_start();
 
-        ob_end_flush();
+    //     setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
 
-        header("Refresh:0");
-        exit;
+    //     ob_end_flush();
 
-    } else {
-        $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
-    }
+    //     header("Refresh:0");
+    //     exit;
+
+    // } else {
+    //     $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
+    // }
 
     return $is_key_cookie;
 }
@@ -460,17 +454,5 @@ function atlas_transient()
         delete_transient('atlas_transient');
         return $atlas_transient;
     }
-
-}
-
-function atlas_to_enghlish($text)
-{
-
-    $western = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-    $persian = [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ];
-    $arabic = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ];
-    $text = str_replace($persian, $western, $text);
-    $text = str_replace($arabic, $western, $text);
-    return $text;
 
 }

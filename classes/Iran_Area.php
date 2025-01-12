@@ -46,32 +46,7 @@ class Iran_Area
 
     }
 
-    public function select_pagenet(int $per_page, int $offset, string $status = '', string $date = ''): array | object | null
-    {
-        $sqlwhere = '';
-
-        if (empty($status)) {
-            $sqlwhere .= " AND status !='sms' ";
-        } elseif (!empty($status)) {
-            $sqlwhere .= " AND status ='$status' ";
-        }
-
-        if (!empty($date)) {
-            $sqlwhere .= " AND created_at <= '$date' ";
-
-        }
-
-        $mpn_row = $this->wpdb->get_results(
-            $this->wpdb->prepare(
-                "SELECT * FROM %i WHERE 1=1  $sqlwhere ORDER BY `created_at` DESC LIMIT %d OFFSET %d",
-                [ $this->tablename, $per_page, $offset ]
-            )
-        );
-        return $mpn_row;
-
-    }
-
-    public function select(string $province_id = ''): array | object | null
+    public function select(int $province_id = 0): array | object | null
     {
 
         $sqlwhere = '';
@@ -90,6 +65,53 @@ class Iran_Area
         return $mpn_row;
 
     }
+
+    public function all_city(): array | object | null
+    {
+
+        $mpn_row = $this->wpdb->get_results(
+            $this->wpdb->prepare(
+                "SELECT * FROM %i WHERE province_id !=0 ",
+                [ $this->tablename ]
+            )
+        );
+
+        if (is_array($mpn_row)) {
+
+            $mpn_row_new = [  ];
+
+            foreach ($mpn_row as $row) {
+
+                $province = $this->get('id', $row->province_id);
+
+                $mpn_row_new[ $row->id ] = $row->name . ' - ' . $province->name;
+            }
+
+            $mpn_row = $mpn_row_new;
+
+        }
+
+        return $mpn_row;
+
+    }
+
+    public function one_city(int $id_city): array | object | null
+    {
+
+        $city = $this->get('id', $id_city);
+
+        $province = $this->get('id', $city->province_id);
+
+        $mpn_row_new = [
+            'city' => $city->name,
+            'province' => $province->name,
+
+         ];
+
+        return $mpn_row_new;
+
+    }
+
     public function update(array $data, array $where, array $format = null, array $where_format = null): int | false
     {
 
