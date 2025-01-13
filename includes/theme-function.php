@@ -11,8 +11,6 @@ function atlas_template_path($atlas_page = false)
 
         $page = explode('=', $atlas_page);
 
-
-
         switch ($page[ 0 ]) {
             case 'city':
                 $view = 'city';
@@ -20,7 +18,9 @@ function atlas_template_path($atlas_page = false)
             case 'institute':
                 $view = 'institute';
                 break;
-
+            case 'panel':
+                $view = (is_user_logged_in()) ? 'dashboard' : 'login';
+                break;
             default:
                 $view = '404';
                 break;
@@ -31,21 +31,6 @@ function atlas_template_path($atlas_page = false)
     }
 
     return false;
-
-}
-function atlas_panel_title()
-{
-
-    switch (get_query_var('atlas')) {
-        case 'city':
-            $title = 'شهر';
-            break;
-        default:
-            $title = '404';
-            break;
-    }
-
-    return esc_html($title);
 
 }
 
@@ -112,25 +97,12 @@ function atlas_start_working(): array
                 'sms_text_otp' => (isset($atlas_option[ 'sms_text_otp' ])) ? $atlas_option[ 'sms_text_otp' ] : 'کد تأیید شما: %otp%',
                 'set_timer' => (isset($atlas_option[ 'set_timer' ])) ? $atlas_option[ 'set_timer' ] : 1,
                 'set_code_count' => (isset($atlas_option[ 'set_code_count' ])) ? $atlas_option[ 'set_code_count' ] : 4,
-                'show_signature' => (isset($atlas_option[ 'show_signature' ])) ? $atlas_option[ 'show_signature' ] : 12,
-                'start_signature' => (isset($atlas_option[ 'start_signature' ])) ? $atlas_option[ 'start_signature' ] : 0,
                 'sms_type' => (isset($atlas_option[ 'sms_type' ])) ? $atlas_option[ 'sms_type' ] : 'tsms',
-                'images_logo' => (isset($atlas_option[ 'images_logo' ])) ? intval($atlas_option[ 'images_logo' ]) : '/wp-content/themes/nasrollah/assets/image/wemen.jpg',
                 'notificator_token' => (isset($atlas_option[ 'notificator_token' ])) ? $atlas_option[ 'notificator_token' ] : '',
-                'target_word' => (isset($atlas_option[ 'target_word' ])) ? $atlas_option[ 'target_word' ] : 1,
 
              ]
 
         );
-
-        // global $wpdb;
-        // $tabel_atlas_row = $wpdb->prefix . 'atlas_row';
-
-        // $sql = "ALTER TABLE `$tabel_atlas_row` ADD `type` VARCHAR(20) NOT NULL AFTER `status`;";
-
-        // require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-        // dbDelta($sql);
 
     }
 
@@ -149,13 +121,9 @@ function atlas_update_option($data)
         'ghasedaksms' => (isset($data[ 'ghasedaksms' ])) ? $data[ 'ghasedaksms' ] : $atlas_option[ 'ghasedaksms' ],
         'set_timer' => (isset($data[ 'set_timer' ])) ? absint($data[ 'set_timer' ]) : $atlas_option[ 'set_timer' ],
         'set_code_count' => (isset($data[ 'set_code_count' ])) ? absint($data[ 'set_code_count' ]) : $atlas_option[ 'set_code_count' ],
-        'show_signature' => (isset($data[ 'show_signature' ])) ? $data[ 'show_signature' ] : $atlas_option[ 'show_signature' ],
-        'start_signature' => (isset($data[ 'start_signature' ])) ? $data[ 'start_signature' ] : $atlas_option[ 'start_signature' ],
         'sms_text_otp' => (isset($data[ 'sms_text_otp' ])) ? sanitize_textarea_field($data[ 'sms_text_otp' ]) : $atlas_option[ 'sms_text_otp' ],
         'sms_type' => (isset($data[ 'sms_type' ])) ? sanitize_text_field($data[ 'sms_type' ]) : $atlas_option[ 'sms_type' ],
-        'images_logo' => (isset($data[ 'images_logo' ])) ? intval($data[ 'images_logo' ]) : $atlas_option[ 'images_logo' ],
         'notificator_token' => (isset($data[ 'notificator_token' ])) ? sanitize_text_field($data[ 'notificator_token' ]) : $atlas_option[ 'notificator_token' ],
-        'target_word' => (isset($data[ 'target_word' ])) ? $data[ 'target_word' ] : $atlas_option[ 'target_word' ],
 
      ];
 
@@ -328,24 +296,23 @@ function atlas_send_sms($mobile, $type, $data = [  ])
 }
 
 function atlas_cookie(): string
-{        $is_key_cookie = atlas_rand_string(15);
+{
 
+    if (!isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-    // if (!isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+        $is_key_cookie = atlas_rand_string(15);
+        ob_start();
 
-    //     $is_key_cookie = atlas_rand_string(15);
-    //     ob_start();
+        setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
 
-    //     setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
+        ob_end_flush();
 
-    //     ob_end_flush();
+        header("Refresh:0");
+        exit;
 
-    //     header("Refresh:0");
-    //     exit;
-
-    // } else {
-    //     $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
-    // }
+    } else {
+        $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
+    }
 
     return $is_key_cookie;
 }
@@ -444,15 +411,4 @@ function get_name_by_id($data, $id)
         return array_values($filtered)[ 0 ]->name;
     }
     return null;
-}
-
-function atlas_transient()
-{
-    $atlas_transient = get_transient('atlas_transient');
-
-    if ($atlas_transient) {
-        delete_transient('atlas_transient');
-        return $atlas_transient;
-    }
-
 }

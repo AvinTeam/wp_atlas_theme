@@ -1,11 +1,9 @@
 <?php get_header(); ?>
 
-
-
-
-
-
 <div class="container mt-5">
+
+    <a class="btn btn-dark m-2 text-white" href="/atlas/panel">ورود به پنل کاربری</a>
+
     <select id="select2" class="form-select form-select-lg mb-3" name="state" style="width: 100%;">
         <option></option>
         <?php

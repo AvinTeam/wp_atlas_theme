@@ -29,6 +29,7 @@ function atlas_admin_script()
         'atlas_js',
         [
             'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('ajax-nonce'),
          ]
     );
 
@@ -89,14 +90,15 @@ function fajr_style()
         true
     );
 
-
     wp_localize_script(
         'atlas_js',
         'atlas_js',
         [
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('ajax-search-nonce'),
+            'nonce' => wp_create_nonce('ajax-nonce'. atlas_cookie()),
             'page_base' => atlas_pane_base_url(),
+            'option' => atlas_start_working(),
+
          ]
     );
 

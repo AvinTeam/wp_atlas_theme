@@ -79,10 +79,48 @@ function atlas_save_bax($post_id, $post, $updata)
 
     if (isset($_POST[ 'atlas' ])) {
 
+
+        
+
+        if (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) {
+
+            $args = [
+                'post_type' => 'institute',
+                'post_status' => [ 'publish', 'draft' ],
+                'post__not_in' => array($post_id),
+
+                'meta_query' => [
+                    [
+                        'key' => '_atlas_responsible-mobile',
+                        'value' => sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]),
+                        'compare' => '=',
+                     ],
+                 ],
+                'fields' => 'ids',
+                'posts_per_page' => -1,
+             ];
+
+            $query = new WP_Query($args);
+            $post_count = $query->found_posts;
+
+            if ($post_count >= 1) {
+
+                set_transient('atlas_transient', '<p class="button button-primary button-large button-error" >شماره موبایل '.sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]).' برای مسئول موسسه دیگری ثبت شده است</p>');
+
+                $_POST[ 'atlas' ][ 'responsible-mobile' ] = '';
+
+
+            }
+
+        }
+
+
+
+
         $atlas_institute = [
 
             'responsible' => (isset($_POST[ 'atlas' ][ 'responsible' ]) && $_POST[ 'atlas' ][ 'responsible' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'responsible' ]) : '',
-            'responsible-mobile' => (isset($_POST[ 'atlas' ][ 'responsible-mobile' ]) && $_POST[ 'atlas' ][ 'responsible-mobile' ]) ? sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) : '',
+            'responsible-mobile' => (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) ? sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) : '',
             'center-mode' => (isset($_POST[ 'atlas' ][ 'center-mode' ]) && $_POST[ 'atlas' ][ 'center-mode' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-mode' ]) : 'public',
             'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'Institute',
             'phone' => (isset($_POST[ 'atlas' ][ 'phone' ]) && $_POST[ 'atlas' ][ 'phone' ]) ? atlas_to_enghlish($_POST[ 'atlas' ][ 'phone' ]) : '',

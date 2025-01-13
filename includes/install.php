@@ -4,6 +4,19 @@
 function atlas_row_install()
 {
 
+    if (get_role('responsible') == null) {
+        add_role(
+            'responsible',
+            'مسئول موسسه',
+            [
+                'read' => true,
+                'edit_atlas' => true,
+                'read_atlas' => true,
+                'edit_atlass' => true,
+             ]
+        );
+    }
+
     if (get_role('operator') == null) {
         add_role(
             'operator',

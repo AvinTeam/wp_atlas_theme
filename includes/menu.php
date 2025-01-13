@@ -11,18 +11,52 @@ add_action('admin_menu', 'mph_admin_menu');
 function mph_admin_menu(string $context): void
 {
 
-    $menu_suffix = add_menu_page(
+    $setting_suffix = add_menu_page(
         'اطلس',
         'اطلس',
         'manage_options',
-        'province',
-        'atlas_menu_callback',
+        'atlas',
+        'setting_panels',
         'dashicons-hammer',
         55
     );
 
     add_submenu_page(
-        'nasr',
+        'atlas',
+        'تنظیمات',
+        'تنظیمات',
+        'manage_options',
+        'atlas',
+        'setting_panels',
+    );
+
+    function setting_panels()
+    {
+        $atlas_option = atlas_start_working();
+
+        require_once ATLAS_VIEWS . 'menu/setting.php';
+
+    }
+
+    $sms_panels_suffix = add_submenu_page(
+        'atlas',
+        'تنظیمات پنل پیامک',
+        'تنظیمات پنل پیامک',
+        'manage_options',
+        'sms_panels',
+        'atlas_sms_panels',
+    );
+
+    function atlas_sms_panels()
+    {
+        $atlas_option = atlas_start_working();
+
+        require_once ATLAS_VIEWS . 'setting_sms_panels.php';
+
+    }
+
+    $province_suffix = add_submenu_page(
+        'atlas',
         'استان ها',
         'استان ها',
         'manage_options',
@@ -39,48 +73,16 @@ function mph_admin_menu(string $context): void
 
     }
 
-    // $setting_suffix = add_submenu_page(
-    //     'nasr',
-    //     'تنظیمات',
-    //     'تنظیمات',
-    //     'manage_options',
-    //     'setting_panels',
-    //     'setting_panels',
-    // );
+    add_action('load-' . $province_suffix, 'atlas__province');
+    add_action('load-' . $setting_suffix, 'atlas__submit');
+    add_action('load-' . $sms_panels_suffix, 'atlas__submit');
 
-    // function setting_panels()
-    // {
-    //     $atlas_option = atlas_start_working();
-
-    //     require_once ATLAS_VIEWS . 'setting.php';
-
-    // }
-
-    // $sms_panels_suffix = add_submenu_page(
-    //     'nasr',
-    //     'تنظیمات پنل پیامک',
-    //     'تنظیمات پنل پیامک',
-    //     'manage_options',
-    //     'sms_panels',
-    //     'atlas_sms_panels',
-    // );
-
-    // function atlas_sms_panels()
-    // {
-    //     $atlas_option = atlas_start_working();
-
-    //     require_once ATLAS_VIEWS . 'setting_sms_panels.php';
-
-    // }
-
-    add_action('load-' . $menu_suffix, 'atlas__submit');
-    // add_action('load-' . $setting_suffix, 'atlas__submit');
-    // add_action('load-' . $sms_panels_suffix, 'atlas__submit');
-
-    function atlas__submit()
+    function atlas__province()
     {
 
         if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == 'atlas__submit') {
+
+
 
             if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
 
@@ -92,27 +94,168 @@ function mph_admin_menu(string $context): void
                 $where_format = [ '%d' ];
 
                 $res = $iran->update($data, $where, $format, $where_format);
-          
+
                 wp_admin_notice(
-                   'تغییر شما با موفقیت ثبت شد',
+                    'تغییر شما با موفقیت ثبت شد',
                     array(
-                        'id'                 => 'message',
-                        'type'               => 'success',
-                        'additional_classes' => array( 'updated' ),
-                        'dismissible'        => true,
+                        'id' => 'message',
+                        'type' => 'success',
+                        'additional_classes' => array('updated'),
+                        'dismissible' => true,
                     )
                 );
 
+            } else {
+                wp_admin_notice(
+                    'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                    array(
+                        'id' => 'atlas_message',
+                        'type' => 'error',
+                        'additional_classes' => array('updated'),
+                        'dismissible' => true,
+                    )
+                );
+            }
 
+        }
 
+        if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == 'atlas_city_submit') {
 
+            if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
 
+                $iran = new Iran_Area();
 
+                if (isset($_REQUEST[ 'city_id' ]) && absint($_REQUEST[ 'city_id' ])) {
 
+                    $data = [
+                        'name' => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))),
+                     ];
+                    $where = [ 'id' => absint($_REQUEST[ 'city_id' ]) ];
+                    $format = [ '%s' ];
+                    $where_format = [ '%d' ];
 
+                    $res = $iran->update($data, $where, $format, $where_format);
+
+                    if ($res) {
+                        wp_admin_notice(
+                            'تغییر شما با موفقیت ثبت شد',
+                            array(
+                                'id' => 'atlas_message',
+                                'type' => 'success',
+                                'additional_classes' => array('updated'),
+                                'dismissible' => true,
+                            )
+                        );
+                    } else {
+                        wp_admin_notice(
+                            'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                            array(
+                                'id' => 'atlas_message',
+                                'type' => 'error',
+                                'additional_classes' => array('updated'),
+                                'dismissible' => true,
+                            )
+                        );
+                    }
+
+                } elseif (isset($_REQUEST[ 'city_id' ]) && !absint($_REQUEST[ 'city_id' ])) {
+
+                    $data = [
+                        'name' => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'province_id' => absint($_REQUEST[ 'province' ]),
+                        'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))),
+                     ];
+                    $format = [ '%s', '%d', '%s' ];
+
+                    $res = $iran->insert($data, $format);
+
+                    if ($res) {
+                        wp_admin_notice(
+                            'تغییر شما با موفقیت ثبت شد',
+                            array(
+                                'id' => 'atlas_message',
+                                'type' => 'success',
+                                'additional_classes' => array('updated'),
+                                'dismissible' => true,
+                            )
+                        );
+                    } else {
+                        wp_admin_notice(
+                            'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                            array(
+                                'id' => 'atlas_message',
+                                'type' => 'error',
+                                'additional_classes' => array('updated'),
+                                'dismissible' => true,
+                            )
+                        );
+                    }
+
+                } else {
+                    wp_admin_notice(
+                        'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                        array(
+                            'id' => 'atlas_message',
+                            'type' => 'error',
+                            'additional_classes' => array('updated'),
+                            'dismissible' => true,
+                        )
+                    );
+                }
 
             } else {
-                set_transient('error_mat', 'ذخیره سازی به مشکل خورده دوباره تلاش کنید');
+
+                wp_admin_notice(
+                    'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                    array(
+                        'id' => 'atlas_message',
+                        'type' => 'error',
+                        'additional_classes' => array('updated'),
+                        'dismissible' => true,
+                    )
+                );
+            }
+
+        }
+
+    }
+
+    function atlas__submit()
+    {
+
+        if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == 'atlas__submit') {
+
+            if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
+                if (isset($_POST[ 'tsms' ])) {
+                    $_POST[ 'tsms' ] = array_map('sanitize_text_field', $_POST[ 'tsms' ]);
+                }
+                if (isset($_POST[ 'ghasedaksms' ])) {
+                    $_POST[ 'ghasedaksms' ] = array_map('sanitize_text_field', $_POST[ 'ghasedaksms' ]);
+                }
+
+                atlas_update_option($_POST);
+
+                wp_admin_notice(
+                    'تغییر شما با موفقیت ثبت شد',
+                    array(
+                        'id' => 'message',
+                        'type' => 'success',
+                        'additional_classes' => array('updated'),
+                        'dismissible' => true,
+                    )
+                );
+
+            } else {
+                wp_admin_notice(
+                    'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
+                    array(
+                        'id' => 'atlas_message',
+                        'type' => 'error',
+                        'additional_classes' => array('updated'),
+                        'dismissible' => true,
+                    )
+                );
 
             }
 

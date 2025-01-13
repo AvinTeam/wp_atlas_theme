@@ -30,19 +30,16 @@ require_once ATLAS_INCLUDES . '/theme_filter.php';
 require_once ATLAS_INCLUDES . '/postype.php';
 require_once ATLAS_INCLUDES . '/meta_boxs.php';
 require_once ATLAS_INCLUDES . '/styles.php';
-
 require_once ATLAS_CLASS . '/Iran_Area.php';
-
 require_once ATLAS_INCLUDES . '/init.php';
-
 require_once ATLAS_INCLUDES . '/ajax.php';
-
 require_once ATLAS_INCLUDES . '/theme-function.php';
+
 // require_once ATLAS_INCLUDES . '/jdf.php';
 
 // require_once ATLAS_CLASS . '/Nasr.php';
 
-//$atlas_option = atlas_start_working();
+$atlas_option = atlas_start_working();
 
 if (is_admin()) {
     //require_once ATLAS_CLASS . '/List_Table.php';
@@ -53,8 +50,10 @@ if (is_admin()) {
 
 }
 
-// $iran = new Iran_Area;
+if (isset($_GET[ 'test' ])) {
 
-// $search = $iran->one_city(38);
-// print_r($search);
-// exit;
+    $mobile = "09113078966";
+
+    exit;
+
+}

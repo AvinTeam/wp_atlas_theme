@@ -21,9 +21,6 @@ class Iran_Area
             $data[ $key ] = $value;
         }
 
-        $data[ 'created_at' ] = current_time('mysql');
-        $format[  ] = '%s';
-
         $inserted = $this->wpdb->insert(
             $this->tablename,
             $data,
@@ -153,7 +150,7 @@ class Iran_Area
 
             $result = $this->wpdb->delete(
                 $this->tablename,
-                [ 'ID' => $row_id ],
+                [ 'id' => $row_id ],
                 [ '%d' ]
 
             );

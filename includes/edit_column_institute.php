@@ -41,8 +41,6 @@ function fill_institute_columns($column, $post_id)
 }
 add_action('manage_institute_posts_custom_column', 'fill_institute_columns', 10, 2);
 
-
-
 function sort_mat_total_points_column($query)
 {
 
@@ -52,13 +50,34 @@ function sort_mat_total_points_column($query)
         $query->query_vars[ 'meta_value' ] = $operator_id;
     }
 
-    
     if (is_admin() && isset($_GET[ 'city' ]) && !empty($_GET[ 'city' ])) {
         $city_id = intval($_GET[ 'city' ]);
         $query->query_vars[ 'meta_key' ] = '_atlas_city';
         $query->query_vars[ 'meta_value' ] = $city_id;
     }
 
+    if (is_admin() && isset($_GET[ 's' ]) && is_mobile(sanitize_phone($_GET[ 's' ]))) {
+        $query->query_vars[ 'meta_key' ] = '_atlas_responsible-mobile';
+        $query->query_vars[ 'meta_value' ] = sanitize_phone($_GET[ 's' ]);
+        $query->set('s', '');   
+    }
+
+
+
+
+
+
+
+
+    
+//     add_filter('query', 'log_sql_query');
+// function log_sql_query($query)
+// {
+//     print_r($query);
+//     exit;
+//     return $query;
+// }
 
 }
 add_action('pre_get_posts', 'sort_mat_total_points_column');
+

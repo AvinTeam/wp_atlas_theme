@@ -1,7 +1,5 @@
 <?php
 
-
-
 add_action('init', 'atlas_panel_rewrite');
 function atlas_panel_rewrite()
 {
@@ -61,14 +59,14 @@ function atlas_template_include($template)
     return $template;
 }
 
-
 $atlas_iran_area = new Iran_Area;
 
 if (!$atlas_iran_area->num()) {
     $atlas = $atlas_iran_area->insert_old_data();
 }
 
-function custom_login_redirect($redirect_to, $request, $user) {
+function custom_login_redirect($redirect_to, $request, $user)
+{
     if (isset($user->roles) && in_array('operator', $user->roles)) {
         $redirect_to = admin_url('edit.php?post_type=institute');
     }
@@ -87,3 +85,36 @@ function hide_default_meta_boxes($hidden, $screen)
     return $hidden;
 }
 add_filter('default_hidden_meta_boxes', 'hide_default_meta_boxes', 10, 2);
+
+function restrict_admin_access()
+{
+    if (!is_user_logged_in()) {
+        return;
+    }
+
+    $user = wp_get_current_user();
+    $restricted_roles = [ 'subscriber', 'responsible' ];
+
+    if (array_intersect($restricted_roles, $user->roles) && !defined('DOING_AJAX')) {
+        wp_redirect(home_url());
+        exit;
+    }
+}
+add_action('admin_init', 'restrict_admin_access');
+
+add_filter('show_admin_bar', 'disable_admin_bar_for_specific_roles');
+
+function disable_admin_bar_for_specific_roles($show)
+{
+    if (is_user_logged_in()) {
+        $user = wp_get_current_user();
+        $restricted_roles = [ 'subscriber', 'responsible' ];
+
+        if (array_intersect($restricted_roles, $user->roles)) {
+            return false;
+        }
+    }
+
+    return $show;
+}
+

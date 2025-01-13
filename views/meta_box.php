@@ -32,7 +32,9 @@
             <tr>
                 <th>شماره موبایل مسئول</th>
                 <td><input class="regular-text onlyNumbersInput" name="atlas[responsible-mobile]"
-                        value="<?=$atlas_institute[ 'responsible-mobile' ]?>"></td>
+                        value="<?=$atlas_institute[ 'responsible-mobile' ]?>">
+                    <?=atlas_transient() ?>
+                    </td>
             </tr>
             <tr>
                 <th>حالت مرکز</th>

@@ -28,127 +28,173 @@ function atlas_get_city()
 
 }
 
-add_action('wp_ajax_ajax_search', 'handle_ajax_search');
-add_action('wp_ajax_nopriv_ajax_search', 'handle_ajax_search'); // برای کاربران لاگین نشده
+add_action('wp_ajax_atlas_delete_city', 'handle_atlas_delete_city');
 
-function handle_ajax_search() {
-    // بررسی nonce برای امنیت
-    check_ajax_referer('ajax-search-nonce', 'nonce');
+function handle_atlas_delete_city()
+{
 
-    wp_send_json_success($_POST);
+    if (current_user_can('manage_options')) {
+        check_ajax_referer('ajax-nonce', 'nonce');
 
+        $iran = new Iran_Area();
 
+        $res = $iran->delete(absint($_POST[ 'city_id' ]));
 
+        if ($res) {
+            wp_send_json_success($_POST);
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    $results[] = [
-        'id' => get_the_ID(),
-        'title' => get_the_title()
-    ];
+        }
+    }
+    wp_send_json_error('حذف انجام نشد', 403);
 
 }
 
-// add_action('wp_ajax_atlas_sent_sms', 'atlas_sent_sms');
-// add_action('wp_ajax_nopriv_atlas_sent_sms', 'atlas_sent_sms');
+add_action('wp_ajax_nopriv_atlas_sent_sms', 'atlas_sent_sms');
 
-// function atlas_sent_sms()
-// {
+function atlas_sent_sms()
+{
 
-//     if (wp_verify_nonce($_POST[ 'wpnonce' ], 'atlas_login_page' . atlas_cookie())) {
-//         if ($_POST[ 'mobileNumber' ] !== "") {
-//             $mobile = sanitize_text_field($_POST[ 'mobileNumber' ]);
+    if (wp_verify_nonce($_POST[ 'nonce' ], 'ajax-nonce' . atlas_cookie())) {
+        if ($_POST[ 'mobileNumber' ] !== "") {
+            $mobile = sanitize_text_field($_POST[ 'mobileNumber' ]);
 
-//             $nasrdb = new NasrDB();
-//             $mobile_num = $nasrdb->num($mobile);
+            $args = [
+                'post_type' => 'institute',
+                'post_status' => [ 'publish', 'draft' ],
+                'meta_query' => [
+                    [
+                        'key' => '_atlas_responsible-mobile',
+                        'value' => $mobile,
+                        'compare' => '=',
+                     ],
+                 ],
+                'fields' => 'ids',
+                'posts_per_page' => -1,
+             ];
 
-//             if (!absint($mobile_num)) {
+            $query = new WP_Query($args);
+            $post_count = $query->found_posts;
 
-//                 $atlas_send_sms = atlas_send_sms($mobile, 'otp');
+            if ($post_count == 1) {
 
-//                 if ($atlas_send_sms[ 'code' ] == 1) {
-//                     wp_send_json_success($atlas_send_sms[ 'massage' ]);
-//                 }
-//                 wp_send_json_error($atlas_send_sms[ 'massage' ], 403);
+                $atlas_send_sms = atlas_send_sms($mobile, 'otp');
 
-//             } else {
-//                 wp_send_json_error('شماره شما قبلا ثبت شده است', 403);
+                if ($atlas_send_sms[ 'code' ] == 1) {
+                    wp_send_json_success($atlas_send_sms[ 'massage' ]);
+                }
+                wp_send_json_error($atlas_send_sms[ 'massage' ], 403);
 
-//             }
+            }
+            wp_send_json_error('شما مجاز به وارد شوید', 403);
 
-//         } else {
-//             wp_send_json_error('شماره شما به درستی وارد نشده است', 403);
+        }
+        wp_send_json_error('شماره شما به درستی وارد نشده است', 403);
 
-//         }
-//     } else {
-//         wp_send_json_error('لطفا یکبار صفحه را بروزرسانی کنید', 403);
+    } else {
+        wp_send_json_error('لطفا یکبار صفحه را بروزرسانی کنید', 403);
 
-//     }
+    }
 
-// }
+}
 
-// add_action('wp_ajax_atlas_sent_verify', 'atlas_sent_verify');
-// add_action('wp_ajax_nopriv_atlas_sent_verify', 'atlas_sent_verify');
+add_action('wp_ajax_nopriv_atlas_sent_verify', 'atlas_sent_verify');
 
-// function atlas_sent_verify()
-// {
-//     $mobile = sanitize_phone($_POST[ 'mobileNumber' ]);
+function atlas_sent_verify()
+{
+    if (wp_verify_nonce($_POST[ 'nonce' ], 'ajax-nonce' . atlas_cookie())) {
 
-//     if (wp_verify_nonce($_POST[ 'wpnonce' ], 'atlas_login_page' . atlas_cookie())) {
+        if ($_POST[ 'mobileNumber' ] !== "" && $_POST[ 'otpNumber' ] !== "") {
 
-//         if ($_POST[ 'mobileNumber' ] !== "" && $_POST[ 'otpNumber' ] !== "") {
+            $mobile = sanitize_text_field($_POST[ 'mobileNumber' ]);
+            $otp = sanitize_text_field($_POST[ 'otpNumber' ]);
 
-//             $otp = sanitize_text_field($_POST[ 'otpNumber' ]);
+            // دریافت کد ذخیره‌شده
+            $saved_otp = get_transient('otp_' . $mobile);
 
-//             // دریافت کد ذخیره‌شده
-//             $saved_otp = get_transient('otp_' . $mobile);
+            if (!$saved_otp || $saved_otp !== $otp) {
+                wp_send_json_error('کد تأیید اشتباه یا منقضی شده است. ', 403);
+            } else {
 
-//             if (!$saved_otp || $saved_otp !== $otp) {
-//                 wp_send_json_error('کد تأیید اشتباه یا منقضی شده است. ', 403);
-//             } else {
-//                 set_transient('atlas_transient', '<div id="alert_danger" class="alert alert-success" role="alert">درخواست شما با موفقیت ثبت شد</div>');
-//                 delete_transient('otp_' . $mobile);
-//                 wp_send_json_success('');
-//             }
-//         }
-//     } else {
-//         delete_transient('otp_' . $mobile);
+                $user_query = new WP_User_Query(array(
+                    'meta_key' => 'mobile',
+                    'meta_value' => $mobile,
+                    'number' => 1,
+                ));
 
-//         wp_send_json_error('لطفا یکبار صفحه را بروزرسانی کنید', 403);
+                if (!empty($user_query->get_results())) {
+                    $user = $user_query->get_results()[ 0 ];
+                    wp_set_current_user($user->ID);
+                    wp_set_auth_cookie($user->ID, true);
 
-//     }
-//     wp_send_json_error('لطفا دوباره تلاش کنید', 403);
-// }
+                    $massage = 'خوش آمدید، شما وارد شدید!';
 
-// add_action('wp_ajax_atlas_get_count', 'atlas_get_count');
-// add_action('wp_ajax_nopriv_atlas_get_count', 'atlas_get_count');
+                } else {
 
-// function atlas_get_count()
-// {
-//     $atlas_option = get_option('atlas_option');
-//     $nasrdb = new NasrDB();
-//     $num = $nasrdb->num('', 'all');
-//     $num += $atlas_option[ 'start_signature' ];
+                    $args = [
+                        'post_type' => 'institute',
+                        'post_status' => [ 'publish', 'draft' ],
+                        'meta_query' => [
+                            [
+                                'key' => '_atlas_responsible-mobile',
+                                'value' => $mobile,
+                                'compare' => '=',
+                             ],
+                         ],
+                        'fields' => 'ids',
+                        'posts_per_page' => -1,
+                     ];
 
-//     if ($num > intval($_POST[ 'nowCount' ])) {
-//         wp_send_json_success($num);
+                    $query = new WP_Query($args);
 
-//     } else {
-//         wp_send_json_error(intval($_POST[ 'nowCount' ]));
-//     }
+                    $post_count = $query->found_posts;
+                    if ($post_count == 1 && $query->have_posts()) {
 
-// }
+                        $post_id = $query->posts[ 0 ];
+
+                        $full_name = get_post_meta($post_id, '_atlas_responsible', true);
+
+                        $user_id = wp_create_user($mobile, wp_generate_password(), $mobile . '@example.com');
+
+                        if (!is_wp_error($user_id)) {
+                            update_user_meta($user_id, 'nickname', $full_name);
+                            update_user_meta($user_id, 'mobile', $mobile);
+                            $user = new WP_User($user_id);
+                            $user->set_role('responsible');
+
+                            wp_update_user([
+                                'ID' => $user_id,
+                                'display_name' => $full_name,
+                             ]);
+
+                            $post_data = array(
+                                'ID' => $post_id,
+                                'post_author' => $user_id,
+                            );
+
+                            wp_update_post($post_data, true);
+
+                            wp_set_current_user($user_id);
+                            wp_set_auth_cookie($user_id, true);
+
+                            $massage = 'ثبت‌ نام با موفقیت انجام شد و شما وارد شدید!';
+                        }
+                    }
+
+                }
+
+                delete_transient('otp_' . $mobile);
+
+                wp_send_json_success($massage);
+
+            }
+        }
+    } else {
+        wp_send_json_error('لطفا یکبار صفحه را بروزرسانی کنید', 403);
+
+    }
+    wp_send_json_error('لطفا دوباره تلاش کنید', 403);
+
+}
 
 // add_action('wp_ajax_atlas_update_row', 'atlas_update_row');
 
@@ -190,32 +236,4 @@ function handle_ajax_search() {
 //         wp_send_json_error('خطا در ارسال اطلاعات', 403);
 //     }
 
-// }
-
-// add_action('wp_ajax_nast_loadSignature', 'nast_loadSignature');
-// add_action('wp_ajax_nopriv_nast_loadSignature', 'nast_loadSignature');
-
-// function nast_loadSignature()
-// {
-
-//     $nasrdb = new NasrDB();
-
-//     $atlas_option = get_option('atlas_option');
-
-//     $par_page = $atlas_option[ 'show_signature' ];
-//     $offset = $par_page * (absint($_POST[ 'thisPage' ]) - 1);
-
-//     $status = 'successful';
-
-//     $all_results = $nasrdb->select($par_page, $offset, $status, $_POST[ 'date' ]);
-
-//     $num = $nasrdb->num('', $status);
-
-//     $end = (($offset + $par_page >= $num)) ? 'end' : '';
-
-//     wp_send_json_success([
-//         'results' => $all_results,
-//         'end' => $end,
-
-//      ]);
 // }

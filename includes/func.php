@@ -66,3 +66,20 @@ function sanitize_phone($phone)
     return $phone;
 
 }
+
+
+function atlas_transient()
+{
+    $atlas_transient = get_transient('atlas_transient');
+
+    if ($atlas_transient) {
+        delete_transient('atlas_transient');
+        return $atlas_transient;
+    }
+
+}
+
+function is_mobile($mobile) {
+    $pattern = '/^(\+98|0)?9\d{9}$/'; 
+    return preg_match($pattern, $mobile);
+}
