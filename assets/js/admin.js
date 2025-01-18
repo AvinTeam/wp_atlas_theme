@@ -32,12 +32,12 @@ let isMap = document.getElementById('map');
 if (isMap) {
     //
     // ایجاد نقشه و تنظیمات اولیه
-    const map = L.map('map').setView([35.6892, 51.3890], 10); // شروع از تهران
+    var map = L.map('map').setView([35.6892, 51.3890], 10); // شروع از تهران
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    let marker = null; // متغیر برای ذخیره مارکر
+    var marker = null; // متغیر برای ذخیره مارکر
 
 
     function atlasMap(state = 'تهران', city = 'تهران') {
@@ -239,11 +239,10 @@ jQuery(document).ready(function ($) {
         $input.on('input', function () {
             const inputValue = $(this).val().trim();
 
-            // بررسی اینکه آیا مقدار input با یکی از span‌ها برابر است
             $spans.each(function () {
                 const $span = $(this);
                 if ($span.text() === inputValue) {
-                    $span.addClass('activ');    // افزودن کلاس activ به span مرتبط
+                    $span.addClass('activ');
                 }
             });
             checkInputMatches();
@@ -251,15 +250,12 @@ jQuery(document).ready(function ($) {
         });
 
 
-        // افزودن تگ با کلیک روی span
         $spans.on('click', function () {
             const $this = $(this);
             const text = $this.text().trim();
 
-            // بررسی اینکه آیا تگ از قبل وجود دارد
             const exists = $tagsInput.find(`span.tag:contains('${text}')`).length > 0;
             if (!exists) {
-                // افزودن تگ به لیست
                 const newTag = `
                     <span class="tag">
                         <span>${text}&nbsp;&nbsp;</span>
@@ -272,7 +268,6 @@ jQuery(document).ready(function ($) {
                 let newimput = $input.val();
                 $input.val(newimput + ',' + text);
 
-                // افزودن کلاس active به span
                 checkInputMatches();
 
             }
@@ -286,7 +281,6 @@ jQuery(document).ready(function ($) {
             const $tag = $(this).closest('.tag');
             const tagText = $tag.text().trim();
 
-            // حذف کلاس active از span مرتبط
             $spans.filter(function () {
                 return $(this).text().trim() === tagText;
             }).removeClass('active');

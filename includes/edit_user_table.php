@@ -4,6 +4,12 @@
 add_filter('manage_users_columns', 'add_institute_posts_column');
 function add_institute_posts_column($columns)
 {
+    if (isset($columns[ 'email' ])) {
+        unset($columns[ 'email' ]);
+    }
+    if (isset($columns[ 'posts' ])) {
+        unset($columns[ 'posts' ]);
+    }
     $columns[ 'institute_posts' ] = 'تعداد موسسه';
     return $columns;
 }
@@ -11,6 +17,9 @@ function add_institute_posts_column($columns)
 add_action('manage_users_custom_column', 'show_institute_posts_count', 10, 3);
 function show_institute_posts_count($output, $column_name, $user_id)
 {
+
+   
+
     if ($column_name === 'institute_posts') {
 
         $args = [
@@ -34,13 +43,17 @@ function show_institute_posts_count($output, $column_name, $user_id)
 
         $post_count = absint(get_user_meta($user_id, 'post_operator', true));
 
-        //$post_count = count_user_posts($user_id, 'institute');
         $output = sprintf('<a target="_blank" href="%s" class="edit"><span aria-hidden="true">%d</span></a>', admin_url('edit.php?post_type=institute&operator=' . $user_id), $post_count);
+
+        $user_cap = get_userdata($user_id);
+
+        $output = ($user_cap && $user_cap->has_cap('operator')) ? $output : '-';
     }
 
-    $user_cap = get_userdata($user_id);
 
-    return ($user_cap && $user_cap->has_cap('operator')) ? $output : '-';
+
+    return (!empty($output)) ? $output : '-';
+
 }
 
 function make_user_posts_count_sortable($sortable_columns)
@@ -49,9 +62,6 @@ function make_user_posts_count_sortable($sortable_columns)
     return $sortable_columns;
 }
 add_filter('manage_users_sortable_columns', 'make_user_posts_count_sortable');
-
-
-
 
 add_filter('users_list_table_query_args', 'dsl_users_sortable_query');
 function dsl_users_sortable_query($args)
@@ -72,5 +82,3 @@ function dsl_users_sortable_query($args)
 
     return $args;
 }
-
-

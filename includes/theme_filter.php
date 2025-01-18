@@ -20,3 +20,13 @@ function atlas_title_filter($title) {
     return $title;
 }
 add_filter('wp_title', 'atlas_title_filter');
+function custom_institute_template($template) {
+    if (is_singular('institute')) {
+        $custom_template = locate_template('institute.php');
+        if ($custom_template) {
+            return $custom_template;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'custom_institute_template');

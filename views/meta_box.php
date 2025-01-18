@@ -221,7 +221,7 @@
                             <input name="atlas[course-type][]" type="checkbox" id="course-type-online" value="online"
                                 <?php if (in_array('online', $atlas_institute[ 'course-type' ])) {echo 'checked';}?>>حضوری</label>
                         <label for="course-type-offline">
-                            <input name="atlas[course-type][]" type="checkbox" id="age-offline" value="offline"
+                            <input name="atlas[course-type][]" type="checkbox" id="course-type-offline" value="offline"
                                 <?php if (in_array('offline', $atlas_institute[ 'course-type' ])) {echo 'checked';}?>>مجازی</label>
                     </fieldset>
                 </td>
@@ -280,18 +280,16 @@
                     </fieldset>
                 </td>
             </tr>
-
-
             <tr>
                 <th>توضیحات بیشتر</th>
                 <td>
                     <?php
-wp_editor($post->post_content, 'content', [
-    'textarea_name' => 'post_content',
-    'media_buttons' => true,
-    'textarea_rows' => 10,
- ]);
-?>
+                    wp_editor($post->post_content, 'content', [
+                        'textarea_name' => 'post_content',
+                        'media_buttons' => true,
+                        'textarea_rows' => 10,
+                    ]);
+                    ?>
                 </td>
             </tr>
         </table>

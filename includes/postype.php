@@ -11,7 +11,7 @@ function atlas_institute_init()
 {
     $labels = array(
         'name' => 'موسسه',
-        'singular_name' => 'موسسه',
+        'singular_name' => 'institute',
         'menu_name' => 'موسسه ها',
         'name_admin_bar' => 'موسسه',
         'add_new' => 'اضافه کردن',
@@ -56,7 +56,6 @@ function atlas_institute_init()
 }
 
 add_action('init', 'atlas_institute_init');
-
 
 
 //institute

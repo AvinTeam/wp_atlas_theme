@@ -89,7 +89,7 @@ $query = new WP_Query($args);
 if ($query->have_posts()):
     while ($query->have_posts()): $query->the_post();
         ?>
-        <a href="<?=atlas_pane_base_url('institute='. get_the_ID())?>" class="location-item"><?php the_title(); ?></a>
+        <a href="<?=esc_url(get_permalink(get_the_ID()))?>" class="location-item"><?php the_title(); ?></a>
 
         <?php
     endwhile;

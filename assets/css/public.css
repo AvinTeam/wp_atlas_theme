@@ -18,3 +18,55 @@
 .select2-container--default .select2-results__option {
     text-align: right; 
 }
+
+
+#subject_tagsinput {
+    float: right;
+    border-color: #000;
+  }
+  
+  
+  #subject_tagsinput span,
+  #subject_tagsinput #subject_addTag {
+    float: right;
+  }
+  
+  #subject_tagsinput span {
+    border: none;
+    background: #f6f7f4;
+    color: #000000;
+  
+  }
+  
+  #subject_tagsinput span a {
+    font-weight: 700;
+    color: red;
+    text-decoration: none;
+    font-size: 11px;
+  }
+  
+  
+  #all_subject {
+    float: right;
+  }
+  
+  #all_subject span {
+    float: right !important;
+    background: #cde69c;
+    display: block;
+    float: left;
+    padding: 5px;
+    text-decoration: none;
+    color: #638421;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-family: helvetica;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  
+  #all_subject span.active {
+    background-color: red !important;
+    color: #FFFFFF !important;
+  }
+  

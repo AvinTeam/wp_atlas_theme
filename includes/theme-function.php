@@ -5,18 +5,18 @@
 function atlas_template_path($atlas_page = false)
 {
 
-    if (!$atlas_page) {return;}
+    if (! $atlas_page) {return;}
 
     if ($atlas_page) {
-
-        $page = explode('=', $atlas_page);
+        $atlas_page = ($_SERVER[ 'REQUEST_METHOD' ] === 'POST' && isset($_POST[ 'act_user' ]) && $_POST[ 'act_user' ] == 'form_submit') ? 'panel' : $atlas_page;
+        $page       = explode('=', $atlas_page);
 
         switch ($page[ 0 ]) {
             case 'city':
                 $view = 'city';
                 break;
-            case 'institute':
-                $view = 'institute';
+            case 'logout':
+                $view = 'logout';
                 break;
             case 'panel':
                 $view = (is_user_logged_in()) ? 'dashboard' : 'login';
@@ -65,12 +65,12 @@ function atlas_remote(string $url)
 
     if (is_wp_error($res)) {
         $result = [
-            'code' => 1,
+            'code'   => 1,
             'result' => $res->get_error_message(),
          ];
     } else {
         $result = [
-            'code' => 0,
+            'code'   => 0,
             'result' => json_decode($res[ 'body' ]),
          ];
     }
@@ -81,23 +81,23 @@ function atlas_remote(string $url)
 function atlas_start_working(): array
 {
 
-    if (!isset($_GET[ 'avin_cron' ])) {
+    if (! isset($_GET[ 'avin_cron' ])) {
         atlas_cookie();
     }
     $atlas_option = get_option('atlas_option');
 
-    if (!isset($atlas_option[ 'version' ]) || version_compare(ATLAS_VERSION, $atlas_option[ 'version' ], '>')) {
+    if (! isset($atlas_option[ 'version' ]) || version_compare(ATLAS_VERSION, $atlas_option[ 'version' ], '>')) {
 
         update_option(
             'atlas_option',
             [
-                'version' => ATLAS_VERSION,
-                'tsms' => (isset($atlas_option[ 'tsms' ])) ? $atlas_option[ 'tsms' ] : [ 'username' => '', 'password' => '', 'number' => '' ],
-                'ghasedaksms' => (isset($atlas_option[ 'ghasedaksms' ])) ? $atlas_option[ 'ghasedaksms' ] : [ 'ApiKey' => '', 'number' => '' ],
-                'sms_text_otp' => (isset($atlas_option[ 'sms_text_otp' ])) ? $atlas_option[ 'sms_text_otp' ] : 'کد تأیید شما: %otp%',
-                'set_timer' => (isset($atlas_option[ 'set_timer' ])) ? $atlas_option[ 'set_timer' ] : 1,
-                'set_code_count' => (isset($atlas_option[ 'set_code_count' ])) ? $atlas_option[ 'set_code_count' ] : 4,
-                'sms_type' => (isset($atlas_option[ 'sms_type' ])) ? $atlas_option[ 'sms_type' ] : 'tsms',
+                'version'           => ATLAS_VERSION,
+                'tsms'              => (isset($atlas_option[ 'tsms' ])) ? $atlas_option[ 'tsms' ] : [ 'username' => '', 'password' => '', 'number' => '' ],
+                'ghasedaksms'       => (isset($atlas_option[ 'ghasedaksms' ])) ? $atlas_option[ 'ghasedaksms' ] : [ 'ApiKey' => '', 'number' => '' ],
+                'sms_text_otp'      => (isset($atlas_option[ 'sms_text_otp' ])) ? $atlas_option[ 'sms_text_otp' ] : 'کد تأیید شما: %otp%',
+                'set_timer'         => (isset($atlas_option[ 'set_timer' ])) ? $atlas_option[ 'set_timer' ] : 1,
+                'set_code_count'    => (isset($atlas_option[ 'set_code_count' ])) ? $atlas_option[ 'set_code_count' ] : 4,
+                'sms_type'          => (isset($atlas_option[ 'sms_type' ])) ? $atlas_option[ 'sms_type' ] : 'tsms',
                 'notificator_token' => (isset($atlas_option[ 'notificator_token' ])) ? $atlas_option[ 'notificator_token' ] : '',
 
              ]
@@ -116,13 +116,13 @@ function atlas_update_option($data)
     $atlas_option = get_option('atlas_option');
 
     $atlas_option = [
-        'version' => ATLAS_VERSION,
-        'tsms' => (isset($data[ 'tsms' ])) ? $data[ 'tsms' ] : $atlas_option[ 'tsms' ],
-        'ghasedaksms' => (isset($data[ 'ghasedaksms' ])) ? $data[ 'ghasedaksms' ] : $atlas_option[ 'ghasedaksms' ],
-        'set_timer' => (isset($data[ 'set_timer' ])) ? absint($data[ 'set_timer' ]) : $atlas_option[ 'set_timer' ],
-        'set_code_count' => (isset($data[ 'set_code_count' ])) ? absint($data[ 'set_code_count' ]) : $atlas_option[ 'set_code_count' ],
-        'sms_text_otp' => (isset($data[ 'sms_text_otp' ])) ? sanitize_textarea_field($data[ 'sms_text_otp' ]) : $atlas_option[ 'sms_text_otp' ],
-        'sms_type' => (isset($data[ 'sms_type' ])) ? sanitize_text_field($data[ 'sms_type' ]) : $atlas_option[ 'sms_type' ],
+        'version'           => ATLAS_VERSION,
+        'tsms'              => (isset($data[ 'tsms' ])) ? $data[ 'tsms' ] : $atlas_option[ 'tsms' ],
+        'ghasedaksms'       => (isset($data[ 'ghasedaksms' ])) ? $data[ 'ghasedaksms' ] : $atlas_option[ 'ghasedaksms' ],
+        'set_timer'         => (isset($data[ 'set_timer' ])) ? absint($data[ 'set_timer' ]) : $atlas_option[ 'set_timer' ],
+        'set_code_count'    => (isset($data[ 'set_code_count' ])) ? absint($data[ 'set_code_count' ]) : $atlas_option[ 'set_code_count' ],
+        'sms_text_otp'      => (isset($data[ 'sms_text_otp' ])) ? sanitize_textarea_field($data[ 'sms_text_otp' ]) : $atlas_option[ 'sms_text_otp' ],
+        'sms_type'          => (isset($data[ 'sms_type' ])) ? sanitize_text_field($data[ 'sms_type' ]) : $atlas_option[ 'sms_type' ],
         'notificator_token' => (isset($data[ 'notificator_token' ])) ? sanitize_text_field($data[ 'notificator_token' ]) : $atlas_option[ 'notificator_token' ],
 
      ];
@@ -152,7 +152,7 @@ function atlas_massage_format($data)
     $server_name = $_SERVER[ 'SERVER_NAME' ];
 
     $finalMessage = str_replace([ '%username%', '%password%', '%url%' ], $data, $atlas_option[ 'sms_text_format' ]);
-    $massage = $finalMessage . PHP_EOL . $server_name;
+    $massage      = $finalMessage . PHP_EOL . $server_name;
 
     return $massage;
 
@@ -163,7 +163,7 @@ function notificator($mobile, $massage)
     global $atlas_option;
 
     $data = [
-        'to' => $atlas_option[ 'notificator_token' ],
+        'to'   => $atlas_option[ 'notificator_token' ],
         'text' => $mobile . PHP_EOL . $massage,
      ];
 
@@ -175,7 +175,7 @@ function notificator($mobile, $massage)
     $result = json_decode(wp_remote_retrieve_body($response));
 
     $result = [
-        'code' => $result->success,
+        'code'    => $result->success,
         'massage' => ($result->success) ? 'پیام با موفقیت ارسال شد' : 'پیام به خطا خورده است ',
      ];
 
@@ -191,14 +191,14 @@ function tsms($mobile, $massage)
     $msg_array = [ $massage ];
 
     $data = [
-        'method' => 'sendSms',
-        'username' => $atlas_option[ 'tsms' ][ 'username' ],
-        'password' => $atlas_option[ 'tsms' ][ 'password' ],
-        'sms_number' => array($atlas_option[ 'tsms' ][ 'number' ]),
-        'mobile' => [ $mobile ],
-        'msg' => $msg_array,
-        'mclass' => array(''),
-        'messagid' => rand(),
+        'method'     => 'sendSms',
+        'username'   => $atlas_option[ 'tsms' ][ 'username' ],
+        'password'   => $atlas_option[ 'tsms' ][ 'password' ],
+        'sms_number' => [$atlas_option[ 'tsms' ][ 'number' ]],
+        'mobile'     => [ $mobile ],
+        'msg'        => $msg_array,
+        'mclass'     => [''],
+        'messagid'   => rand(),
      ];
 
     $response = wp_remote_post('https://www.tsms.ir/json/json.php', [
@@ -208,7 +208,7 @@ function tsms($mobile, $massage)
     $response = json_decode(wp_remote_retrieve_body($response));
 
     $result = [
-        'code' => ($response->code == 200) ? 1 : $response->code,
+        'code'    => ($response->code == 200) ? 1 : $response->code,
         'massage' => ($response->code == 200) ? 'پیام با موفقیت ارسال شد' : 'پیام به خطا خورده است',
      ];
     return $result;
@@ -220,8 +220,8 @@ function ghasedaksms($mobile, $massage)
 
     global $atlas_option;
     $data = [
-        'message' => $massage,
-        'sender' => $atlas_option[ 'ghasedaksms' ][ 'number' ],
+        'message'  => $massage,
+        'sender'   => $atlas_option[ 'ghasedaksms' ][ 'number' ],
         'receptor' => $mobile,
      ];
     $header = [
@@ -230,13 +230,13 @@ function ghasedaksms($mobile, $massage)
 
     $response = wp_remote_post('http://api.ghasedaksms.com/v2/sms/send/bulk2', [
         'headers' => $header,
-        'body' => http_build_query($data),
+        'body'    => http_build_query($data),
      ]);
 
     $response = json_decode(wp_remote_retrieve_body($response));
 
     $result = [
-        'code' => ($response->result == 'success' && strlen($response->messageids) > 5) ? 1 : $response->messageids,
+        'code'    => ($response->result == 'success' && strlen($response->messageids) > 5) ? 1 : $response->messageids,
         'massage' => ($response->result == 'success' && strlen($response->messageids) > 5) ? 'پیام با موفقیت ارسال شد' : 'پیام به خطا خورده است',
      ];
     return $result;
@@ -250,14 +250,14 @@ function atlas_send_sms($mobile, $type, $data = [  ])
     $massage = '';
 
     $result = [
-        'code' => 0,
+        'code'    => 0,
         'massage' => $mobile,
      ];
 
     // بررسی فرمت شماره موبایل
-    if (!preg_match('/^09[0-9]{9}$/', $mobile)) {
+    if (! preg_match('/^09[0-9]{9}$/', $mobile)) {
         $result = [
-            'code' => -1,
+            'code'    => -1,
             'massage' => 'شماره موبایل معتبر نیست.',
          ];
     }
@@ -265,7 +265,7 @@ function atlas_send_sms($mobile, $type, $data = [  ])
     if ($type == 'otp') {
         if (get_transient('otp_' . $mobile)) {
             $result = [
-                'code' => -2,
+                'code'    => -2,
                 'massage' => 'لطفا چند دقیقه دیگر تلاش کنید.',
              ];
         }
@@ -298,7 +298,7 @@ function atlas_send_sms($mobile, $type, $data = [  ])
 function atlas_cookie(): string
 {
 
-    if (!isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+    if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
         $is_key_cookie = atlas_rand_string(15);
         ob_start();
@@ -319,9 +319,9 @@ function atlas_cookie(): string
 
 function atlas_rand_string($length = 20)
 {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; // اعداد و حروف
+    $characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; // اعداد و حروف
     $charactersLength = strlen($characters);
-    $randomString = '';
+    $randomString     = '';
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[ rand(0, $charactersLength - 1) ];
     }
@@ -344,8 +344,8 @@ function atlas_mask_mobile($mobile)
 function tarikh($data, $time = "")
 {
     $data1 = "";
-    if (!empty($data)) {
-        $arr = explode(" ", $data);
+    if (! empty($data)) {
+        $arr  = explode(" ", $data);
         $data = $arr[ 0 ];
 
         $arrayData = [ '/', '-' ];
@@ -358,11 +358,11 @@ function tarikh($data, $time = "")
 
                 if ($arrayData == '/') {
                     $tagir = '-';
-                    $chen = 'jalali_to_gregorian';
+                    $chen  = 'jalali_to_gregorian';
                 }
                 if ($arrayData == '-') {
                     $tagir = '/';
-                    $chen = 'gregorian_to_jalali';
+                    $chen  = 'gregorian_to_jalali';
                 }
 
                 $data1 = $chen($gy, $gm, $gd, $tagir);
@@ -388,8 +388,8 @@ function get_current_relative_url()
     // گرفتن مسیر فعلی بدون دامنه
     $path = esc_url_raw(wp_unslash($_SERVER[ 'REQUEST_URI' ]));
 
-    // حذف دامنه و فقط نگه داشتن مسیر نسبی + پارامترها
-    $relative_url = strtok($path, '?'); // مسیر قبل از پارامترها
+                                                // حذف دامنه و فقط نگه داشتن مسیر نسبی + پارامترها
+    $relative_url = strtok($path, '?');         // مسیر قبل از پارامترها
     $query_string = $_SERVER[ 'QUERY_STRING' ]; // پارامترهای GET
 
     // اگر پارامتر وجود داره، به مسیر اضافه کن
@@ -407,7 +407,7 @@ function get_name_by_id($data, $id)
     });
 
     // برگرداندن اولین مقدار پیدا شده
-    if (!empty($filtered)) {
+    if (! empty($filtered)) {
         return array_values($filtered)[ 0 ]->name;
     }
     return null;

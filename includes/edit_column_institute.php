@@ -9,7 +9,7 @@ function add_institute_columns($columns)
 
         if ($key === 'title') {
             $new_columns[ 'province' ] = 'استان';
-            $new_columns[ 'city' ] = 'شهر';
+            $new_columns[ 'city' ]     = 'شهر';
         }
     }
     return $new_columns;
@@ -44,40 +44,34 @@ add_action('manage_institute_posts_custom_column', 'fill_institute_columns', 10,
 function sort_mat_total_points_column($query)
 {
 
-    if (is_admin() && isset($_GET[ 'operator' ]) && !empty($_GET[ 'operator' ])) {
-        $operator_id = intval($_GET[ 'operator' ]);
-        $query->query_vars[ 'meta_key' ] = '_operator';
+    if (is_admin() && isset($_GET[ 'operator' ]) && ! empty($_GET[ 'operator' ])) {
+        $operator_id                       = intval($_GET[ 'operator' ]);
+        $query->query_vars[ 'meta_key' ]   = '_operator';
         $query->query_vars[ 'meta_value' ] = $operator_id;
     }
 
-    if (is_admin() && isset($_GET[ 'city' ]) && !empty($_GET[ 'city' ])) {
-        $city_id = intval($_GET[ 'city' ]);
-        $query->query_vars[ 'meta_key' ] = '_atlas_city';
+    if (is_admin() && isset($_GET[ 'city' ]) && ! empty($_GET[ 'city' ])) {
+        $city_id                           = intval($_GET[ 'city' ]);
+        $query->query_vars[ 'meta_key' ]   = '_atlas_city';
         $query->query_vars[ 'meta_value' ] = $city_id;
     }
 
     if (is_admin() && isset($_GET[ 's' ]) && is_mobile(sanitize_phone($_GET[ 's' ]))) {
-        $query->query_vars[ 'meta_key' ] = '_atlas_responsible-mobile';
+        $query->query_vars[ 'meta_key' ]   = '_atlas_responsible-mobile';
         $query->query_vars[ 'meta_value' ] = sanitize_phone($_GET[ 's' ]);
-        $query->set('s', '');   
+        $query->set('s', '');
     }
-
-
-
-
-
-
-
-
-    
-//     add_filter('query', 'log_sql_query');
-// function log_sql_query($query)
-// {
-//     print_r($query);
-//     exit;
-//     return $query;
-// }
-
 }
 add_action('pre_get_posts', 'sort_mat_total_points_column');
 
+function add_csv_export_button_to_custom_post_type($which)
+{
+    global $typenow;
+
+    if ($typenow === 'institute' && $which === 'top') {
+
+        echo '<div class="alignleft actions"><a href="' . esc_url(add_query_arg('action', 'art_exel', get_current_relative_url())) . '" class="button button-primary" >خروجی EXEL</a></div>';
+
+    }
+}
+add_action('manage_posts_extra_tablenav', 'add_csv_export_button_to_custom_post_type', 10, 1);
