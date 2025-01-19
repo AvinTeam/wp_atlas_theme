@@ -100,14 +100,19 @@ class Iran_Area
         $province = $this->get('id', $city->province_id);
 
         $mpn_row_new = [
+            'city_id' => $city->id,
             'city' => $city->name,
+            'province_id' => $province->id,
             'province' => $province->name,
 
          ];
 
         return $mpn_row_new;
 
+
     }
+
+
 
     public function update(array $data, array $where, array $format = null, array $where_format = null): int | false
     {

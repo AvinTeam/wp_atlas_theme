@@ -113,12 +113,6 @@
   border-color: #961313 !important;
 }
 
-.atlas-teacher-row {
-  margin: 10px 0px;
-  display: flex;
-  gap: 2px;
-}
-
 .button-success {
   background: #4ab122 !important;
   border-color: #4ab122 !important;
@@ -127,6 +121,12 @@
 .button-success:hover {
   background: #139613 !important;
   border-color: #139613 !important;
+}
+
+.atlas-teacher-row {
+  margin: 10px 0px;
+  display: flex;
+  gap: 2px;
 }
 
 .form-link input {

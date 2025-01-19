@@ -1,4 +1,4 @@
-let pageLogin = document.getElementById('loginForm');
+const pageLogin = document.getElementById('loginForm');
 if (pageLogin) {
 
 
@@ -199,9 +199,25 @@ jQuery(document).ready(function ($) {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    $('#select2').select2({
-        placeholder: 'جستجو کنید...',
+    $('#select2home').select2({
+        placeholder: 'جستجوی شهر، استان و ...',
         dir: 'rtl',
+        theme: 'bootstrap-5',
+        language: {
+            noResults: function () {
+                return 'نتیجه‌ای یافت نشد.';
+            },
+            searching: function () {
+                return 'در حال جستجو...';
+            }
+        },
+    });
+
+
+    $('#select2').select2({
+        placeholder: 'جستجوی شهر، استان و ...',
+        dir: 'rtl',
+        width: '200px',
         theme: 'bootstrap-5',
         language: {
             noResults: function () {
@@ -231,6 +247,22 @@ jQuery(document).ready(function ($) {
 
 
     $('#select2').on('change', function () {
+        console.log('nexy');
+        let cityId = $(this).val();
+        if (cityId > 0) {
+
+            window.location.href = atlas_js.page_base + '/city=' + cityId;
+        }
+
+
+        console.log($(this).val());
+
+
+    });
+
+    
+    $('#select2home').on('change', function () {
+        console.log('nexy');
         let cityId = $(this).val();
         if (cityId > 0) {
 

@@ -118,4 +118,4 @@ function maintenance_mode()
     exit; // جلوگیری از اجرای بیشتر
 
 }
-add_action('template_redirect', 'maintenance_mode');
+add_action('template_redirect0', 'maintenance_mode');

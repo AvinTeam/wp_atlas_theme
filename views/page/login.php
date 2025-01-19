@@ -1,12 +1,12 @@
 <?php
 
-function atlas_title_filter_404($title)
+function atlas_title_filter_login($title)
 {
 
     $title = get_bloginfo('name') . " | ورود ";
     return $title;
 }
-add_filter('wp_title', 'atlas_title_filter_404');
+add_filter('wp_title', 'atlas_title_filter_login');
 
 get_header(); ?>
 

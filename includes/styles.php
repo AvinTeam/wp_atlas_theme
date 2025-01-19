@@ -29,17 +29,16 @@ function atlas_admin_script()
         'atlas_js',
         [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('ajax-nonce'),
+            'nonce'    => wp_create_nonce('ajax-nonce'),
          ]
     );
 
 }
 
-add_action('wp_enqueue_scripts', 'fajr_style');
+add_action('wp_enqueue_scripts', 'atlas_style');
 
-function fajr_style()
+function atlas_style()
 {
-
     wp_register_style(
         'bootstrap',
         ATLAS_VENDOR . 'bootstrap/bootstrap.min.css',
@@ -53,6 +52,12 @@ function fajr_style()
         '5.3.3'
     );
     wp_register_style(
+        'bootstrap.icons',
+        ATLAS_VENDOR . 'bootstrap/bootstrap-icons.min.css',
+        [ 'bootstrap' ],
+        '1.11.3'
+    );
+    wp_register_style(
         'select2',
         ATLAS_VENDOR . 'select2/select2.min.css',
         [ 'bootstrap' ],
@@ -62,7 +67,7 @@ function fajr_style()
     wp_enqueue_style(
         'atlas_style',
         ATLAS_CSS . 'public.css',
-        [ 'bootstrap.rtl', 'select2' ],
+        [ 'bootstrap.rtl','bootstrap.icons', 'select2' ],
         ATLAS_VERSION
     );
 
@@ -94,10 +99,10 @@ function fajr_style()
         'atlas_js',
         'atlas_js',
         [
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('ajax-nonce'. atlas_cookie()),
+            'ajaxurl'   => admin_url('admin-ajax.php'),
+            'nonce'     => wp_create_nonce('ajax-nonce' . atlas_cookie()),
             'page_base' => atlas_pane_base_url(),
-            'option' => atlas_start_working(),
+            'option'    => atlas_start_working(),
 
          ]
     );

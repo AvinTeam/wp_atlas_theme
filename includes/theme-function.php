@@ -15,6 +15,9 @@ function atlas_template_path($atlas_page = false)
             case 'city':
                 $view = 'city';
                 break;
+            case 'province':
+                $view = 'city';
+                break;
             case 'logout':
                 $view = 'logout';
                 break;
@@ -39,6 +42,7 @@ function atlas_pane_base_url($base = '')
     return site_url() . '/' . ATLAS_PAGE_BASE . '/' . $base;
 
 }
+
 
 function atlas_panel_js($path)
 {
@@ -194,10 +198,10 @@ function tsms($mobile, $massage)
         'method'     => 'sendSms',
         'username'   => $atlas_option[ 'tsms' ][ 'username' ],
         'password'   => $atlas_option[ 'tsms' ][ 'password' ],
-        'sms_number' => [$atlas_option[ 'tsms' ][ 'number' ]],
+        'sms_number' => [ $atlas_option[ 'tsms' ][ 'number' ] ],
         'mobile'     => [ $mobile ],
         'msg'        => $msg_array,
-        'mclass'     => [''],
+        'mclass'     => [ '' ],
         'messagid'   => rand(),
      ];
 
