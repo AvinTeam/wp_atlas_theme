@@ -92,7 +92,7 @@ function handle_download()
                     'old' => '18 سال به بالا',
                  ];
 
-                if (is_array($course_type)) {
+                if (is_array($age)) {
                     $translated_age = array_map(function ($word) use ($translations_age) {
                         return $translations_age[ $word ] ?? $word;
                     }, $age);
@@ -103,21 +103,13 @@ function handle_download()
                     'man'   => 'آقا',
                  ];
 
-                if (is_array($course_type)) {
+                if (is_array($gender)) {
 
                     $translated_gender = array_map(function ($word) use ($translations_age) {
                         return $translations_age[ $word ] ?? $word;
                     }, $gender);
                 }
 
-                $translations_age = [
-                    'Institute'      => 'موسسه',
-                    'house_of_quran' => 'خانه قرآن',
-                    'mohfel'         => 'محفل',
-                    'education'      => 'آموزش پرورش',
-                    'besij'          => 'دارالقرآن بسیج',
-
-                 ];
 
                 switch ($center_type) {
                     case 'Institute':

@@ -1,7 +1,7 @@
 <?php 
 
 
-global $atlas_home;
+global $atlas_body;
 
 ?>
 <!DOCTYPE html>
@@ -15,10 +15,10 @@ global $atlas_home;
 
 </head>
 
-<body class="<?php echo (isset($atlas_home) && !empty($atlas_home)) ? 'atlas-home' : ''?>">
-    <header class="container-fluid p-3">
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="col-4 text-center d-flex align-items-center justify-content-start ">
+<body class="<?php echo (isset($atlas_body) && !empty($atlas_body)) ? $atlas_body : ''?>">
+    <header class="container-fluid py-3 px-5">
+        <div class="d-flex align-items-center justify-content-between  atlas-row ">
+            <div class="col-4  text-center d-flex align-items-center justify-content-start ">
                 <div class="atlas-search w-75 ">
                     <img class="search-img" src="<?php echo atlas_panel_image('search.svg') ?>" alt="جستجو">
                     <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">

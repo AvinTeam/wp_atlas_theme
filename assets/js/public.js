@@ -191,6 +191,8 @@ if (isMap) {
 }
 
 
+
+
 jQuery(document).ready(function ($) {
 
 
@@ -247,11 +249,16 @@ jQuery(document).ready(function ($) {
 
 
     $('#select2').on('change', function () {
-        console.log('nexy');
+
+
+
+        let dataGoto = $(this).attr('data-goto');
+
+
         let cityId = $(this).val();
         if (cityId > 0) {
 
-            window.location.href = atlas_js.page_base + '/city=' + cityId;
+            window.location.href = atlas_js.page_base + '/'+dataGoto+'=' + cityId;
         }
 
 

@@ -108,7 +108,7 @@ get_header(); ?>
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
     <a class="navbar-brand" href="#">داشبورد</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -454,7 +454,7 @@ get_header(); ?>
     </form>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mt-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-5">
     <a class="navbar-brand" href="#">1404</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

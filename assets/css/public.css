@@ -25,7 +25,16 @@ a {
   text-decoration: none;
 }
 
-header {
+.atlas-n {
+  display: none !important;
+}
+
+.atlas-row {
+  width: 80%;
+  margin: 0px auto;
+}
+
+body {
   background: url('../image/Vector.png') repeat-x;
 }
 
@@ -72,20 +81,105 @@ header {
 
 }
 
-
-
 .city-head-box {
   background: url('../image/city_head.png') no-repeat;
   background-size: cover;
+}
+
+.atlas-share img {
+  width: 25px;
+  height: 25px;
+  transition: filter 0.3s ease, transform 0.3s ease;
 
 }
 
+.atlas-share img:hover {
+  filter: sepia(1) hue-rotate(200deg) saturate(2);
+  transform: scale(1.05);
+}
+
+
+.institute-head-box {
+  background-color: #37BEC1;
+  border-radius: 16px;
+}
+
+.page-name-center {
+  border: 2px solid #E0AD70;
+}
 
 .institute {
   border: 1px solid #F3F5FF;
   border-radius: 8px;
 }
 
+
+
+.atlas-paginate span {
+  width: 40px;
+  height: 40px;
+  line-height: 2.5;
+  background-color: #E0AD70;
+  color: #FFFFFF;
+}
+
+.atlas-paginate a {
+  width: 40px;
+  height: 40px;
+  line-height: 2.5;
+  color: #37BEC1;
+
+}
+
+.institute-info .atlas-row {
+  background-color: #F3F5FF;
+  border: 1px solid #D8DBF0;
+  border-radius: 16px;
+}
+
+.institute-info .atlas-title {
+  color: #393C97;
+  font-size: 16px;
+}
+
+.institute-info b {
+  color: #37BEC1;
+}
+
+.atlas-contact a,
+.institute-info hr,
+.institute-block hr {
+  color: #37BEC1;
+
+}
+
+
+.institute-block .atlas-row {
+  background-color: #F6F2EE;
+  border: 1px solid #E0AD70;
+  border-radius: 16px;
+}
+
+.institute-block .atlas-title {
+  color: #E0AD70;
+  font-size: 16px;
+}
+
+.institute-block b {
+  color: #E0AD70;
+}
+
+
+
+.atlas-contact img {
+  width: 30px;
+  height: 30px;
+}
+
+
+.atlas_page_item {
+  color: #8C5E2C;
+}
 
 
 .institute .institute-title a {
@@ -95,9 +189,18 @@ header {
 
 
 .institute .institute-img {
-  height: 200px;
+  height: 85px;
   object-fit: contain;
 
+}
+
+.institute .btn-new {
+  background: #06e1b0;
+  color: #000000;
+  border-radius: 8px;
+  font-size: 10px;
+  padding: 7px;
+  box-shadow: 0 2px 8px rgba(4, 10, 31, .08);
 }
 
 .item-details {
@@ -116,10 +219,17 @@ header {
   color: #393C97;
 }
 
+.map-city-parent {
+  position: sticky;
+  top: 45px;
+  height: 500px;
+}
+
 .item-details div {
   color: #37BEC1;
   font-size: 12px;
 }
+
 
 .atlas-home .select2-container .select2-selection--single {
   height: calc(3.5rem + 2px);
@@ -157,7 +267,11 @@ header {
 
 
 
-
+.atlas-city .select2.select2-container.select2-container--bootstrap-5 {
+  border: 1px solid #37BEC1;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
 .ostan-list {
   background: url('../image/Vector.png') repeat-x;
 }
@@ -175,27 +289,7 @@ header {
   background-position: center;
   border-radius: 10px;
   text-align: center;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
 
 
 #subject_tagsinput {

@@ -3,6 +3,11 @@
 
 function add_institute_columns($columns)
 {
+
+    if (isset($columns[ 'author' ])) {
+        $columns[ 'author' ] = 'مسئول موسسه';
+    }
+
     $new_columns = [  ];
     foreach ($columns as $key => $label) {
         $new_columns[ $key ] = $label;
@@ -10,7 +15,9 @@ function add_institute_columns($columns)
         if ($key === 'title') {
             $new_columns[ 'province' ] = 'استان';
             $new_columns[ 'city' ]     = 'شهر';
+            $new_columns[ 'operator' ] = 'اپراتور';
         }
+
     }
     return $new_columns;
 }
@@ -36,6 +43,21 @@ function fill_institute_columns($column, $post_id)
         $city = $city ? $irandb->get('id', $city) : 0;
 
         echo $city ? esc_html($city->name) : '—';
+
+    }
+
+    if ($column === 'operator') {
+
+
+
+        
+        $operator = get_post_meta($post_id, '_operator', true);
+
+        $user_info = get_userdata($operator);
+
+        $output = sprintf('<a target="_blank" href="%s" class="edit"><span aria-hidden="true">%s</span></a>', admin_url('edit.php?post_type=institute&operator=' . $operator), $user_info->user_login);
+
+        echo $user_info ? $output : "نامشخص";
 
     }
 }

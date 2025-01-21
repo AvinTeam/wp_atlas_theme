@@ -1,7 +1,7 @@
 <?php
 
 (defined('ABSPATH')) || exit;
-define('ATLAS_VERSION', '1.4.0');
+define('ATLAS_VERSION', '1.4.6');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -56,27 +56,26 @@ if (isset($_GET[ 'test' ])) {
     $args = [
         'post_type'      => 'institute',
         'post_status'    => 'any',
-        'posts_per_page' => 1,
-        'p'              => 9,
+        'posts_per_page' => -1,
+
      ];
-
-    if (isset($_GET[ 's' ]) && ! empty($_GET[ 's' ])) {
-        $args[ 's' ] = sanitize_text_field($_GET[ 's' ]);
-    }
-
-    if (isset($_GET[ 'format_art' ])) {
-        $args[ 'tax_query' ][  ] = [
-            'taxonomy' => 'format_art',
-            'field'    => 'slug',
-            'terms'    => sanitize_text_field($_GET[ 'format_art' ]),
-         ];
-    }
 
     $query = new WP_Query($args);
 
-    $data = [  ];
+    if ($query->have_posts()) {
+        echo '<ul>';
+        while ($query->have_posts()) {
+            $query->the_post();
 
-    print_r($row);
+            $author_id = get_post_field('post_author', $post_id);
+            update_post_meta(get_the_ID(), '_operator', $author_id);
+
+        }
+        echo '</ul>';
+        wp_reset_postdata();
+    } else {
+        echo 'هیچ پستی پیدا نشد.';
+    }
 
     exit;
 

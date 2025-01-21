@@ -77,38 +77,42 @@ add_action('save_post', 'atlas_save_bax', 10, 3);
 function atlas_save_bax($post_id, $post, $updata)
 {
 
+   
+
     if (isset($_POST[ 'atlas' ]) && isset($_POST[ 'atlas' ][ 'responsible-mobile' ])) {
 
-        if (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) {
 
-            $args = [
-                'post_type'      => 'institute',
-                'post_status'    => [ 'publish', 'draft' ],
-                'post__not_in'   => [ $post_id ],
+  
+        // if (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) {
 
-                'meta_query'     => [
-                    [
-                        'key'     => '_atlas_responsible-mobile',
-                        'value'   => sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]),
-                        'compare' => '=',
-                     ],
-                 ],
-                'fields'         => 'ids',
-                'posts_per_page' => -1,
-             ];
+        //     $args = [
+        //         'post_type'      => 'institute',
+        //         'post_status'    => [ 'publish', 'draft' ],
+        //         'post__not_in'   => [ $post_id ],
 
-            $query      = new WP_Query($args);
-            $post_count = $query->found_posts;
+        //         'meta_query'     => [
+        //             [
+        //                 'key'     => '_atlas_responsible-mobile',
+        //                 'value'   => sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]),
+        //                 'compare' => '=',
+        //              ],
+        //          ],
+        //         'fields'         => 'ids',
+        //         'posts_per_page' => -1,
+        //      ];
 
-            if ($post_count >= 1) {
+        //     $query      = new WP_Query($args);
+        //     $post_count = $query->found_posts;
 
-                set_transient('atlas_transient', '<p class="button button-primary button-large button-error" >شماره موبایل ' . sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) . ' برای مسئول موسسه دیگری ثبت شده است</p>');
+        //     if ($post_count >= 1) {
 
-                $_POST[ 'atlas' ][ 'responsible-mobile' ] = '';
+        //         set_transient('atlas_transient', '<p class="button button-primary button-large button-error" >شماره موبایل ' . sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) . ' برای مسئول موسسه دیگری ثبت شده است</p>');
 
-            }
+        //         $_POST[ 'atlas' ][ 'responsible-mobile' ] = '';
 
-        }
+        //     }
+
+        // }
 
         $atlas_institute = [
 
@@ -153,14 +157,11 @@ function atlas_save_bax($post_id, $post, $updata)
 
         $operator = get_post_meta($post_id, '_operator', true);
         if (! $operator) {
+            update_post_meta($post_id, '_operator', $post->post_author);
 
-            $operator_id = ((current_user_can('operator'))) ? get_current_user_id() : 0;
+            $post_operator = absint(get_user_meta($post->post_author, 'post_operator', true));
 
-            update_post_meta($post_id, '_operator', $operator_id);
-
-            $post_operator = absint(get_user_meta(get_current_user_id(), 'post_operator', true));
-
-            update_user_meta(get_current_user_id(), 'post_operator', $post_operator++);
+            update_user_meta($post->post_author, 'post_operator', $post_operator++);
 
         }
 

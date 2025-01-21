@@ -1,6 +1,6 @@
 <?php
 
-$atlas_home = true;
+$atlas_body = 'atlas-home';
 
 get_header();
 
@@ -10,7 +10,7 @@ get_header();
 ?>
 
 <div class="container-fluid home-search-box px-5 py-0">
-    <div class=" row justify-content-center align-items-center">
+    <div class=" row justify-content-center align-items-center atlas-row">
         <div class="col-6">
             <img class="w-100" alt="iran" src="<?php echo atlas_panel_image('iran_ghoran.svg') ?>">
         </div>
@@ -28,7 +28,7 @@ get_header();
                 </select>
                 <div class="home-btn mt-2">
                     <!-- <img class="search-button" src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>"> -->
-                    <img class="search-button" src="<?php echo atlas_panel_image('btn-show-all.svg') ?>">
+                    <a href=" <?=atlas_base_url('all') ?>"><img class="search-button" src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
                     <!-- <img class="search-button" src="<?php echo atlas_panel_image('btn-search.svg') ?>"> -->
 
                 </div>
@@ -49,7 +49,7 @@ get_header();
         <div class="row justify-content-center  align-items-center">
             <?php foreach ($iran->select() as $ostan): ?>
             <div class="m-2 col-2 text-center">
-                <a href="/atlas/province=<?php echo $ostan->id ?>"
+                <a href="<?= atlas_base_url('province='.$ostan->id) ?>"
                     class=" d-flex justify-content-center align-items-center  ostan px-4 py-3 text-white fw-bold"><?=$ostan->name?></a>
             </div>
 
@@ -63,14 +63,14 @@ get_header();
 
 
 
-
+<!-- 
 
 <div class="container mt-5">
 
     <a class="btn btn-dark m-2 text-white" href="/atlas/panel">ورود به پنل کاربری</a>
 
 
-</div>
+</div> -->
 
 
 

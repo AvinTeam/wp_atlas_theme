@@ -17,6 +17,8 @@ function atlas_template_path($atlas_page = false)
                 break;
             case 'province':
                 $view = 'city';
+            case 'all':
+                $view = 'city';
                 break;
             case 'logout':
                 $view = 'logout';
@@ -42,8 +44,11 @@ function atlas_pane_base_url($base = '')
     return site_url() . '/' . ATLAS_PAGE_BASE . '/' . $base;
 
 }
+function atlas_base_url($base = '')
+{
+    return site_url() . '/atlas/' . $base;
 
-
+}
 function atlas_panel_js($path)
 {
     return ATLAS_JS . $path;
@@ -415,4 +420,11 @@ function get_name_by_id($data, $id)
         return array_values($filtered)[ 0 ]->name;
     }
     return null;
+}
+
+function atlas_page_item($item)
+{
+
+    return '<div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">' . $item . '</div>';
+
 }
