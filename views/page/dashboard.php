@@ -120,7 +120,7 @@ get_header(); ?>
                 <a class="nav-link" href="/">بازگشت به صفحه نخست</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?=atlas_pane_base_url('logout')?>">خروج</a>
+                <a class="nav-link" href="<?=atlas_base_url('logout')?>">خروج</a>
             </li>
         </ul>
     </div>

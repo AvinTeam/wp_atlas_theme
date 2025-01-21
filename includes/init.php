@@ -10,11 +10,11 @@ function atlas_panel_rewrite()
         'top'
     );
 
-    add_rewrite_rule(
-        ATLAS_PAGE_BASE . '/?',
-        'index.php?atlas=dashboard',
-        'top'
-    );
+    // add_rewrite_rule(
+    //     ATLAS_PAGE_BASE . '/?',
+    //     'index.php?atlas=dashboard',
+    //     'top'
+    // );
 
     flush_rewrite_rules();
 

@@ -130,7 +130,7 @@ function atlas_user_submit_init()
                 }
             }
 
-            wp_redirect(atlas_pane_base_url('panel'));
+            wp_redirect(atlas_base_url('panel'));
 
         }
 

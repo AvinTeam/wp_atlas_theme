@@ -4,7 +4,6 @@
 
 function atlas_template_path($atlas_page = false)
 {
-
     if (! $atlas_page) {return;}
 
     if ($atlas_page) {
@@ -18,6 +17,8 @@ function atlas_template_path($atlas_page = false)
             case 'province':
                 $view = 'city';
             case 'all':
+                $view = 'city';
+            case 'search':
                 $view = 'city';
                 break;
             case 'logout':
@@ -39,14 +40,9 @@ function atlas_template_path($atlas_page = false)
 
 }
 
-function atlas_pane_base_url($base = '')
-{
-    return site_url() . '/' . ATLAS_PAGE_BASE . '/' . $base;
-
-}
 function atlas_base_url($base = '')
 {
-    return site_url() . '/atlas/' . $base;
+    return site_url() . '/' . ATLAS_PAGE_BASE . '/' . $base;
 
 }
 function atlas_panel_js($path)
@@ -424,7 +420,60 @@ function get_name_by_id($data, $id)
 
 function atlas_page_item($item)
 {
-
+    if ($item == "") {return;}
     return '<div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">' . $item . '</div>';
 
+}
+
+function paginate($total_pages, $current_page)
+{
+
+    $output = '';
+
+    // محاسبه صفحات قابل نمایش
+    $start = max(1, $current_page - 2);
+    $end   = min($total_pages, $current_page + 2);
+
+    if ($start > 5) {
+
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i == $current_page) {
+                $output .= "<span  class='current rounded-circle d-block text-center'>$i</span>";
+            } else {
+                $output .= "<a class='d-block text-center' href='".esc_url(add_query_arg('page', $i, get_current_relative_url()))."'>$i</a>";
+            }
+        }
+
+        $output .= '...';
+
+    }
+
+    // نمایش صفحات
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i == $current_page) {
+            $output .= "<span class='current rounded-circle d-block text-center'>$i</span>";
+        } else {
+            $output .= "<a class='d-block text-center' href='".esc_url(add_query_arg('page', $i, get_current_relative_url()))."'>$i</a>";
+        }
+    }
+
+    $end_start = $total_pages - 4;
+
+    // اگر صفحه فعلی نزدیک انتهای صفحات باشد
+    if ($total_pages - $start >= 10) {
+
+        $output .= '...';
+
+        for ($i = $end_start; $i <= $total_pages; $i++) {
+            $output .= "<a class='d-block text-center' href='".esc_url(add_query_arg('page', $i, get_current_relative_url()))."'>$i</a>";
+
+        }
+    } else {
+        for ($i = $end + 1; $i <= $total_pages; $i++) {
+            $output .= "<a class='d-block text-center' href='".esc_url(add_query_arg('page', $i, get_current_relative_url()))."'>$i</a>";
+
+        }
+    }
+
+    return $output;
 }

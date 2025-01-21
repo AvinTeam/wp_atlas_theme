@@ -161,7 +161,7 @@ wp_editor($description, 'description', $editor_array)?>
     }?>
                     <tr <?=$active_class?>>
                         <td><?=$m?></td>
-                        <td><a target="_blank" href="<?=atlas_pane_base_url('city=' . $city->id)?>"><?=$city->name?></a>
+                        <td><a target="_blank" href="<?=atlas_base_url('city=' . $city->id)?>"><?=$city->name?></a>
                         </td>
                         <td><a target="_blank"
                                 href="<?=admin_url('edit.php?post_type=institute&city=' . $city->id)?>"><?=$post_count?></a>

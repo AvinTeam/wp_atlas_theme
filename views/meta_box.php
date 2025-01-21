@@ -177,11 +177,11 @@
                     <fieldset>
                         <label for="gender-woman">
                             <input name="atlas[gender][]" type="checkbox" id="gender-woman" value="woman"
-                                <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>خانم</label>
+                                <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>خواهران</label>
 
                         <label for="gender-man">
                             <input name="atlas[gender][]" type="checkbox" id="gender-man" value="man"
-                                <?php if (in_array('man', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>آقا</label>
+                                <?php if (in_array('man', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>برادران</label>
                     </fieldset>
                 </td>
             </tr>
@@ -195,16 +195,13 @@
                             سال</label>
                         <label for="age-12">
                             <input name="atlas[age][]" type="checkbox" id="age-12" value="12"
-                                <?php if (in_array('12', $atlas_institute[ 'age' ])) {echo 'checked';}?>>7 تا 12
-                            سال</label>
+                                <?php if (in_array('12', $atlas_institute[ 'age' ])) {echo 'checked';}?>>7 تا 12 سال</label>
                         <label for="age-18">
                             <input name="atlas[age][]" type="checkbox" id="age-18" value="18"
-                                <?php if (in_array('18', $atlas_institute[ 'age' ])) {echo 'checked';}?>>12 تا 18
-                            سال</label>
+                                <?php if (in_array('18', $atlas_institute[ 'age' ])) {echo 'checked';}?>>12 تا 18 سال</label>
                         <label for="age-old">
                             <input name="atlas[age][]" type="checkbox" id="age-old" value="old"
-                                <?php if (in_array('old', $atlas_institute[ 'age' ])) {echo 'checked';}?>>18 سال به
-                            بالا</label>
+                                <?php if (in_array('old', $atlas_institute[ 'age' ])) {echo 'checked';}?>>18 سال به بالا</label>
                     </fieldset>
                 </td>
             </tr>

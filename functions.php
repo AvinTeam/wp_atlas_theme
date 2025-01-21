@@ -1,7 +1,10 @@
 <?php
-
 (defined('ABSPATH')) || exit;
-define('ATLAS_VERSION', '1.4.6');
+header('Content-Type: text/html; charset=utf-8');
+
+
+
+define('ATLAS_VERSION', '1.5.0');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -53,29 +56,7 @@ if (is_admin()) {
 
 if (isset($_GET[ 'test' ])) {
 
-    $args = [
-        'post_type'      => 'institute',
-        'post_status'    => 'any',
-        'posts_per_page' => -1,
-
-     ];
-
-    $query = new WP_Query($args);
-
-    if ($query->have_posts()) {
-        echo '<ul>';
-        while ($query->have_posts()) {
-            $query->the_post();
-
-            $author_id = get_post_field('post_author', $post_id);
-            update_post_meta(get_the_ID(), '_operator', $author_id);
-
-        }
-        echo '</ul>';
-        wp_reset_postdata();
-    } else {
-        echo 'هیچ پستی پیدا نشد.';
-    }
+phpinfo();
 
     exit;
 

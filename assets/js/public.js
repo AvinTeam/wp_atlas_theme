@@ -196,14 +196,129 @@ if (isMap) {
 jQuery(document).ready(function ($) {
 
 
+
+
+
+
+    $('.search-button').click(function (e) {
+        e.preventDefault();
+
+        $('#search-filter').modal('show');
+
+
+        $('#select2modal').select2({
+            placeholder: 'جستجوی شهر، استان و ...',
+            dir: 'rtl',
+            maximumSelectionLength: 10, // محدود کردن تعداد انتخاب‌ها
+            dropdownAutoWidth: true,
+            theme: 'modal',
+            language: {
+                noResults: function () {
+                    return 'نتیجه‌ای یافت نشد.';
+                },
+                searching: function () {
+                    return 'در حال جستجو...';
+                }
+            },
+        });
+
+
+    });
+
+
+    $('#select2modal').select2({
+        placeholder: 'جستجوی شهر، استان و ...',
+        dir: 'rtl',
+        maximumSelectionLength: 10, // محدود کردن تعداد انتخاب‌ها
+        dropdownAutoWidth: true,
+        theme: 'modal',
+        language: {
+            noResults: function () {
+                return 'نتیجه‌ای یافت نشد.';
+            },
+            searching: function () {
+                return 'در حال جستجو...';
+            }
+        },
+    });
+
+
+    $('#search-filter').on('hidden.bs.modal', function () {
+
+        $('#btn_modal').val('submit_artwork');
+        $('#description').text('');
+        $('#category').val(0);
+        $('#title_art').val('');
+        $('#art_id').val(0);
+
+
+    });
+
+    $(document).on("submit", "#search-modal", function (e) {
+        e.preventDefault();
+
+        let goTo = "";
+
+        let city = $('#select2modal').val();
+        let course = $('#course').val();
+        let age = $('#age').val();
+        let gender = $('#gender').val();
+
+
+        if (city != '') {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'c=' + city;
+        }
+
+        if (course != 'all') {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'course=' + course;
+        }
+
+        if (age != 'all') {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'age=' + age;
+        }
+
+        if (gender != 'all') {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'gender=' + gender;
+        }
+
+        if (goTo !== "") {
+            goTo = '/search/' + goTo.trim();
+        } else {
+            goTo = '/all';
+        }
+
+        window.location.href = atlas_js.page_base + goTo.trim();
+
+    });
+
+
+    $('#search-header').submit(function (e) {
+        e.preventDefault();
+
+        let inputSearch = $('#search-header-input').val();
+
+
+        if (inputSearch !== "") {
+            window.location.href = atlas_js.page_base + '/search/?s=' + inputSearch.trim();
+        }
+
+    });
+
+
     $('.onlyNumbersInput').on('input paste', function () {
         // پاک کردن تمام کاراکترهای غیرعددی
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    $('#select2home').select2({
-        placeholder: 'جستجوی شهر، استان و ...',
+    $('#select2searchprovince').select2({
+        placeholder: 'انتخاب استان',
         dir: 'rtl',
+        maximumSelectionLength: 10, // محدود کردن تعداد انتخاب‌ها
+        dropdownAutoWidth: true,
         theme: 'bootstrap-5',
         language: {
             noResults: function () {
@@ -214,6 +329,240 @@ jQuery(document).ready(function ($) {
             }
         },
     });
+
+
+
+    $('#select2searchprovince').on('change', function () {
+
+        let pValue = $(this).val();
+        const params = new URLSearchParams(window.location.search);
+
+        const cValue = params.get('c');
+        const courseValue = params.get('course');
+        const ageValue = params.get('age');
+        const genderValue = params.get('gender');
+        const sValue = params.get('s');
+
+
+        let goTo = '';
+
+        if (cValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'c=' + cValue;
+        }
+
+        if (pValue != 0) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'p=' + pValue;
+        }
+
+        if (courseValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'course=' + courseValue;
+        }
+
+        if (ageValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'age=' + ageValue;
+        }
+
+        if (genderValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'gender=' + genderValue;
+        }
+
+        if (sValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 's=' + sValue;
+        }
+
+        window.location.href = atlas_js.page_base + 'search/' + goTo;
+
+
+
+    });
+
+
+
+    $('#select2searchcity').select2({
+        placeholder: 'انتخاب شهر',
+        dir: 'rtl',
+        maximumSelectionLength: 10, // محدود کردن تعداد انتخاب‌ها
+        dropdownAutoWidth: true,
+        theme: 'bootstrap-5',
+        language: {
+            noResults: function () {
+                return 'نتیجه‌ای یافت نشد.';
+            },
+            searching: function () {
+                return 'در حال جستجو...';
+            }
+        },
+    });
+
+
+
+    $('#select2searchcity').on('change', function () {
+
+
+
+        let cValue = $(this).val();
+        const params = new URLSearchParams(window.location.search);
+
+        const pValue = params.get('p');
+        const courseValue = params.get('course');
+        const ageValue = params.get('age');
+        const genderValue = params.get('gender');
+        const sValue = params.get('s');
+
+
+        let goTo = '';
+
+        if (cValue != 0) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'c=' + cValue;
+        }
+
+        if (pValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'p=' + pValue;
+        }
+
+        if (courseValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'course=' + courseValue;
+        }
+
+        if (ageValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'age=' + ageValue;
+        }
+
+        if (genderValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'gender=' + genderValue;
+        }
+
+        if (sValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 's=' + sValue;
+        }
+
+
+
+        window.location.href = atlas_js.page_base + 'search/' + goTo;
+
+
+
+
+
+
+
+
+
+    });
+
+    $('.close-search').click(function (e) {
+        e.preventDefault();
+        let remoweId = $(this).attr('id');
+
+
+
+        const params = new URLSearchParams(window.location.search);
+        console.log(params);
+
+        const cValue = params.get('c');
+        const pValue = params.get('p');
+        const courseValue = (remoweId == 'course') ? null : params.get('course');
+        const ageValue = (remoweId == 'age') ? null : params.get('age');
+        const genderValue = (remoweId == 'gender') ? null : params.get('gender');
+        const sValue = (remoweId == 's') ? null : params.get('s');
+
+        let isGoToStart = true;
+        let goTo = '';
+
+        if (cValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'c=' + cValue;
+        }
+
+        if (pValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'p=' + pValue;
+        }
+
+        if (courseValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'course=' + courseValue;
+            isGoToStart = false;
+        }
+
+        if (ageValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'age=' + ageValue;
+            isGoToStart = false;
+        }
+
+        if (genderValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'gender=' + genderValue;
+            isGoToStart = false;
+        }
+
+        if (sValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 's=' + sValue;
+            isGoToStart = false;
+        }
+        
+        if (isGoToStart) {
+
+            if (cValue != null) {
+                goTo = '/city=' + cValue
+            } else if (pValue != null) {
+                goTo = '/province=' + pValue
+
+            }
+
+
+            if (cValue != null || pValue != null) {
+                window.location.href = atlas_js.page_base + goTo;
+            }
+        } else {
+            window.location.href = atlas_js.page_base + 'search/' + goTo;
+        }
+    });
+
+
+    $('#select2home').select2({
+        placeholder: 'جستجوی شهر، استان و ...',
+        dir: 'rtl',
+        maximumSelectionLength: 10, // محدود کردن تعداد انتخاب‌ها
+        dropdownAutoWidth: true,
+        theme: 'bootstrap-5',
+        language: {
+            noResults: function () {
+                return 'نتیجه‌ای یافت نشد.';
+            },
+            searching: function () {
+                return 'در حال جستجو...';
+            }
+        },
+    });
+
+
+
+
+    $('#select2home').on('change', function () {
+        let cityId = $(this).val();
+        if (cityId > 0) {
+
+            window.location.href = atlas_js.page_base + '/city=' + cityId;
+        }
+
+    });
+
+
 
 
     $('#select2').select2({
@@ -249,37 +598,11 @@ jQuery(document).ready(function ($) {
 
 
     $('#select2').on('change', function () {
-
-
-
         let dataGoto = $(this).attr('data-goto');
-
-
         let cityId = $(this).val();
         if (cityId > 0) {
-
-            window.location.href = atlas_js.page_base + '/'+dataGoto+'=' + cityId;
+            window.location.href = atlas_js.page_base + '/' + dataGoto + '=' + cityId;
         }
-
-
-        console.log($(this).val());
-
-
-    });
-
-    
-    $('#select2home').on('change', function () {
-        console.log('nexy');
-        let cityId = $(this).val();
-        if (cityId > 0) {
-
-            window.location.href = atlas_js.page_base + '/city=' + cityId;
-        }
-
-
-        console.log($(this).val());
-
-
     });
 
     // $('#ajax-select').select2({
@@ -574,7 +897,6 @@ jQuery(document).ready(function ($) {
         });
 
         $(document).on("click", ".atlas-teacher-add", function (e) {
-            console.log('atlas-teacher-add');
             e.preventDefault();
             const newRow = `<div class="atlas-teacher-row row mb-2" >
                                 <div class="col-10"><input class=" form-control " name="atlas[teacher][]" value=""></div>
