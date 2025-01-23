@@ -118,3 +118,14 @@ function disable_admin_bar_for_specific_roles($show)
     return $show;
 }
 
+
+function save_comment_rating($comment_id)
+{
+    if (isset($_POST[ 'rating' ]) && ! empty($_POST[ 'rating' ])) {
+        $rating = intval($_POST[ 'rating' ]);
+        add_comment_meta($comment_id, 'rating', $rating);
+    }
+}
+add_action('comment_post', 'save_comment_rating');
+
+

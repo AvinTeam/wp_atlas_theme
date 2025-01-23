@@ -263,4 +263,11 @@ function mph_admin_menu(string $context): void
 
     }
 
+    add_submenu_page(
+        'edit.php?post_type=institute', // اسلاگ پست تایپ
+        'نظرات موسسات',               // عنوان صفحه
+        'نظرات موسسات',               // عنوان منو
+        'manage_options',              // سطح دسترسی
+        'edit-comments.php?post_type=institute' // لینک صفحه نظرات اختصاصی
+    );
 }

@@ -188,9 +188,9 @@ class List_Table extends WP_List_Table
         if ('top' === $which) {
             ?>
 <!-- <div class="alignleft actions">
-    <a href="<?php echo esc_url(add_query_arg('action', 'download_csv', get_current_relative_url())); ?>"
+    <a href="<?php echo esc_url(atlas_end_url('action','download_csv')); ?>"
         class="button button-primary">دانلود CSV</a>
-    <a href="<?php echo esc_url(add_query_arg('action', 'download_exel', get_current_relative_url())); ?>"
+    <a href="<?php echo esc_url(atlas_end_url('action','download_exel')); ?>"
         class="button button-primary">دانلود exel</a>
 </div> -->
 <?php

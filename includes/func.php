@@ -5,11 +5,11 @@
 function atlas_to_enghlish($text)
 {
 
-    $western = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+    $western = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     $persian = [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ];
-    $arabic = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ];
-    $text = str_replace($persian, $western, $text);
-    $text = str_replace($arabic, $western, $text);
+    $arabic  = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ];
+    $text    = str_replace($persian, $western, $text);
+    $text    = str_replace($arabic, $western, $text);
     return $text;
 
 }
@@ -55,7 +55,7 @@ function sanitize_phone($phone)
     /**
      * check for all character was digit
      */
-    if (!ctype_digit($phone)) {
+    if (! ctype_digit($phone)) {
         return '';
     }
 
@@ -66,7 +66,6 @@ function sanitize_phone($phone)
     return $phone;
 
 }
-
 
 function atlas_transient()
 {
@@ -79,7 +78,21 @@ function atlas_transient()
 
 }
 
-function is_mobile($mobile) {
-    $pattern = '/^(\+98|0)?9\d{9}$/'; 
+function is_mobile($mobile)
+{
+    $pattern = '/^(\+98|0)?9\d{9}$/';
     return preg_match($pattern, $mobile);
+}
+
+function sanitize_text_no_item($item)
+{
+    $new_item = [  ];
+
+    foreach ($item as $value) {
+        if (empty($value)) {continue;}
+        $new_item[  ] = sanitize_text_field($value);
+    }
+
+    return $new_item;
+
 }

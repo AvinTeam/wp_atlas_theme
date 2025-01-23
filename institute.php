@@ -33,6 +33,7 @@
                 $teacher     = get_post_meta($post_id, '_atlas_teacher', true);
                 $ayeha       = get_post_meta($post_id, '_atlas_ayeha', true);
                 $operator    = get_post_meta($post_id, '_operator', true);
+                $content     = sanitize_text_field(apply_filters('the_content', $post->post_content));
 
                 $this_city = $iran->one_city(absint($city));
 
@@ -58,6 +59,29 @@
                 $coaches     = ($coaches) ? $coaches : '';
                 $teacher     = (is_array($teacher)) ? $teacher : '';
                 $ayeha       = ($ayeha) ? $ayeha : 'no';
+
+                switch ($center_type) {
+                    case 'Institute':
+                        $center_type = 'موسسه';
+                        break;
+                    case 'house_of_quran':
+                        $center_type = 'خانه قرآن';
+                        break;
+                    case 'mohfel':
+                        $center_type = 'محفل';
+                        break;
+                    case 'education':
+                        $center_type = 'آموزش پرورش';
+                        break;
+                    case 'besij':
+                        $center_type = 'دارالقرآن بسیج';
+                        break;
+
+                    default:
+                        $center_type = 'نامشخص';
+
+                        break;
+                }
 
                 $translations_course_type = [
                     'online'  => 'حضوری',
@@ -112,7 +136,6 @@
 
                      ];
                 }
-
             ?>
 
 
@@ -136,36 +159,6 @@
                     href="<?php echo atlas_base_url('city=' . $city_id) ?>/"><?php echo $city_neme ?></a>
                 <img class="search-button" src="<?php echo atlas_panel_image('arrow.svg') ?>">
                 <span class="text-white-50"><?php echo get_the_title($post_id) ?></span>
-            </div>
-            <div class="text-white atlas-share d-flex flex-wrap gap-2 align-content-center justify-content-center">
-                <?php if (! empty($link[ 'instagram' ])): ?>
-                <a href="<?php echo $link[ 'instagram' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('instagram.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($link[ 'telegram' ])): ?>
-                <a href="<?php echo $link[ 'telegram' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('telegram.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($link[ 'rubika' ])): ?>
-                <a href="<?php echo $link[ 'rubika' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('rubika.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($link[ 'bale' ])): ?>
-                <a href="<?php echo $link[ 'bale' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('bale.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($link[ 'eitaa' ])): ?>
-                <a href="<?php echo $link[ 'eitaa' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('eitaa.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($link[ 'site' ])): ?>
-                <a href="<?php echo $link[ 'site' ] ?>" class="p-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('web.png') ?>"></a>
-                <?php endif; ?>
-                <?php if (! empty($phone)): ?>
-                <a href="tel:<?php echo $phone ?>" class="p-1 border border-warning rounded-circle"><img class="m-1"
-                        src="<?php echo atlas_panel_image('phone.png') ?>"></a>
-                <?php endif; ?>
             </div>
         </div>
 
@@ -200,99 +193,320 @@
     </div>
 </div>
 
+<div class="container-fluid mt-2">
+
+    <div class="atlas-row d-flex flex-row gap-2">
+        <div class="col-3 d-none d-sm-block px-2 ">
+
+            <div class="border border-1 border-warning rounded-2 p-3 position-sticky atlas-table-parent">
+                <div data-block="info" class="rounded px-3 py-2 mb-2 atlas-table-list atlas-active">
+                    <img src="<?php echo atlas_panel_image('info-t.svg') ?>"> <b>درباره موسسه</b>
+                </div>
+                <div data-block="subject" class="rounded px-3 py-2  mb-2 atlas-table-list">
+                    <img src="<?php echo atlas_panel_image('bord-t.svg') ?>"> <b>دوره ها</b>
+                </div>
+
+                <div data-block="teacher" class="rounded px-3 py-2  mb-2 atlas-table-list">
+                    <img src="<?php echo atlas_panel_image('teacher-t.svg') ?>"> <b>مربیان</b>
+                </div>
+
+                <div data-block="contact" class="rounded px-3 py-2  mb-2 atlas-table-list">
+                    <img src="<?php echo atlas_panel_image('contact-t.svg') ?>"> <b>ارتباط با موسسه</b>
+                </div>
+
+                <div data-block="address" class="rounded px-3 py-2  mb-2 atlas-table-list">
+                    <img src="<?php echo atlas_panel_image('address-t.svg') ?>"> <b>آدرس موسسه</b>
+                </div>
+
+                <div data-block="comment" class="rounded px-3 py-2  mb-2 atlas-table-list">
+                    <img src="<?php echo atlas_panel_image('comment-t.svg') ?>"> <b>نظرات</b>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9  col-12 ">
+
+            <div id="info" class="mt-2">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره موسسه
+                    </p>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 col-md-4 d-flex flex-row justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1 ">نام مسئول </b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $responsible; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1 ">حالت مرکز </b>
+                            <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo($center_mode == 'public') ? 'عمومی' : 'خصوصی'; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1 ">نوع مرکز </b>
+                            <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $center_type; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if (! empty($content)): ?>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 d-flex flex-row justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1 ">توضیحات بیشتر</b>
+                            <div class="d-flex flex-row justify-content-start align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold text-justify">
+                                    <?php echo $content; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div id="subject" class="mt-3">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('bord.svg') ?>"> دوره ها</p>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 col-sm-6 col-md-5 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">جنسیت قرآن آموزان: </b>
+                            <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
+                                <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_gender))) ?>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-sm-6 col-md-7 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">مقاطع سنی: </b>
+                            <div
+                                class="d-flex flex-wrap gap-2 justify-content-end justify-content-md-start align-items-center">
+                                <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_age))) ?>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1 ">نحوه برگزاری کلاس ها: </b>
+                            <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
+                                <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_course_type))) ?>
+                            </div>
+                        </div>
 
 
-<div class="container-fluid mt-2 institute-info">
-    <div class="atlas-row px-4 py-3">
-        <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره موسسه</p>
-        <hr class="">
+                    </div>
+                    <hr class="">
+                    <div class="row atlas-block-info">
+                        <?php foreach (sanitize_text_no_item(array_unique(explode(',', $subject))) as $value): ?>
+                        <div class=" atlas-subject d-flex flex-column p-5 gap-3 m-1 rounded-3 align-content-center">
+                            <div class="atlas-subject-head">
+                                <img src="<?php echo atlas_panel_image('subject-active.svg') ?>">
+                                <b>دوره فعال</b>
+                            </div>
+                            <div class="atlas-subject-title text-white fw-bold"><?php echo $value ?></div>
+                        </div>
+                        <?php endforeach; ?>
 
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-start align-items-center mb-3">
-                <b class="px-3 py-1 ">نوع موسسه: </b>
-                <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
-                    <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
-                        <?php echo($center_mode == 'public') ? 'عمومی' : 'خصوصی'; ?>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="teacher" class="mt-3">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('teacher-i.svg') ?>"> مربیان
+                    </p>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 col-sm-6 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">تعداد مربیان</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo number_format(absint($coaches)) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="">
+                    <?php if (! empty($teacher)): ?>
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <div class="d-flex flex-row justify-content-center align-items-center gap-1">
+                                <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($teacher))) ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div id="contact" class="mt-3">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('phone-i.png') ?>"> ارتباط با
+                        موسسه</p>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 col-sm-6 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">شماره موبایل مسئول</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $mobile ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-sm-6 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">شماره ارتباط با موسسه</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $phone ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if (! empty($link[ 'site' ])): ?>
+
+                        <div
+                            class="col-12 col-sm-6 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">ادرس وب سایت</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <a href="<?php echo $link[ 'site' ] ?> "
+                                        title="وب سایت"><?php echo $link[ 'site' ] ?></a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">شبکه های مجازی موسسه</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div
+                                    class="text-white atlas-share d-flex flex-wrap gap-2 align-content-center justify-content-center justify-content-md-start">
+                                    <?php if (! empty($link[ 'instagram' ])): ?>
+                                    <a href="<?php echo $link[ 'instagram' ] ?>" title="کانال اینستاگرام"
+                                        class="p-1 border border-warning rounded-circle"><img class="m-1"
+                                            src="<?php echo atlas_panel_image('instagram.png') ?>"></a>
+                                    <?php endif; ?>
+                                    <?php if (! empty($link[ 'telegram' ])): ?>
+                                    <a href="<?php echo $link[ 'telegram' ] ?>" title="کانال تلگرام"
+                                        class="p-1 border border-warning rounded-circle"><img class="m-1"
+                                            src="<?php echo atlas_panel_image('telegram.png') ?>"></a>
+                                    <?php endif; ?>
+                                    <?php if (! empty($link[ 'rubika' ])): ?>
+                                    <a href="<?php echo $link[ 'rubika' ] ?>" title="کانال روبیکا"
+                                        class="p-1 border border-warning rounded-circle"><img class="m-1"
+                                            src="<?php echo atlas_panel_image('rubika.png') ?>"></a>
+                                    <?php endif; ?>
+                                    <?php if (! empty($link[ 'bale' ])): ?>
+                                    <a href="<?php echo $link[ 'bale' ] ?>" title="کانال بله"
+                                        class="p-1 border border-warning rounded-circle"><img class="m-1"
+                                            src="<?php echo atlas_panel_image('bale.png ') ?>"></a>
+                                    <?php endif; ?>
+                                    <?php if (! empty($link[ 'eitaa' ])): ?>
+                                    <a href="<?php echo $link[ 'eitaa' ] ?>" title="کانال ایتا"
+                                        class="p-1 border border-warning rounded-circle"><img class="m-1"
+                                            src="<?php echo atlas_panel_image('eitaa.png') ?>"></a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-start align-items-center mb-3">
-                <b class="px-3 py-1 ">نحوه برگزاری کلاس ها: </b>
-                <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
-                    <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_course_type))) ?>
+            <div id="address" class="mt-3">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('address.png') ?>"> آدرس موسسه
+                    </p>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div
+                            class="col-12 col-sm-6 col-md-3 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">استان</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $province_neme ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-12 col-sm-6 col-md-3 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">شهر</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $city_neme ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
+                            <b class="px-3 py-1">آدرس</b>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
+                                    <?php echo $address ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <hr class="">
+
+                    <div class="row atlas-block-info">
+                        <div id="map-city" class="rounded-4" style="height: 300px; max-height: 500px;"></div>
+
+                    </div>
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-start align-items-center mb-3">
-                <b class="px-3 py-1">مقاطع سنی: </b>
-                <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
-                    <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_age))) ?>
+            <div id="comment" class="mt-3">
+                <div class="institute-info px-4 py-3">
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('comment.png') ?>"> نظرات</p>
+                    <hr class="">
+                    <div class="row atlas-block-info">
+                        <?php comment_form(); ?>
+                        <hr>
+                        <?php display_commenters_list(get_the_ID()); ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-md-6 d-flex flex-row gap-2 justify-content-start align-items-center mb-3">
-                <b class="px-3 py-1">جنسیت قرآن آموزان: </b>
-                <div class="d-flex flex-row gap-2 justify-content-center align-items-center">
-                    <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_gender))) ?>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid mt-2 institute-block">
-    <div class="atlas-row px-4 py-3">
-        <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('edu.svg') ?>">اساتید برجسته</p>
-        <hr class="">
-
-        <div class="d-flex flex-wrap gap-2 justify-content-start align-items-center">
-            <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($teacher))) ?>
-        </div>
-    </div>
 </div>
 
 
 
-<!-- دوره های فعال -->
-<div class="container-fluid mt-2 institute-block">
-    <div class="atlas-row px-4 py-3">
-        <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('edu.svg') ?>"> دوره های فعال</p>
-        <hr class="">
-        <div class="d-flex flex-wrap gap-2 justify-content-start align-items-center">
-            <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique(explode(',', $subject)))) ?>
-        </div>
-    </div>
-</div>
 
-<!-- راه های ارتباطی با موسسه -->
-<div class="container-fluid mt-2 institute-block mb-5">
-    <div class="atlas-row px-4 py-3">
-        <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('text.svg') ?>"> راه های ارتباطی با موسسه
-        </p>
-        <hr class="">
-        <div class="row">
-            <!-- ستونی برای اطلاعات تماس -->
-            <div class="col-12 col-md-6 atlas-contact d-flex flex-column gap-4">
-                <div>
-                    <img class="py-1 border border-warning rounded-circle bg-black"
-                        src="<?php echo atlas_panel_image('phone.png') ?>">
-                    <span><a href="tel:<?php echo $phone ?>" class="py-1 fw-bold"><?php echo $phone ?></a></span>
-                </div>
-                <div>
-                    <img class="py-1 border border-warning rounded-circle bg-black"
-                        src="<?php echo atlas_panel_image('icon-location.png') ?>">
-                    <span><?php echo $address ?></span>
-                </div>
-            </div>
-
-            <!-- ستونی برای نقشه -->
-            <div class="col-12 col-md-6">
-                <div id="map-city" class="rounded-4" style="height: 300px; max-height: 500px;"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -394,6 +608,34 @@ fetch(url)
         }
     })
     .catch(error => console.error("خطا در دریافت اطلاعات:", error));
+
+
+
+
+
+document.querySelectorAll('.atlas-table-list').forEach(item => {
+    item.addEventListener('click', function() {
+        const dataBlock = this.getAttribute('data-block');
+        console.log(dataBlock);
+
+
+
+        document.querySelectorAll('.atlas-table-list').forEach(el => {
+            el.classList.remove('atlas-active');
+        });
+
+        this.classList.add('atlas-active');
+
+
+
+
+
+        const mapSection = document.getElementById(dataBlock);
+        mapSection.scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
 </script>
 
 
@@ -403,23 +645,25 @@ fetch(url)
             } else {
                 echo '<p>پستی با این آیدی پیدا نشد.</p>';
         }?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
     }
     }
+    function custom_institute_comment_form($defaults)
+    {
+        $defaults[ 'fields' ][ 'stars' ] = '
+            <p class="comment-form-stars">
+                <label for="rating">امتیاز شما:</label>
+                <span class="rating">
+                    <input type="radio" name="rating" value="5" id="star5"><label for="star5">☆</label>
+                    <input type="radio" name="rating" value="4" id="star4"><label for="star4">☆</label>
+                    <input type="radio" name="rating" value="3" id="star3"><label for="star3">☆</label>
+                    <input type="radio" name="rating" value="2" id="star2"><label for="star2">☆</label>
+                    <input type="radio" name="rating" value="1" id="star1"><label for="star1">☆</label>
+                </span>
+            </p>';
+        return $defaults;
+    }
+    add_filter('comment_form_defaults', 'custom_institute_comment_form');
 
 ?>
 

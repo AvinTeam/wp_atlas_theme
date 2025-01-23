@@ -77,12 +77,8 @@ add_action('save_post', 'atlas_save_bax', 10, 3);
 function atlas_save_bax($post_id, $post, $updata)
 {
 
-   
-
     if (isset($_POST[ 'atlas' ]) && isset($_POST[ 'atlas' ][ 'responsible-mobile' ])) {
 
-
-  
         // if (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) {
 
         //     $args = [
@@ -114,6 +110,8 @@ function atlas_save_bax($post_id, $post, $updata)
 
         // }
 
+
+
         $atlas_institute = [
 
             'responsible'        => (isset($_POST[ 'atlas' ][ 'responsible' ]) && $_POST[ 'atlas' ][ 'responsible' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'responsible' ]) : '',
@@ -132,7 +130,7 @@ function atlas_save_bax($post_id, $post, $updata)
             'course-type'        => (isset($_POST[ 'atlas' ][ 'course-type' ]) && is_array($_POST[ 'atlas' ][ 'course-type' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'course-type' ]) : [  ],
             'subject'            => (isset($_POST[ 'atlas' ][ 'subject' ]) && $_POST[ 'atlas' ][ 'subject' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'subject' ]) : '',
             'coaches'            => (isset($_POST[ 'atlas' ][ 'coaches' ]) && $_POST[ 'atlas' ][ 'coaches' ]) ? absint($_POST[ 'atlas' ][ 'coaches' ]) : '',
-            'teacher'            => (isset($_POST[ 'atlas' ][ 'teacher' ]) && is_array($_POST[ 'atlas' ][ 'teacher' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'teacher' ]) : [  ],
+            'teacher'            => (isset($_POST[ 'atlas' ][ 'teacher' ]) && is_array($_POST[ 'atlas' ][ 'teacher' ])) ? sanitize_text_no_item($_POST[ 'atlas' ][ 'teacher' ]) : [  ],
             'ayeha'              => (isset($_POST[ 'atlas' ][ 'ayeha' ]) && $_POST[ 'atlas' ][ 'ayeha' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'ayeha' ]) : 'no',
          ];
 

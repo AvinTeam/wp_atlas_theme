@@ -27,7 +27,7 @@ get_header();
                 <div class="home-btn mt-2 d-flex justify-content-center">
 
                         
-                        <img class="search-button me-1" src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
+                        <img class="search-button me-1  d-none d-md-block" src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
                         <a href=" <?=atlas_base_url('all') ?>"><img class="search-button-all"
                                 src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
                         <!-- <img class="search-button" src="<?php echo atlas_panel_image('btn-search.svg') ?>"> -->
@@ -45,7 +45,7 @@ get_header();
     <div class="text-center">
         <img class="chose_ostan" alt="انتخاب استان" src="<?php echo atlas_panel_image('ostan-title.png') ?>">
     </div>
-    <div class="container-fluid px-5 mt-3">
+    <div class="container-fluid px-md-5 px-0 mt-3">
         <div class="row justify-content-center align-items-center atlas-row">
             <?php foreach ($iran->select() as $ostan): ?>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-3">

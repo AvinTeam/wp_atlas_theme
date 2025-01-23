@@ -36,7 +36,6 @@ global $title;
                         </td>
                     </tr>
 
-                    <?php //print_r($atlas_option);exit; ?>
                     <tr>
                         <th scope="row">نوع پنل پیامک</th>
                         <td>

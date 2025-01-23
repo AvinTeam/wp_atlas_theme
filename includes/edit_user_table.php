@@ -49,9 +49,6 @@ function show_institute_posts_count($output, $column_name, $user_id)
 
         $output = ($user_cap && $user_cap->has_cap('operator')) ? $output : '-';
     }
-
-
-
     return (!empty($output)) ? $output : '-';
 
 }
@@ -67,18 +64,13 @@ add_filter('users_list_table_query_args', 'dsl_users_sortable_query');
 function dsl_users_sortable_query($args)
 {
 
-    if (is_admin() && !empty($_GET[ 'orderby' ]) && $_GET[ 'orderby' ] == 'post_operator') {
+    if (is_admin() && !empty($_GET[ 'orderby' ]) && $_GET[ 'orderby' ] == 'institute_posts') {
 
         $args[ 'orderby' ] = 'meta_value_num';
         $args[ 'meta_key' ] = 'post_operator';
 
     }
 
-    if (isset($_GET[ 'mrtest' ])) {
-
-        print_r($args);
-        exit;
-    }
-
     return $args;
 }
+

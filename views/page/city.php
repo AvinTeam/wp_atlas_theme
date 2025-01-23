@@ -1,6 +1,4 @@
 <?php
-    header('Content-Type: text/html; charset=utf-8');
-
     $inrow       = 18;
     $atlas       = get_query_var('atlas');
     $this_page   = explode('=', $atlas);
@@ -11,6 +9,8 @@
     $all_iran = '';
 
     $atlas_body = 'atlas-city';
+
+    $search = $iran->all_city();
 
     if ($this_page[ 0 ] == 'city') {
 
@@ -67,8 +67,6 @@
         $search_title  = 'جست و جو ';
         $province_neme = '';
 
-        $provinces = $iran->select(0);
-
     } else {
 
         function atlas_title_filter_iran($title)
@@ -110,23 +108,6 @@
             $args[ 's' ] = sanitize_text_field($word_search);
 
         }
-        if (isset($_GET[ 'p' ]) && absint($_GET[ 'p' ])) {
-            $args[ 'meta_query' ][  ] = [
-                'key'     => '_atlas_ostan',
-                'value'   => absint($_GET[ 'p' ]),
-                'compare' => '=',
-             ];
-
-            $this_province = $iran->get('id', absint($_GET[ 'p' ]));
-
-            $province_id   = $this_province->id;
-            $province_neme = $this_province->name;
-
-            $cites = $iran->select($province_id);
-
-        } else {
-            $_GET[ 'p' ] = 0;
-        }
 
         if (isset($_GET[ 'c' ]) && absint($_GET[ 'c' ])) {
             $args[ 'meta_query' ][  ] = [
@@ -141,9 +122,6 @@
             $city_neme     = $this_city[ 'city' ];
             $province_id   = $this_city[ 'province_id' ];
             $province_neme = $this_city[ 'province' ];
-
-            $cites = $iran->select($province_id);
-
         } else {
             $_GET[ 'c' ] = 0;
         }
@@ -171,13 +149,6 @@
                 'compare' => 'LIKE',
              ];
         }
-
-        if (isset($_GET[ 'test' ])) {
-            print_r($args);
-
-            exit;
-        }
-
 
     }
 
@@ -217,11 +188,11 @@
             if (! empty($map[ 'lat' ]) && ! empty($map[ 'lng' ])) {
 
                 $info = '<div style="text-align: center;">
-											<h5>' . get_the_title() . '</h5>
-											<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
-											<p>' . $coaches . ' مربی</p>
-											<p>' . $contacts . ' قرآن‌آموز</p>
-										</div>';
+																																	<h5>' . get_the_title() . '</h5>
+																																	<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
+																																	<p>' . $coaches . ' مربی</p>
+																																	<p>' . $contacts . ' قرآن‌آموز</p>
+																																</div>';
 
                 $points[  ] = [
                     "lat"  => $map[ 'lat' ],
@@ -264,7 +235,7 @@ get_header(); ?>
             <img class="search-button" src="<?php echo atlas_panel_image('arrow.svg') ?>">
             <a class="text-white" href="<?php echo atlas_base_url('city=' . $city_id) ?>/"><?php echo $city_neme ?></a>
             <?php endif; ?>
-<?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <div class="d-flex justify-content-center my-2">
@@ -300,114 +271,70 @@ get_header(); ?>
     <div class="atlas-row mt-2 row justify-content-between align-content-center d-flex flex-column-reverse flex-md-row">
         <div class="col-12 col-md-8 d-flex flex-column p-0 m-0">
             <div
-                class="filter-box d-flex flex-column  flex-md-row justify-content-start align-items-center gap-2 map-filter p-2 rounded ">
+                class="filter-box d-flex flex-column flex-md-row justify-content-start align-items-center gap-1 map-filter p-1 rounded ">
+                <img class="search-button me-1" src="<?php echo atlas_panel_image('btn-filter.svg') ?>">
+
                 <div class="rounded px-3 py-1 text-center">
                     <span>فیلتر بر اساس:</span>
                 </div>
 
-                <?php if ($this_page[ 0 ] == 'search') {?>
+                <?php if ($this_page[ 0 ] == 'search') {
 
-                <?php if (isset($_GET[ 's' ]) && ! empty($_GET[ 's' ])): ?>
-                <div class="rounded px-3 py-1 text-center map-province">
-                    <span class="d-flex flex-row justify-content-center align-content-center px-1 gap-2">
-                        <b><?php echo $word_search ?></b>
-                        <div class="vr"></div>
-                        <div id="s" class="bi bi-x-circle mt-1 p-0 close-search"></div>
-                    </span>
-                </div>
-                <?php endif; ?>
+                        foreach ($_GET as $key => $value) {
 
-                <?php if (isset($_GET[ 'course' ]) && ! empty($_GET[ 'course' ])): ?>
-                <div class="rounded px-3 py-1 text-center map-province">
-                    <span class="d-flex flex-row justify-content-center align-content-center px-1 gap-2">
-                        <b><?php echo($_GET[ 'course' ] == 'online') ? 'حضوری' : 'مجازی' ?></b>
-                        <div class="vr"></div>
-                        <div id="course" class="bi bi-x-circle mt-1 p-0 close-search"></div>
-                    </span>
-                </div>
-                <?php endif; ?>
+                            if ($key == 'c') {continue;}
+                            if ($key == 'page') {continue;}
 
+                            if ($key == 's' && ! empty($value)) {
+                                $value = urldecode(sanitize_text_field($value));
+                                $value = sanitize_text_field($value);
 
+                            }
 
-                <?php if (isset($_GET[ 'age' ]) && ! empty($_GET[ 'age' ])):
+                            if ($key == 'course' && ! empty($value)) {
+                                $value = ($_GET[ 'course' ] == 'online') ? 'حضوری' : 'مجازی';
 
-                            $translations_age = [
-                                '7'   => 'زیر 7 سال',
-                                '12'  => '7 تا 12 سال',
-                                '18'  => '12 تا 18 سال',
-                                'old' => '18 سال به بالا',
-                             ];
+                            }
+
+                            if ($key == 'age' && ! empty($value)) {
+                                $translations_age = [
+                                    '7'   => 'زیر 7 سال',
+                                    '12'  => '7 تا 12 سال',
+                                    '18'  => '12 تا 18 سال',
+                                    'old' => '18 سال به بالا',
+                                 ];
+                                $value = $translations_age[ $_GET[ 'age' ] ];
+
+                            }
+                            if ($key == 'gender' && ! empty($value)) {
+
+                                $value = ($_GET[ 'gender' ] == 'woman') ? 'خواهران' : 'برادران';
+
+                            }
 
                         ?>
-	                <div class="rounded px-3 py-1 text-center map-province">
-	                    <span class="d-flex flex-row justify-content-center align-content-center px-1 gap-2">
-	                        <b><?php echo $translations_age[ $_GET[ 'age' ] ] ?></b>
-	                        <div class="vr"></div>
-	                        <div id="age" class="bi bi-x-circle mt-1 p-0 close-search"></div>
-	                    </span>
-	                </div>
-	                <?php endif; ?>
 
-                <?php if (isset($_GET[ 'gender' ]) && ! empty($_GET[ 'gender' ])): ?>
-                <div class="rounded px-3 py-1 text-center map-province">
+
+
+                <div class="rounded px-2 py-1 text-center map-province">
                     <span class="d-flex flex-row justify-content-center align-content-center px-1 gap-2">
-                        <b><?php echo($_GET[ 'gender' ] == 'woman') ? 'خواهران' : 'برادران' ?></b>
+                        <b><?php echo $value ?></b>
                         <div class="vr"></div>
-                        <div id="gender" class="bi bi-x-circle mt-1 p-0 close-search"></div>
+                        <img id="<?php echo $key ?>" class="close-search"
+                            src="<?php echo atlas_panel_image('btn-close-filter.svg') ?>">
                     </span>
                 </div>
-                <?php endif; ?>
+                <?php
+                    }
+                }?>
 
-                <div>
-                    <select id="select2searchprovince" class="form-select" data-goto="province" style="width: 100%;">
-                        <option></option>
-                        <?php foreach ($provinces as $province): ?>
-                        <option <?php selected($province_id, $province->id)?> value="<?php echo $province->id ?>">
-                            <?php echo $province->name ?>
-                            </option>
-                            <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <?php if ($province_id): ?>
-                <div>
-                    <select id="select2searchcity" class="form-select" data-goto="province" style="width: 100%;">
-                        <option></option>
-                        <?php foreach ($cites as $city): ?>
-                        <option <?php selected(absint($_GET[ 'c' ]), $city->id)?> value="<?php echo $city->id ?>">
-                            <?php echo $city->name ?>
-                            </option>
-                            <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php endif; ?>
-
-                <?php } elseif ($all_iran == "ایران") {?>
-                <div>
-                    <select id="select2" class="form-select" data-goto="province" name="city" style="width: 100%;">
-                        <option>استان خود رو انتخاب کنید</option>
-                        <?php foreach ($provinces as $province): ?>
-                        <option value="<?php echo $province->id ?>">
-                            <?php echo $province->name ?>
+                <select id="select2searchcity" class="form-select form-select w-100" name="select2modal">
+                    <option></option>
+                    <?php foreach ($search as $key => $value): ?>
+                    <option<?php selected(absint($city_id), $key)?> value="<?php echo $key ?>"><?php echo $value ?>
                         </option>
                         <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php } else {?>
-                <div class="rounded px-3 py-1 text-center map-province">
-                    <span>استان                                     <?php echo $province_neme ?></span>
-                </div>
-                <div>
-                    <select id="select2" class="form-select" name="city" data-goto="city" style="width: 100%;">
-                        <option>شهر خود رو انتخاب کنید</option>
-                        <?php foreach ($cites as $city): ?>
-                        <option <?php selected($city_id, $city->id)?> value="<?php echo $city->id ?>">
-                            <?php echo $city->name ?>
-                            </option>
-                            <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php }?>
+                </select>
             </div>
 
             <div class="row p-2">
@@ -458,7 +385,7 @@ get_header(); ?>
                     if ($inpage == 1) {
                         echo '<img src="' . atlas_panel_image('prev-page-no-active.svg') . '">';
                     } else {
-                        echo '<a class="" href="' . esc_url(add_query_arg('page', ($inpage - 1), get_current_relative_url())) . '"><img
+                        echo '<a class="" href="' . esc_url(atlas_end_url('page', ($inpage - 1))) . '"><img
                     src="' . atlas_panel_image('prev-page-active.svg') . '"></a>';
                     }
                 ?>
@@ -469,7 +396,7 @@ get_header(); ?>
                     if ($inpage == $total) {
                         echo '<img src="' . atlas_panel_image('next-page-no-active.svg') . '">';
                     } else {
-                        echo '<a class="" href="' . esc_url(add_query_arg('page', ($inpage + 1), get_current_relative_url())) . '"><img
+                        echo '<a class="" href="' . esc_url(atlas_end_url('page', ($inpage + 1))) . '"><img
                     src="' . atlas_panel_image('next-page-active.svg') . '"></a>';
                     }
                 ?>
@@ -521,7 +448,7 @@ const customIcon = L.icon({
 });
 let city = "";
 const province = "<?php echo $province_neme ?>";
-const points =               <?php echo json_encode($points); ?>;
+const points = <?php echo json_encode($points); ?>;
 query = province;
 </script>
 

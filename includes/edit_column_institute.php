@@ -48,9 +48,6 @@ function fill_institute_columns($column, $post_id)
 
     if ($column === 'operator') {
 
-
-
-        
         $operator = get_post_meta($post_id, '_operator', true);
 
         $user_info = get_userdata($operator);
@@ -92,7 +89,7 @@ function add_csv_export_button_to_custom_post_type($which)
 
     if ($typenow === 'institute' && $which === 'top') {
 
-        echo '<div class="alignleft actions"><a href="' . esc_url(add_query_arg('action', 'art_exel', get_current_relative_url())) . '" class="button button-primary" >خروجی EXEL</a></div>';
+        echo '<div class="alignleft actions"><a href="' . esc_url(atlas_end_url('action', 'art_exel')) . '" class="button button-primary" >خروجی EXEL</a></div>';
 
     }
 }
