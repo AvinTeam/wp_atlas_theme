@@ -136,6 +136,20 @@
 
                      ];
                 }
+
+                // گرفتن نظرات مرتبط با پست
+                $comments = get_comments([
+                    'post_id' => $post_id,
+                    'status'  => 'approve', // فقط نظرات تایید شده
+                 ]);
+                $sum_rating = 0;
+                foreach ($comments as $comment) {
+
+                    $rating = intval(get_comment_meta($comment->comment_ID, 'rating', true));
+                    $sum_rating += $rating ;
+                }
+
+                $avg_rating =($sum_rating) ? ceil(($sum_rating / count($comments))) : 0;
             ?>
 
 
@@ -186,7 +200,7 @@
             </div>
 
             <div class="d-flex flex-row align-items-center justify-content-center text-white mt-2 mt-sm-0">
-                <span>20 نظر, (از 40رای) <b>4.5</b></span>
+                <span><?php echo count($comments)?> نظر, <b><?=$avg_rating?></b></span>
                 <img src="<?php echo atlas_panel_image('star.svg') ?>" style="width: 26px;">
             </div>
         </div>
@@ -494,7 +508,7 @@
                     <div class="row atlas-block-info">
                         <?php comment_form(); ?>
                         <hr>
-                        <?php display_commenters_list(get_the_ID()); ?>
+                        <?php display_commenters_list($comments); ?>
                     </div>
                 </div>
             </div>

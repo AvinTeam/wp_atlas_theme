@@ -37,19 +37,19 @@ function custom_comment_form_with_hoverable_stars($defaults)
 
     $defaults[ 'fields' ] = [
         'author' => '
-                <div class="col-4 order-1">
+                <div class="col-12 col-md-4 order-1 mt-2">
                     <label for="author" class="form-label">نام و نام خانوادگی</label>
                     <input class="form-control" id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"
                         placeholder="نام و نام خانوادگی خود را وارد نمایید">
                 </div>',
         'email'  => '
-                <div class="col-4 order-2">
+                <div class="col-12 col-md-4 order-2 mt-2">
                     <label for="email" class="form-label">ایمیل</label>
                     <input class="form-control" id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"
                         placeholder="ایمیل خود را وارد نمایید">
                 </div>',
         'rating' => '
-                <div class="col-4 order-3">
+                <div class="col-12 col-md-4 order-3 mt-2">
                     <label for="rating" class="form-label">امتیاز
                         دهی</label>
                     <div class="rating d-flex gap-2 align-items-center rating-stars">

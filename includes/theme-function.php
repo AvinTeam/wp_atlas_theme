@@ -47,17 +47,17 @@
     }
     function atlas_panel_js($path)
     {
-        return ATLAS_JS . $path;
+        return ATLAS_JS . $path . '?ver=' . ATLAS_VERSION;
     }
 
     function atlas_panel_css($path)
     {
-        return ATLAS_CSS . $path;
+        return ATLAS_CSS . $path . '?ver=' . ATLAS_VERSION;
     }
 
     function atlas_panel_image($path)
     {
-        return ATLAS_IMAGE . $path;
+        return ATLAS_IMAGE . $path . '?ver=' . ATLAS_VERSION;
     }
 
     function atlas_remote(string $url)
@@ -458,7 +458,7 @@
             $url .= $item . '=' . $added;
         }
 
-        return home_url() . $path_array[ 0 ] . $url;
+        return  $path_array[ 0 ] . $url;
     }
 
     function paginate($total_pages, $current_page)
@@ -514,39 +514,34 @@
         return $output;
     }
 
-    function display_commenters_list($post_id)
+    function display_commenters_list($comments)
     {
-        // گرفتن نظرات مرتبط با پست
-        $comments = get_comments([
-            'post_id' => $post_id,
-            'status'  => 'approve', // فقط نظرات تایید شده
-         ]);
 
         if (! empty($comments)) {
             foreach ($comments as $comment) {
                 $author_name     = $comment->comment_author;
                 $comment_content = $comment->comment_content;
-                $rating= get_comment_meta($comment->comment_ID, 'rating', true); ?>
-                <div class="d-flex flex-column bg-body rounded p-3 mt-3">
-                    <div class="p-3 d-flex flex-row justify-content-between align-items-center">
-                        <b><?php echo $author_name ?></b>
-                        <div class=" rating-stars" style="direction: ltr;"> <?php 
-                            for ($i = 1; $i < 6; $i++) {
-                                if (absint($rating) >= $i) {
-                                    echo '<i class="bi bi-star-fill"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star"></i>';
-                                }
-                            }?>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="mb-3 px-3 atlas-comment-content fw-bold">
-                        <p><?php echo $comment_content ?></p>
-                    </div>
-                </div>       <?php
-           }
-        } else {
-                echo '<p>هنوز نظری ثبت نشده است.</p>';
-        }
-    }
+            $rating          = get_comment_meta($comment->comment_ID, 'rating', true); ?>
+<div class="d-flex flex-column bg-body rounded p-3 mt-3">
+    <div class="p-3 d-flex flex-row justify-content-between align-items-center">
+        <b><?php echo $author_name ?></b>
+        <div class=" rating-stars" style="direction: ltr;">                                                                                                                       <?php
+        for ($i = 1; $i < 6; $i++) {
+                if (absint($rating) >= $i) {
+                    echo '<i class="bi bi-star-fill"></i>';
+                } else {
+                    echo '<i class="bi bi-star"></i>';
+                }
+        }?>
+        </div>
+    </div>
+    <hr>
+    <div class="mb-3 px-3 atlas-comment-content fw-bold">
+        <p><?php echo $comment_content ?></p>
+    </div>
+</div>             <?php
+                 }
+                     } else {
+                         echo '<p>هنوز نظری ثبت نشده است.</p>';
+                 }
+             }
