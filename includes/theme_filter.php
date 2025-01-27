@@ -1,9 +1,10 @@
 <?php
 (defined('ABSPATH')) || exit;
 
-function atlas_title_filter($title) {
+function atlas_title_filter($title)
+{
     if (is_home() || is_front_page()) {
-        $title = get_bloginfo('name') ." | صفحه اصلی";
+        $title = get_bloginfo('name') . " | صفحه اصلی";
     } elseif (is_single()) {
         $title = get_the_title() . " | " . get_bloginfo('name');
     } elseif (is_category()) {
@@ -13,7 +14,7 @@ function atlas_title_filter($title) {
     } elseif (is_search()) {
         $title = "نتایج جستجو برای " . get_search_query();
     } elseif (is_404()) {
-        $title =get_bloginfo('name'). "صفحه پیدا نشد | ";
+        $title = get_bloginfo('name') . "صفحه پیدا نشد | ";
     } else {
         $title = get_bloginfo('name');
     }
@@ -21,7 +22,8 @@ function atlas_title_filter($title) {
 }
 add_filter('wp_title', 'atlas_title_filter');
 
-function custom_institute_template($template) {
+function custom_institute_template($template)
+{
     if (is_singular('institute')) {
         $custom_template = locate_template('institute.php');
         if ($custom_template) {
@@ -42,12 +44,15 @@ function custom_comment_form_with_hoverable_stars($defaults)
                     <input class="form-control" id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"
                         placeholder="نام و نام خانوادگی خود را وارد نمایید">
                 </div>',
-        'email'  => '
-                <div class="col-12 col-md-4 order-2 mt-2">
-                    <label for="email" class="form-label">ایمیل</label>
-                    <input class="form-control" id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"
-                        placeholder="ایمیل خود را وارد نمایید">
-                </div>',
+        'email'  => '<input class="form-control" id="email" name="email" type="hidden" value="' . time() . '@email.com" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"
+                        placeholder="ایمیل خود را وارد نمایید">',
+
+        'mobile' => '
+        <div class="col-12 col-md-4 order-2 mt-2">
+            <label for="mobile" class="form-label">شماره موبایل</label>
+            <input class="form-control" id="" name="mobile" type="text" value="" size="30" maxlength="11" placeholder="شماره موبایل خود را وارد نمایید">
+        </div>',
+
         'rating' => '
                 <div class="col-12 col-md-4 order-3 mt-2">
                     <label for="rating" class="form-label">امتیاز
@@ -87,15 +92,20 @@ function custom_comment_form_with_hoverable_stars($defaults)
 }
 add_filter('comment_form_defaults', 'custom_comment_form_with_hoverable_stars');
 
-
 function display_comment_rating($comment_text, $comment)
 {
     $rating = get_comment_meta($comment->comment_ID, 'rating', true);
     if ($rating) {
         $stars = str_repeat('⭐', $rating);
         $comment_text .= '<p class="comment-rating">امتیاز: ' . $stars . '</p>';
-    }else{
+    } else {
         $comment_text .= '<p class="comment-rating">امتیاز: صفر</p>';
+    }
+    $mobile = get_comment_meta($comment->comment_ID, 'mobile', true);
+    if ($mobile) {
+        $comment_text .= '<p class="comment-rating">شماره موبایل: ' . $mobile . '</p>';
+    } else {
+        $comment_text .= '<p class="comment-rating">شماره موبایل:  - </p>';
     }
     return $comment_text;
 }

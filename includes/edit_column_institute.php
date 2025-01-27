@@ -5,7 +5,7 @@ function add_institute_columns($columns)
 {
 
     if (isset($columns[ 'author' ])) {
-        $columns[ 'author' ] = 'مسئول موسسه';
+        $columns[ 'author' ] = 'مسئول مرکز قرآنی';
     }
 
     $new_columns = [  ];
@@ -30,17 +30,24 @@ function fill_institute_columns($column, $post_id)
 
     if ($column === 'province') {
 
-        $province = get_post_meta($post_id, '_atlas_ostan', true);
+        $province = absint(get_post_meta($post_id, '_atlas_ostan', true));
 
-        $province = $province ? $irandb->get('id', $province) : 0;
+        if ($province) {
+            $province = $province ? $irandb->get('id', $province) : 0;
+
+        }
 
         echo $province ? esc_html($province->name) : '—';
+
     }
     if ($column === 'city') {
 
-        $city = get_post_meta($post_id, '_atlas_city', true);
+        $city = absint(get_post_meta($post_id, '_atlas_city', true));
 
-        $city = $city ? $irandb->get('id', $city) : 0;
+        if ($city) {
+            $city = $city ? $irandb->get('id', $city) : 0;
+
+        }
 
         echo $city ? esc_html($city->name) : '—';
 
@@ -48,13 +55,17 @@ function fill_institute_columns($column, $post_id)
 
     if ($column === 'operator') {
 
-        $operator = get_post_meta($post_id, '_operator', true);
+        $operator = absint(get_post_meta($post_id, '_operator', true));
+        $output   = "نامشخص";
 
-        $user_info = get_userdata($operator);
+        if ($operator) {
 
-        $output = sprintf('<a target="_blank" href="%s" class="edit"><span aria-hidden="true">%s</span></a>', admin_url('edit.php?post_type=institute&operator=' . $operator), $user_info->user_login);
+            $user_info = get_userdata($operator);
 
-        echo $user_info ? $output : "نامشخص";
+            $output = sprintf('<a target="_blank" href="%s" class="edit"><span aria-hidden="true">%s</span></a>', admin_url('edit.php?post_type=institute&operator=' . $operator), $user_info->user_login);
+
+        }
+        echo $output;
 
     }
 }

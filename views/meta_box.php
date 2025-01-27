@@ -76,7 +76,7 @@
 
                         <label><input type="radio" name="atlas[center-type]" value="besij"
                                 <?=checked('besij', $atlas_institute[ 'center-type' ])?>><span
-                                class="date-time-text">دارالقرآن بسیج</span></label>
+                                class="date-time-text">پایگاه قرآنی مساجد</span></label>
                     </fieldset>
                 </td>
             </tr>

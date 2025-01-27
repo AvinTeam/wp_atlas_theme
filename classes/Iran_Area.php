@@ -9,7 +9,7 @@ class Iran_Area
     {
         global $wpdb;
 
-        $this->wpdb = $wpdb;
+        $this->wpdb      = $wpdb;
         $this->tablename = $this->wpdb->prefix . 'atlas_iran_area';
 
     }
@@ -81,9 +81,9 @@ class Iran_Area
 
                 $province = $this->get('id', $row->province_id);
 
-                $mpn_row_new[ $row->id ] = $row->name . ' - ' . $province->name;
+                $city2                   = (isset($row->city2) && !empty($row->city2)) ? ' - ' . $row->city2 : '';
+                $mpn_row_new[ $row->id ] = $row->name . $city2 . ' - ' . $province->name;
             }
-
             $mpn_row = $mpn_row_new;
 
         }
@@ -100,19 +100,16 @@ class Iran_Area
         $province = $this->get('id', $city->province_id);
 
         $mpn_row_new = [
-            'city_id' => $city->id,
-            'city' => $city->name,
+            'city_id'     => $city->id,
+            'city'        => $city->name,
             'province_id' => $province->id,
-            'province' => $province->name,
+            'province'    => $province->name,
 
          ];
 
         return $mpn_row_new;
 
-
     }
-
-
 
     public function update(array $data, array $where, array $format = null, array $where_format = null): int | false
     {

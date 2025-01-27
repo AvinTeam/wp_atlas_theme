@@ -125,6 +125,10 @@ function save_comment_rating($comment_id)
         $rating = intval($_POST[ 'rating' ]);
         add_comment_meta($comment_id, 'rating', $rating);
     }
+    if (isset($_POST[ 'mobile' ]) && ! empty($_POST[ 'mobile' ])) {
+        $mobile = sanitize_phone($_POST[ 'mobile' ]);
+        add_comment_meta($comment_id, 'mobile', $mobile);
+    }
 }
 add_action('comment_post', 'save_comment_rating');
 

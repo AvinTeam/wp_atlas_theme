@@ -125,7 +125,7 @@ function handle_download()
                         $center_type = 'آموزش پرورش';
                         break;
                     case 'besij':
-                        $center_type = 'دارالقرآن بسیج';
+                        $center_type = 'پایگاه قرآنی مساجد';
                         break;
 
                     default:
@@ -141,7 +141,7 @@ function handle_download()
                 } else {
                     $operator = "نامشخص";
                 }
-                $row[ 'عنوان موسسه' ]                 = $post->post_title;
+                $row[ 'عنوان مرکز قرآنی' ]                 = $post->post_title;
                 $row[ 'نام مسئول' ]                     = $responsible;
                 $row[ 'شماره موبایل مسئول' ]    = $mobile;
                 $row[ 'حالت مرکز' ]                     = ($center_mode == 'public') ? 'عمومی' : 'خصوصی';

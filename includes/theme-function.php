@@ -303,22 +303,28 @@
     function atlas_cookie(): string
     {
 
-        if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+        if (! is_user_logged_in()) {
 
-            $is_key_cookie = atlas_rand_string(15);
-            ob_start();
+            if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-            setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
+                $is_key_cookie = atlas_rand_string(15);
+                ob_start();
 
-            ob_end_flush();
+                setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
 
-            header("Refresh:0");
-            exit;
+                ob_end_flush();
 
+                header("Refresh:0");
+                exit;
+
+            } else {
+                $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
+            }
         } else {
-            $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
-        }
 
+            $is_key_cookie = get_current_user_id();
+
+        }
         return $is_key_cookie;
     }
 
@@ -458,7 +464,7 @@
             $url .= $item . '=' . $added;
         }
 
-        return  $path_array[ 0 ] . $url;
+        return $path_array[ 0 ] . $url;
     }
 
     function paginate($total_pages, $current_page)
@@ -514,6 +520,98 @@
         return $output;
     }
 
+    function atlas_to_enghlish($text)
+    {
+
+        $western = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+        $persian = [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ];
+        $arabic  = [ '٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩' ];
+        $text    = str_replace($persian, $western, $text);
+        $text    = str_replace($arabic, $western, $text);
+        return $text;
+
+    }
+    function atlas_transient()
+    {
+        $atlas_transient = get_transient('atlas_transient');
+
+        if ($atlas_transient) {
+            delete_transient('atlas_transient');
+            return $atlas_transient;
+        }
+
+    }
+    function sanitize_phone($phone)
+    {
+
+        /**
+         * Convert all chars to en digits
+         */
+
+        $phone = atlas_to_enghlish($phone);
+
+        //.9158636712   => 09158636712
+        if (strpos($phone, '.') === 0) {
+            $phone = '0' . substr($phone, 1);
+        }
+
+        //00989185223232 => 9185223232
+        if (strpos($phone, '0098') === 0) {
+            $phone = substr($phone, 4);
+        }
+        //0989108210911 => 9108210911
+        if (strlen($phone) == 13 && strpos($phone, '098') === 0) {
+            $phone = substr($phone, 3);
+        }
+        //+989156040160 => 9156040160
+        if (strlen($phone) == 13 && strpos($phone, '+98') === 0) {
+            $phone = substr($phone, 3);
+        }
+        //+98 9156040160 => 9156040160
+        if (strlen($phone) == 14 && strpos($phone, '+98 ') === 0) {
+            $phone = substr($phone, 4);
+        }
+        //989152532120 => 9152532120
+        if (strlen($phone) == 12 && strpos($phone, '98') === 0) {
+            $phone = substr($phone, 2);
+        }
+        //Prepend 0
+        if (strpos($phone, '0') !== 0) {
+            $phone = '0' . $phone;
+        }
+        /**
+         * check for all character was digit
+         */
+        if (! ctype_digit($phone)) {
+            return '';
+        }
+
+        if (strlen($phone) != 11) {
+            return '';
+        }
+
+        return $phone;
+
+    }
+    function is_mobile($mobile)
+    {
+        $pattern = '/^(\+98|0)?9\d{9}$/';
+        return preg_match($pattern, $mobile);
+    }
+
+    function sanitize_text_no_item($item)
+    {
+        $new_item = [  ];
+
+        foreach ($item as $value) {
+            if (empty($value)) {continue;}
+            $new_item[  ] = sanitize_text_field($value);
+        }
+
+        return $new_item;
+
+    }
+
     function display_commenters_list($comments)
     {
 
@@ -525,23 +623,24 @@
 <div class="d-flex flex-column bg-body rounded p-3 mt-3">
     <div class="p-3 d-flex flex-row justify-content-between align-items-center">
         <b><?php echo $author_name ?></b>
-        <div class=" rating-stars" style="direction: ltr;">                                                                                                                       <?php
-        for ($i = 1; $i < 6; $i++) {
-                if (absint($rating) >= $i) {
-                    echo '<i class="bi bi-star-fill"></i>';
-                } else {
-                    echo '<i class="bi bi-star"></i>';
-                }
-        }?>
+        <div class=" rating-stars" style="direction: ltr;">
+            <?php
+                for ($i = 1; $i < 6; $i++) {
+                                if (absint($rating) >= $i) {
+                                    echo '<i class="bi bi-star-fill"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star"></i>';
+                                }
+                        }?>
         </div>
     </div>
     <hr>
     <div class="mb-3 px-3 atlas-comment-content fw-bold">
         <p><?php echo $comment_content ?></p>
     </div>
-</div>             <?php
-                 }
-                     } else {
-                         echo '<p>هنوز نظری ثبت نشده است.</p>';
-                 }
-             }
+</div>       <?php
+           }
+               } else {
+                   echo '<p>هنوز نظری ثبت نشده است.</p>';
+           }
+       }

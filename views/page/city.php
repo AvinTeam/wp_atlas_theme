@@ -167,6 +167,8 @@
             $city     = absint(get_post_meta(get_the_ID(), '_atlas_city', true));
             $map      = get_post_meta(get_the_ID(), '_atlas_map', true);
 
+            if (! $city) {continue;}
+
             $ins_city = $iran->one_city($city);
 
             $all_teacher += $coaches;
@@ -174,9 +176,11 @@
 
             $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
 
+            $link = esc_url(get_permalink(get_the_ID()));
+
             $all_institute[  ] = [
                 'id'       => get_the_ID(),
-                'link'     => esc_url(get_permalink(get_the_ID())),
+                'link'     => $link,
                 'img'      => $img,
                 'title'    => get_the_title(),
                 'coaches'  => $coaches,
@@ -188,11 +192,11 @@
             if (! empty($map[ 'lat' ]) && ! empty($map[ 'lng' ])) {
 
                 $info = '<div style="text-align: center;">
-																																	<h5>' . get_the_title() . '</h5>
-																																	<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
-																																	<p>' . $coaches . ' مربی</p>
-																																	<p>' . $contacts . ' قرآن‌آموز</p>
-																																</div>';
+												<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
+												<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
+												<p>' . $coaches . ' مربی</p>
+												<p>' . $contacts . ' قرآن‌آموز</p>
+											</div>';
 
                 $points[  ] = [
                     "lat"  => $map[ 'lat' ],
@@ -219,7 +223,7 @@ get_header(); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
 <div class="container-fluid">
-    <div class="d-flex flex-column gap-4 px-4 py-3 city-head-box atlas-row rounded-4">
+    <div class="d-flex flex-column gap-4 px-4 py-3 city-head-box mx-auto atlas-row rounded-4">
         <div class="breadcrumbs text-white">
             <img src="<?php echo atlas_panel_image('home-icone.svg') ?>">
             <a class="text-white" href="<?php echo site_url() ?>">خانه</a>
@@ -235,7 +239,7 @@ get_header(); ?>
             <img class="search-button" src="<?php echo atlas_panel_image('arrow.svg') ?>">
             <a class="text-white" href="<?php echo atlas_base_url('city=' . $city_id) ?>/"><?php echo $city_neme ?></a>
             <?php endif; ?>
-            <?php endif; ?>
+<?php endif; ?>
         </div>
 
         <div class="d-flex justify-content-center my-2">
@@ -252,12 +256,12 @@ get_header(); ?>
         </div>
 
         <div class="d-flex flex-wrap gap-2  align-content-center">
-            <div class="bg-white rounded px-3 py-1 text-center col-12 col-sm-4 col-md-2">
+            <div class="bg-white rounded px-3 py-1 text-center col-12 col-sm-4 col-lg-2 col-md-3">
                 <img src="<?php echo atlas_panel_image('amooz.svg') ?>">
                 <span><?php echo number_format(absint($all_amooz)) ?> قرآن آموز</span>
             </div>
 
-            <div class="bg-white rounded px-3 py-1 text-center col-12 col-sm-6 col-md-2">
+            <div class="bg-white rounded px-3 py-1 text-center col-12 col-sm-4 col-lg-2 col-md-3">
                 <img src="<?php echo atlas_panel_image('teacher.svg') ?>">
                 <span><?php echo number_format(absint($all_teacher)) ?> مربی</span>
             </div>
@@ -268,10 +272,11 @@ get_header(); ?>
 
 
 <div class="container-fluid px-3">
-    <div class="atlas-row mt-2 row justify-content-between align-content-center d-flex flex-column-reverse flex-md-row">
+    <div
+        class="atlas-row mx-auto mt-2 row justify-content-between align-content-center d-flex flex-column-reverse flex-md-row">
         <div class="col-12 col-md-8 d-flex flex-column p-0 m-0">
             <div
-                class="filter-box d-flex flex-column flex-md-row justify-content-start align-items-center gap-1 map-filter p-1 rounded ">
+                class="filter-box d-flex flex-column flex-lg-row justify-content-start align-items-center gap-1 map-filter p-1 rounded ">
                 <img class="search-button me-1" src="<?php echo atlas_panel_image('btn-filter.svg') ?>">
 
                 <div class="rounded px-3 py-1 text-center">
@@ -340,7 +345,7 @@ get_header(); ?>
             <div class="row p-2">
                 <?php if (! sizeof($all_institute)): ?>
                 <div class="alert alert-info text-center" role="alert">
-                    موسسه ای یافت نشده است
+                    مرکز قرآنی ای یافت نشده است
                 </div>
                 <?php endif; ?>
 
@@ -363,8 +368,9 @@ get_header(); ?>
                                         alt="">
                                 </button>
                                 <?php endif; ?>
-                                <a href="<?php echo $institute[ 'link' ] ?>" class="btn btn-new mt-2 showLoading">
-                                    <span>ورود به صفحه موسسه</span>
+                                <a href="<?php echo $institute[ 'link' ] ?>"
+                                    class="btn btn-new mt-2 showLoading institute-link">
+                                    <span>ورود به صفحه مرکز قرآنی</span>
                                 </a>
                             </div>
                         </div>
@@ -448,7 +454,7 @@ const customIcon = L.icon({
 });
 let city = "";
 const province = "<?php echo $province_neme ?>";
-const points = <?php echo json_encode($points); ?>;
+const points =                                           <?php echo json_encode($points); ?>;
 query = province;
 </script>
 
@@ -479,24 +485,25 @@ query = '';
 
 <script>
 // فعال کردن زوم اسکرول فقط با دکمه کنترل روی کامپیوتر
-mapCity.on('keydown', (event) => {
-    if (event.originalEvent.key === "Control") {
-        mapCity.scrollWheelZoom.enable(); // فعال کردن زوم با اسکرول
-    }
-});
+// mapCity.on('keydown', (event) => {
+//     if (event.originalEvent.key === "Control") {
+//         mapCity.scrollWheelZoom.enable(); // فعال کردن زوم با اسکرول
+//     }
+// });
 
 // غیرفعال کردن زوم اسکرول بعد از برداشتن کلید کنترل
-mapCity.on('keyup', (event) => {
-    if (event.originalEvent.key === "Control") {
-        mapCity.scrollWheelZoom.disable(); // غیرفعال کردن زوم با اسکرول
-    }
-});
+// mapCity.on('keyup', (event) => {
+//     if (event.originalEvent.key === "Control") {
+//         mapCity.scrollWheelZoom.disable(); // غیرفعال کردن زوم با اسکرول
+//     }
+// });
 
 // فعال کردن زوم لمسی فقط با دو انگشت
-mapCity.touchZoom.enable(); // فعال کردن زوم لمسی
-mapCity.touchZoom = {
-    pinchZoomOnly: true // فقط با دو انگشت
-};
+// mapCity.touchZoom.enable(); // فعال کردن زوم لمسی
+// mapCity.touchZoom = {
+//     pinchZoomOnly: true // فقط با دو انگشت
+// };
+
 if (query != "") {
     const url =
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&polygon_geojson=1&extratags=1`;
@@ -574,6 +581,7 @@ document.querySelectorAll('.onmap').forEach(link => {
         // استخراج اطلاعات
         const title = institute.querySelector('.institute-title b').innerText;
         const imageSrc = institute.querySelector('.institute-img').getAttribute('src');
+        const instituteLink = institute.querySelector('.institute-link').getAttribute('href');
 
         // داده‌های مارکر
         const lat = link.getAttribute('data-lat');
@@ -595,7 +603,7 @@ document.querySelectorAll('.onmap').forEach(link => {
         }).addTo(mapCity);
         marker.bindPopup(`
             <div style="text-align: center;">
-                <h5>${title}</h5>
+                <h5><a href="${instituteLink}" >${title}</a></h5>
                 <img src="${imageSrc}" alt="${title}" style="width: 100%; max-width: 150px; border-radius: 8px;">
             </div>
         `).openPopup();

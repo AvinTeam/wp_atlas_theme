@@ -74,9 +74,9 @@
                         $center_type = 'آموزش پرورش';
                         break;
                     case 'besij':
-                        $center_type = 'دارالقرآن بسیج';
+                        $center_type = 'پایگاه قرآنی مساجد';
                         break;
-
+                        
                     default:
                         $center_type = 'نامشخص';
 
@@ -160,7 +160,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
 
 <div class="container-fluid">
-    <div class="institute-head-box px-4 py-3 atlas-row d-flex flex-column gap-4">
+    <div class="institute-head-box px-4 py-3 mx-auto atlas-row d-flex flex-column gap-4">
         <div class="d-flex flex-column flex-sm-row justify-content-between">
             <div class="breadcrumbs text-white d-flex flex-wrap gap-2  align-content-center justify-content-center">
                 <img src="<?php echo atlas_panel_image('home-icone.svg') ?>">
@@ -209,12 +209,12 @@
 
 <div class="container-fluid mt-2">
 
-    <div class="atlas-row d-flex flex-row gap-2">
+    <div class="atlas-row mx-auto d-flex flex-row gap-2">
         <div class="col-3 d-none d-sm-block px-2 ">
 
             <div class="border border-1 border-warning rounded-2 p-3 position-sticky atlas-table-parent">
                 <div data-block="info" class="rounded px-3 py-2 mb-2 atlas-table-list atlas-active">
-                    <img src="<?php echo atlas_panel_image('info-t.svg') ?>"> <b>درباره موسسه</b>
+                    <img src="<?php echo atlas_panel_image('info-t.svg') ?>"> <b>درباره مرکز قرآنی</b>
                 </div>
                 <div data-block="subject" class="rounded px-3 py-2  mb-2 atlas-table-list">
                     <img src="<?php echo atlas_panel_image('bord-t.svg') ?>"> <b>دوره ها</b>
@@ -225,11 +225,11 @@
                 </div>
 
                 <div data-block="contact" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('contact-t.svg') ?>"> <b>ارتباط با موسسه</b>
+                    <img src="<?php echo atlas_panel_image('contact-t.svg') ?>"> <b>ارتباط با مرکز قرآنی</b>
                 </div>
 
                 <div data-block="address" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('address-t.svg') ?>"> <b>آدرس موسسه</b>
+                    <img src="<?php echo atlas_panel_image('address-t.svg') ?>"> <b>آدرس مرکز قرآنی</b>
                 </div>
 
                 <div data-block="comment" class="rounded px-3 py-2  mb-2 atlas-table-list">
@@ -241,7 +241,7 @@
 
             <div id="info" class="mt-2">
                 <div class="institute-info px-4 py-3">
-                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره موسسه
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره مرکز قرآنی
                     </p>
                     <hr class="">
 
@@ -307,7 +307,7 @@
                         </div>
                         <div
                             class="col-12 col-sm-6 col-md-7 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
-                            <b class="px-3 py-1">مقاطع سنی: </b>
+                            <b class="px-3 py-1">گروه سنی مخاطبین: </b>
                             <div
                                 class="d-flex flex-wrap gap-2 justify-content-end justify-content-md-start align-items-center">
                                 <?php echo implode(' <div class="vr"></div> ', array_map('atlas_page_item', array_unique($translated_age))) ?>
@@ -375,7 +375,7 @@
             <div id="contact" class="mt-3">
                 <div class="institute-info px-4 py-3">
                     <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('phone-i.png') ?>"> ارتباط با
-                        موسسه</p>
+                    مرکز قرآنی</p>
                     <hr class="">
 
                     <div class="row atlas-block-info">
@@ -390,7 +390,7 @@
                         </div>
                         <div
                             class="col-12 col-sm-6 col-md-4 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
-                            <b class="px-3 py-1">شماره ارتباط با موسسه</b>
+                            <b class="px-3 py-1">شماره ارتباط با مرکز قرآنی</b>
                             <div class="d-flex flex-row justify-content-center align-items-center">
                                 <div class="px-3 py-1 rounded bg-white atlas_page_item fw-bold">
                                     <?php echo $phone ?>
@@ -416,7 +416,7 @@
                     <div class="row atlas-block-info">
                         <div
                             class="col-12 d-flex flex-row gap-2 justify-content-between justify-content-md-start align-items-center mb-3">
-                            <b class="px-3 py-1">شبکه های مجازی موسسه</b>
+                            <b class="px-3 py-1">شبکه های مجازی مرکز قرآنی</b>
                             <div class="d-flex flex-row justify-content-center align-items-center">
                                 <div
                                     class="text-white atlas-share d-flex flex-wrap gap-2 align-content-center justify-content-center justify-content-md-start">
@@ -454,7 +454,7 @@
 
             <div id="address" class="mt-3">
                 <div class="institute-info px-4 py-3">
-                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('address.png') ?>"> آدرس موسسه
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('address.png') ?>"> آدرس مرکز قرآنی
                     </p>
                     <hr class="">
 
@@ -562,24 +562,24 @@ const city = "<?php echo $city_neme ?>";
 const query = `${city}, ${province}`;
 
 // فعال کردن زوم اسکرول فقط با دکمه کنترل روی کامپیوتر
-mapCity.on('keydown', (event) => {
-    if (event.originalEvent.key === "Control") {
-        mapCity.scrollWheelZoom.enable(); // فعال کردن زوم با اسکرول
-    }
-});
+// mapCity.on('keydown', (event) => {
+//     if (event.originalEvent.key === "Control") {
+//         mapCity.scrollWheelZoom.enable(); // فعال کردن زوم با اسکرول
+//     }
+// });
 
 // غیرفعال کردن زوم اسکرول بعد از برداشتن کلید کنترل
-mapCity.on('keyup', (event) => {
-    if (event.originalEvent.key === "Control") {
-        mapCity.scrollWheelZoom.disable(); // غیرفعال کردن زوم با اسکرول
-    }
-});
+// mapCity.on('keyup', (event) => {
+//     if (event.originalEvent.key === "Control") {
+//         mapCity.scrollWheelZoom.disable(); // غیرفعال کردن زوم با اسکرول
+//     }
+// });
 
 // فعال کردن زوم لمسی فقط با دو انگشت
-mapCity.touchZoom.enable(); // فعال کردن زوم لمسی
-mapCity.touchZoom = {
-    pinchZoomOnly: true // فقط با دو انگشت
-};
+// mapCity.touchZoom.enable(); // فعال کردن زوم لمسی
+// mapCity.touchZoom = {
+//     pinchZoomOnly: true // فقط با دو انگشت
+// };
 
 
 const url =

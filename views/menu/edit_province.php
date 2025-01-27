@@ -5,7 +5,7 @@ $province = $iran->get('id', absint($_GET[ 'province' ]));
 
 $description = (isset($province->description)) ? $province->description : '';
 
-$city_name = $city_description = '';
+$city_name = $city2_name = $city_description = '';
 $city_btn = "افزودن شهر";
 $city_id = 0;
 
@@ -16,6 +16,7 @@ if (isset($_GET[ 'city' ]) && !empty($_GET[ 'city' ])) {
     $city_id = absint($_GET[ 'city' ]);
 
     $city_name = $city->name;
+    $city2_name = $city->city2;
     $city_description = $city->description;
     $city_btn = "بروزرسانی شهر";
 
@@ -101,6 +102,9 @@ wp_editor($description, 'description', $editor_array)?>
                             <label for="city_name">نام شهر</label>
                             <input name="city_name" id="city_name" type="text" value="<?=$city_name?>" size="40"
                                 aria-required="true">
+                            <label for="city_name">نام شهرستان</label>
+                            <input name="city2_name" id="city2_name" type="text" value="<?=$city2_name?>" size="40"
+                                aria-required="true">
                             <div class="form-field term-description-wrap">
                                 <label for="city_description">توضیح</label>
                                 <textarea name="description" id="city_description"
@@ -131,7 +135,7 @@ wp_editor($description, 'description', $editor_array)?>
                 <thead>
                     <th>ردیف</th>
                     <th>نام شهر</th>
-                    <th>تعداد موسسه ها</th>
+                    <th>تعداد مراکز قرآنی</th>
                     <th></th>
 
                 </thead>

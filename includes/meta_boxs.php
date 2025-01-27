@@ -10,7 +10,7 @@ function atlas_meta_box()
 
     add_meta_box(
         'atlas_meta_box',
-        "اطلاعات موسسه",
+        "اطلاعات مرکز قرآنی",
         'atlas_file_meta_box_callback',
         'institute',
         'normal',
@@ -102,7 +102,7 @@ function atlas_save_bax($post_id, $post, $updata)
 
         //     if ($post_count >= 1) {
 
-        //         set_transient('atlas_transient', '<p class="button button-primary button-large button-error" >شماره موبایل ' . sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) . ' برای مسئول موسسه دیگری ثبت شده است</p>');
+        //         set_transient('atlas_transient', '<p class="button button-primary button-large button-error" >شماره موبایل ' . sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) . ' برای مسئول مرکز قرآنی دیگری ثبت شده است</p>');
 
         //         $_POST[ 'atlas' ][ 'responsible-mobile' ] = '';
 

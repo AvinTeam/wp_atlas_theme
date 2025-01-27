@@ -56,9 +56,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="age-modal" class="form-label">مقاطع سنی</label>
+                        <label for="age-modal" class="form-label">گروه سنی مخاطبین</label>
                         <select id="age-modal" class="form-select form-select w-100" name="age">
-                            <option                                    <?php selected($age, 'all')?> value="all">همه مقاطع سنی</option>
+                            <option                                    <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
                             <option                                    <?php selected($age, 7)?> value="7">زیر 7 سال</option>
                             <option                                    <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
                             <option                                    <?php selected($age, 18)?> value="18">12 تا 18 سال</option>

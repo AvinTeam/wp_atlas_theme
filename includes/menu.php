@@ -82,38 +82,36 @@ function mph_admin_menu(string $context): void
 
         if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == 'atlas__submit') {
 
-
-
             if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
 
                 $iran = new Iran_Area();
 
-                $data = [ 'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))) ];
-                $where = [ 'id' => $_REQUEST[ 'province' ] ];
-                $format = [ '%s' ];
+                $data         = [ 'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))) ];
+                $where        = [ 'id' => $_REQUEST[ 'province' ] ];
+                $format       = [ '%s' ];
                 $where_format = [ '%d' ];
 
                 $res = $iran->update($data, $where, $format, $where_format);
 
                 wp_admin_notice(
                     'تغییر شما با موفقیت ثبت شد',
-                    array(
-                        'id' => 'message',
-                        'type' => 'success',
-                        'additional_classes' => array('updated'),
-                        'dismissible' => true,
-                    )
+                    [
+                        'id'                 => 'message',
+                        'type'               => 'success',
+                        'additional_classes' => ['updated'],
+                        'dismissible'        => true,
+                    ]
                 );
 
             } else {
                 wp_admin_notice(
                     'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                    array(
-                        'id' => 'atlas_message',
-                        'type' => 'error',
-                        'additional_classes' => array('updated'),
-                        'dismissible' => true,
-                    )
+                    [
+                        'id'                 => 'atlas_message',
+                        'type'               => 'error',
+                        'additional_classes' => ['updated'],
+                        'dismissible'        => true,
+                    ]
                 );
             }
 
@@ -123,16 +121,19 @@ function mph_admin_menu(string $context): void
 
             if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
 
+
+           
                 $iran = new Iran_Area();
 
                 if (isset($_REQUEST[ 'city_id' ]) && absint($_REQUEST[ 'city_id' ])) {
 
                     $data = [
-                        'name' => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'name'        => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'city2'       => sanitize_text_field($_REQUEST[ 'city2_name' ]),
                         'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))),
                      ];
-                    $where = [ 'id' => absint($_REQUEST[ 'city_id' ]) ];
-                    $format = [ '%s' ];
+                    $where        = [ 'id' => absint($_REQUEST[ 'city_id' ]) ];
+                    $format       = [ '%s' ,'%s' ,'%s' ];
                     $where_format = [ '%d' ];
 
                     $res = $iran->update($data, $where, $format, $where_format);
@@ -140,67 +141,68 @@ function mph_admin_menu(string $context): void
                     if ($res) {
                         wp_admin_notice(
                             'تغییر شما با موفقیت ثبت شد',
-                            array(
-                                'id' => 'atlas_message',
-                                'type' => 'success',
-                                'additional_classes' => array('updated'),
-                                'dismissible' => true,
-                            )
+                            [
+                                'id'                 => 'atlas_message',
+                                'type'               => 'success',
+                                'additional_classes' => ['updated'],
+                                'dismissible'        => true,
+                            ]
                         );
                     } else {
                         wp_admin_notice(
                             'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                            array(
-                                'id' => 'atlas_message',
-                                'type' => 'error',
-                                'additional_classes' => array('updated'),
-                                'dismissible' => true,
-                            )
+                            [
+                                'id'                 => 'atlas_message',
+                                'type'               => 'error',
+                                'additional_classes' => ['updated'],
+                                'dismissible'        => true,
+                            ]
                         );
                     }
 
-                } elseif (isset($_REQUEST[ 'city_id' ]) && !absint($_REQUEST[ 'city_id' ])) {
+                } elseif (isset($_REQUEST[ 'city_id' ]) && ! absint($_REQUEST[ 'city_id' ])) {
 
                     $data = [
-                        'name' => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'name'        => sanitize_text_field($_REQUEST[ 'city_name' ]),
+                        'city2'       => sanitize_text_field($_REQUEST[ 'city2_name' ]),
                         'province_id' => absint($_REQUEST[ 'province' ]),
                         'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))),
                      ];
-                    $format = [ '%s', '%d', '%s' ];
+                    $format = [ '%s', '%s', '%d', '%s' ];
 
                     $res = $iran->insert($data, $format);
 
                     if ($res) {
                         wp_admin_notice(
                             'تغییر شما با موفقیت ثبت شد',
-                            array(
-                                'id' => 'atlas_message',
-                                'type' => 'success',
-                                'additional_classes' => array('updated'),
-                                'dismissible' => true,
-                            )
+                            [
+                                'id'                 => 'atlas_message',
+                                'type'               => 'success',
+                                'additional_classes' => ['updated'],
+                                'dismissible'        => true,
+                            ]
                         );
                     } else {
                         wp_admin_notice(
                             'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                            array(
-                                'id' => 'atlas_message',
-                                'type' => 'error',
-                                'additional_classes' => array('updated'),
-                                'dismissible' => true,
-                            )
+                            [
+                                'id'                 => 'atlas_message',
+                                'type'               => 'error',
+                                'additional_classes' => ['updated'],
+                                'dismissible'        => true,
+                            ]
                         );
                     }
 
                 } else {
                     wp_admin_notice(
                         'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                        array(
-                            'id' => 'atlas_message',
-                            'type' => 'error',
-                            'additional_classes' => array('updated'),
-                            'dismissible' => true,
-                        )
+                        [
+                            'id'                 => 'atlas_message',
+                            'type'               => 'error',
+                            'additional_classes' => ['updated'],
+                            'dismissible'        => true,
+                        ]
                     );
                 }
 
@@ -208,12 +210,12 @@ function mph_admin_menu(string $context): void
 
                 wp_admin_notice(
                     'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                    array(
-                        'id' => 'atlas_message',
-                        'type' => 'error',
-                        'additional_classes' => array('updated'),
-                        'dismissible' => true,
-                    )
+                    [
+                        'id'                 => 'atlas_message',
+                        'type'               => 'error',
+                        'additional_classes' => ['updated'],
+                        'dismissible'        => true,
+                    ]
                 );
             }
 
@@ -238,23 +240,23 @@ function mph_admin_menu(string $context): void
 
                 wp_admin_notice(
                     'تغییر شما با موفقیت ثبت شد',
-                    array(
-                        'id' => 'message',
-                        'type' => 'success',
-                        'additional_classes' => array('updated'),
-                        'dismissible' => true,
-                    )
+                    [
+                        'id'                 => 'message',
+                        'type'               => 'success',
+                        'additional_classes' => ['updated'],
+                        'dismissible'        => true,
+                    ]
                 );
 
             } else {
                 wp_admin_notice(
                     'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                    array(
-                        'id' => 'atlas_message',
-                        'type' => 'error',
-                        'additional_classes' => array('updated'),
-                        'dismissible' => true,
-                    )
+                    [
+                        'id'                 => 'atlas_message',
+                        'type'               => 'error',
+                        'additional_classes' => ['updated'],
+                        'dismissible'        => true,
+                    ]
                 );
 
             }
@@ -264,10 +266,10 @@ function mph_admin_menu(string $context): void
     }
 
     add_submenu_page(
-        'edit.php?post_type=institute', // اسلاگ پست تایپ
-        'نظرات موسسات',               // عنوان صفحه
-        'نظرات موسسات',               // عنوان منو
-        'manage_options',              // سطح دسترسی
+        'edit.php?post_type=institute',         // اسلاگ پست تایپ
+        'نظرات موسسات',              // عنوان صفحه
+        'نظرات موسسات',              // عنوان منو
+        'manage_options',                       // سطح دسترسی
         'edit-comments.php?post_type=institute' // لینک صفحه نظرات اختصاصی
     );
 }

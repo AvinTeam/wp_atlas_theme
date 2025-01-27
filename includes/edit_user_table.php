@@ -10,7 +10,7 @@ function add_institute_posts_column($columns)
     if (isset($columns[ 'posts' ])) {
         unset($columns[ 'posts' ]);
     }
-    $columns[ 'institute_posts' ] = 'تعداد موسسه';
+    $columns[ 'institute_posts' ] = 'تعداد مرکز قرآنی';
     return $columns;
 }
 

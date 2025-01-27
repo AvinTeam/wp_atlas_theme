@@ -1,8 +1,8 @@
 <?php
 
-$atlas_body = 'atlas-home';
+    $atlas_body = 'atlas-home';
 
-get_header();
+    get_header();
 
     $iran = new Iran_Area;
 
@@ -10,9 +10,9 @@ get_header();
 ?>
 
 <div class="container-fluid home-search-box px-5 py-2">
-    <div class="row justify-content-center align-items-center atlas-row">
+    <div class="row justify-content-center align-items-center mx-auto atlas-row">
         <div class="col-12 col-md-6 mb-4 mb-md-0 d-none d-md-block">
-            <img class="w-100" alt="iran" src="<?php echo atlas_panel_image('iran_ghoran.svg') ?>">
+            <img class="w-100" alt="iran" src="<?php echo atlas_panel_image('iran_ghoran.png') ?>">
         </div>
         <div class="col-12 col-md-6">
             <img class="w-100" alt="بسم الله الرحمن الرحيم" src="<?php echo atlas_panel_image('besme-allah.svg') ?>">
@@ -26,17 +26,17 @@ get_header();
                 </select>
                 <div class="home-btn mt-2 d-flex justify-content-center">
 
-                        
-                        <img class="search-button me-1  d-none d-md-block" src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
-                        <a href=" <?=atlas_base_url('all') ?>"><img class="search-button-all"
-                                src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
-                        <!-- <img class="search-button" src="<?php echo atlas_panel_image('btn-search.svg') ?>"> -->
+
+                    <img class="search-button me-1  d-none d-lg-block"
+                        src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
+                    <a href=" <?php echo atlas_base_url('all')?>"><img class="search-button-all"
+                            src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
 
 
                 </div>
             </div>
 
-            <img class="w-75 float-md-end mx-auto d-block" src="<?php echo atlas_panel_image('aye.svg') ?>">
+            <img class="w-75 float-lg-end mx-auto d-block" src="<?php echo atlas_panel_image('aye.png') ?>">
         </div>
     </div>
 </div>
@@ -46,12 +46,12 @@ get_header();
         <img class="chose_ostan" alt="انتخاب استان" src="<?php echo atlas_panel_image('ostan-title.png') ?>">
     </div>
     <div class="container-fluid px-md-5 px-0 mt-3">
-        <div class="row justify-content-center align-items-center atlas-row">
+        <div class="row justify-content-center align-items-center mx-auto atlas-row" id="ostan-items-row">
             <?php foreach ($iran->select() as $ostan): ?>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-3">
-                <a href="<?= atlas_base_url('province='.$ostan->id) ?>"
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-3 ostan-item">
+                <a href="<?php echo atlas_base_url('province=' . $ostan->id)?>"
                     class="d-flex justify-content-center align-items-center ostan px-4 py-3 text-white fw-bold">
-                    <?=$ostan->name?>
+                    <?php echo $ostan->name?>
                 </a>
             </div>
             <?php endforeach; ?>
@@ -63,7 +63,7 @@ get_header();
 
 
 
-<!-- 
+<!--
 
 <div class="container mt-5">
 

@@ -150,7 +150,7 @@ get_header(); ?>
 
 <div class="container mt-5">
     <div class="alert alert-warning" role="alert">
-        موسسه شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
+    مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
     </div>
 </div>
 
@@ -159,10 +159,10 @@ get_header(); ?>
 
 <?php endif; ?>
 <div class="container mt-5">
-    <h2 class="mb-3">موسسه <?php echo $post_title ?> </h2>
+    <h2 class="mb-3">مرکز قرآنی <?php echo $post_title ?> </h2>
     <form action="" method="post">
         <div class="form-group mt-2">
-            <label for="title">عنوان موسسه</label>
+            <label for="title">عنوان مرکز قرآنی</label>
             <input type="text" class="form-control mt-2" id="title" name="title" value="<?php echo $post_title ?>">
         </div>
         <div class="form-group mt-2">
@@ -212,7 +212,7 @@ get_header(); ?>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="besij" name="atlas[center-type]" value="besij"
                         <?php echo checked('besij', $atlas_institute[ 'center-type' ]) ?>>
-                    <label class="form-check-label" for="besij">دارالقرآن بسیج</label>
+                    <label class="form-check-label" for="besij">پایگاه قرآنی مساجد</label>
                 </div>
             </div>
         </div>
