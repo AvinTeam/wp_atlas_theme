@@ -13,7 +13,6 @@ function handle_download()
 
             $args = [
                 'post_type'      => 'institute',
-                'post_status'    => 'any',
                 'posts_per_page' => -1,
              ];
 
@@ -27,6 +26,33 @@ function handle_download()
                     'field'    => 'slug',
                     'terms'    => sanitize_text_field($_GET[ 'format_art' ]),
                  ];
+            }
+
+            if (isset($_GET[ 'post_status' ])) {
+                $args[ 'post_status' ] = sanitize_text_field($_GET[ 'post_status' ]);
+            } else {
+                $args[ 'post_status' ] = 'any';
+            }
+            if (isset($_GET[ 'operator' ])) {
+                $args[ 'meta_query' ][  ] = [
+                    'key'     => '_operator',
+                    'value'   => absint($_GET[ 'operator' ]),
+                    'compare' => '=',
+                 ];
+            }
+
+            if (isset($_GET[ 'operator' ])) {
+
+                $args[ 'meta_query' ][  ] = [
+                    'key'     => '_operator',
+                    'value'   => absint($_GET[ 'operator' ]),
+                    'compare' => '=',
+                 ];
+
+            }
+
+            if (isset($_GET[ 'author' ])) {
+                $args[ 'author' ] = absint($_GET[ 'author' ]);
             }
 
             $query = new WP_Query($args);
@@ -110,7 +136,6 @@ function handle_download()
                     }, $gender);
                 }
 
-
                 switch ($center_type) {
                     case 'Institute':
                         $center_type = 'موسسه';
@@ -134,6 +159,35 @@ function handle_download()
                         break;
                 }
 
+                switch ($post->post_status) {
+                    case 'publish':
+                        $post_status = 'منتشر شده';
+                        break;
+                    case 'draft':
+                        $post_status = 'پیش‌نویس';
+                        break;
+                    case 'pending':
+                        $post_status = 'در انتظار بررسی';
+                        break;
+                    case 'private':
+                        $post_status = 'خصوصی';
+                        break;
+                    case 'future':
+                        $post_status = 'زمان‌بندی‌شده';
+                        break;
+                    case 'trash':
+                        $post_status = 'زباله‌دان';
+                        break;
+                    case 'auto-draft':
+                        $post_status = 'پیش‌نویس خودکار';
+                        break;
+
+                    default:
+                        $post_status = 'نامشخص';
+
+                        break;
+                }
+
                 $user_info = get_userdata($operator);
 
                 if ($user_info) {
@@ -141,7 +195,7 @@ function handle_download()
                 } else {
                     $operator = "نامشخص";
                 }
-                $row[ 'عنوان مرکز قرآنی' ]                 = $post->post_title;
+                $row[ 'عنوان مرکز قرآنی' ]        = $post->post_title;
                 $row[ 'نام مسئول' ]                     = $responsible;
                 $row[ 'شماره موبایل مسئول' ]    = $mobile;
                 $row[ 'حالت مرکز' ]                     = ($center_mode == 'public') ? 'عمومی' : 'خصوصی';
@@ -166,6 +220,7 @@ function handle_download()
                 $row[ ' زندگی با آیه ها ' ]         = ($ayeha == 'yes') ? 'بله' : 'خیر';
                 $row[ 'توضیحات ' ]                       = sanitize_text_field(apply_filters('the_content', $post->post_content));
                 $row[ 'نام کاربری اپراتور' ]    = $operator;
+                $row[ 'وضعیت' ]                            = $post_status;
 
                 $data[  ] = $row;
             }

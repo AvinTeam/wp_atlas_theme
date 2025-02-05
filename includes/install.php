@@ -3,15 +3,14 @@
 (defined('ABSPATH')) || exit;
 function atlas_row_install()
 {
-
     if (get_role('responsible') == null) {
         add_role(
             'responsible',
             'مسئول مرکز قرآنی',
             [
-                'read' => true,
-                'edit_atlas' => true,
-                'read_atlas' => true,
+                'read'        => true,
+                'edit_atlas'  => true,
+                'read_atlas'  => true,
                 'edit_atlass' => true,
              ]
         );
@@ -22,20 +21,15 @@ function atlas_row_install()
             'operator',
             'اپراتور',
             [
-                'read' => true,
-                'edit_atlas' => true,
-                'read_atlas' => true,
-                'delete_atlas' => true,
-                'edit_atlass' => true,
-                'edit_others_atlass' => true,
-                'delete_atlass' => true,
-                'publish_atlass' => true,
+                'read'                  => true,
+                'edit_atlas'            => true,
+                'read_atlas'            => true,
+                'edit_atlass'           => true,
+                'edit_others_atlass'    => true,
+                'publish_atlass'        => true,
                 'edit_published_atlass' => true,
-                'edit_private_atlass' => true,
-                'delete_others_atlass' => true,
-                'read_private_atlass' => true,
-                'delete_published_atlass' => true,
-                'delete_private_atlass' => true,
+                'edit_private_atlass'   => true,
+                'read_private_atlass'   => true,
              ]
         );
 
@@ -43,7 +37,7 @@ function atlas_row_install()
 
     $admin_role = get_role('administrator');
 
-    if (!array_key_exists('operator', $admin_role->capabilities)) {
+    if (! array_key_exists('operator', $admin_role->capabilities)) {
         $admin_role->add_cap('operator');
         $admin_role->add_cap('edit_atlas');
         $admin_role->add_cap('read_atlas');
@@ -63,9 +57,9 @@ function atlas_row_install()
     global $wpdb;
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-    $tabel_iran_area_row = $wpdb->prefix . 'atlas_iran_area';
+    $tabel_iran_area_row    = $wpdb->prefix . 'atlas_iran_area';
     $wpdb_collate_atlas_row = $wpdb->collate;
-    $sql_iran_area = "CREATE TABLE IF NOT EXISTS `$tabel_iran_area_row` (
+    $sql_iran_area          = "CREATE TABLE IF NOT EXISTS `$tabel_iran_area_row` (
         `id` int NOT NULL AUTO_INCREMENT,
         `name` varchar(19) NOT NULL,
         `city2` varchar(50) NOT NULL,

@@ -24,7 +24,7 @@ function show_institute_posts_count($output, $column_name, $user_id)
 
         $args = [
             'post_type' => 'institute',
-            'post_status' => [ 'publish', 'draft' ],
+            'post_status' => [ 'pending', 'publish' ],
             'meta_query' => [
                 [
                     'key' => '_operator',
