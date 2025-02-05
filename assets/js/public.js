@@ -4,12 +4,16 @@ if (pageLogin) {
 
     let isSendSms = true;
 
+    function validateMobile(mobile) {
+        let regex = /^09\d{9}$/;
+        return regex.test(mobile);
+    }
     function send_sms() {
         let mobile = document.getElementById('mobile').value;
         if (validateMobile(mobile)) {
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', atlas_js.ajaxurl, true);
+            xhr.open('POST', oni_js.ajaxurl, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function () {
 
@@ -21,6 +25,10 @@ if (pageLogin) {
                         document.getElementById('codeVerification').style.display = 'block';
                         document.getElementById('resendCode').disabled = true;
                         startTimer();
+                        let otpInput = document.getElementById('verificationCode');
+
+                        // اعمال فوکوس روی فیلد
+                        otpInput.focus();
                     }
                 } else {
 
@@ -30,18 +38,18 @@ if (pageLogin) {
                     loginAlert.textContent = response.data;
                 }
             };
-            xhr.send(`action=atlas_sent_sms&nonce=${atlas_js.nonce}&mobileNumber=${mobile}`);
+            xhr.send(`action=oni_sent_sms&nonce=${oni_js.nonce}&mobileNumber=${mobile}`);
 
         } else {
 
             let loginAlert = document.getElementById('login-alert');
+            isSendSms = true
 
             loginAlert.classList.remove('d-none');
             loginAlert.textContent = 'شماره موبایل نامعتبر است';
 
         }
     }
-
 
     pageLogin.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -59,7 +67,7 @@ if (pageLogin) {
         let verificationCode = document.getElementById('verificationCode').value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', atlas_js.ajaxurl, true);
+        xhr.open('POST', oni_js.ajaxurl, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
 
@@ -77,7 +85,7 @@ if (pageLogin) {
                 loginAlert.textContent = response.data;
             }
         };
-        xhr.send(`action=atlas_sent_verify&nonce=${atlas_js.nonce}&otpNumber=${verificationCode}&mobileNumber=${mobile}`);
+        xhr.send(`action=oni_sent_verify&nonce=${oni_js.nonce}&otpNumber=${verificationCode}&mobileNumber=${mobile}`);
 
 
     });
@@ -95,16 +103,12 @@ if (pageLogin) {
         send_sms();
     });
 
-    function validateMobile(mobile) {
-        let regex = /^09\d{9}$/;
-        return regex.test(mobile);
-    }
 
     function startTimer(end = false) {
 
         if (end) { clearInterval(interval); } else {
 
-            let timer = Number(atlas_js.option.set_timer) * 60,
+            let timer = Number(oni_js.option.set_timer) * 60,
                 minutes, seconds;
             interval = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
@@ -126,7 +130,19 @@ if (pageLogin) {
 
 }
 
+function updateImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
+    reader.onload = function (e) {
+        const fileImage = document.getElementById('fileImage');
+        fileImage.src = e.target.result; // Update the profile image
+    }
+
+    if (file) {
+        reader.readAsDataURL(file); // Read the file as a data URL
+    }
+}
 
 let isMap = document.getElementById('map');
 
@@ -561,7 +577,6 @@ jQuery(document).ready(function ($) {
             }
         },
     });
-
 
 
     $('#select2').on('change', function () {

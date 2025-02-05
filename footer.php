@@ -1,10 +1,15 @@
 <?php
+
+    $atlas = get_query_var('atlas');
+
+    $atlas = ($_SERVER[ 'REQUEST_METHOD' ] === 'POST' && isset($_POST[ 'act_user' ]) && $_POST[ 'act_user' ] == 'form_submit') ? 'panel' : $atlas;
+
     $iran = new Iran_Area;
 
     $search = $iran->all_city();
 
-    $atlas     = get_query_var('atlas');
     $this_page = explode('=', $atlas);
+
     if ($this_page[ 0 ] == 'city') {
         $city = $this_page[ 1 ];
 
@@ -49,20 +54,20 @@
                     <div class="mb-3">
                         <label for="course-modal" class="form-label">نحوه برگزاری کلاس</label>
                         <select id="course-modal" class="form-select form-select w-100" name="course">
-                            <option                                    <?php selected($course, 'all')?> value="all">همه موارد</option>
-                            <option                                    <?php selected($course, 'online')?> value="online">حضوری</option>
-                            <option                                    <?php selected($course, 'offline')?> value="offline">مجازی</option>
+                            <option                                                                                                          <?php selected($course, 'all')?> value="all">همه موارد</option>
+                            <option                                                                                                          <?php selected($course, 'online')?> value="online">حضوری</option>
+                            <option                                                                                                          <?php selected($course, 'offline')?> value="offline">مجازی</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="age-modal" class="form-label">گروه سنی مخاطبین</label>
                         <select id="age-modal" class="form-select form-select w-100" name="age">
-                            <option                                    <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
-                            <option                                    <?php selected($age, 7)?> value="7">زیر 7 سال</option>
-                            <option                                    <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
-                            <option                                    <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
-                            <option                                    <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
+                            <option                                                                                                          <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
+                            <option                                                                                                          <?php selected($age, 7)?> value="7">زیر 7 سال</option>
+                            <option                                                                                                          <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
+                            <option                                                                                                          <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
+                            <option                                                                                                          <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
 
                         </select>
                     </div>
@@ -71,8 +76,8 @@
                         <label for="gender-modal" class="form-label">جنسیت</label>
                         <select id="gender-modal" class="form-select form-select w-100" name="gender">
                             <option value="all">همه ی جنسیت ها</option>
-                            <option                                    <?php selected($gender, 'woman')?> value="woman">خواهران</option>
-                            <option                                    <?php selected($gender, 'man')?> value="man">برادران</option>
+                            <option                                                                                                          <?php selected($gender, 'woman')?> value="woman">خواهران</option>
+                            <option                                                                                                          <?php selected($gender, 'man')?> value="man">برادران</option>
                         </select>
                     </div>
 
@@ -98,37 +103,9 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<nav class="p-3 bg-light mt-5 text-center">
+<footer class="p-3 bg-light mt-5 text-center w-100">
     <span>کلیه حقوق این سامانه متعلق به سامانه جامع زندگی با آیه ها می باشد.</span>
-</nav>
+</footer>
 <?php wp_footer()?>
 
 </body>

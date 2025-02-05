@@ -363,6 +363,23 @@ body {
   padding: 2px 10px;
 }
 
+
+.panel-user .select2.select2-container.select2-container--bootstrap-5 {
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 .ostan-list {
   background: url('../image/Vector.png') repeat-x;
 }
@@ -577,6 +594,7 @@ body {
   .home-search-box-input {
     width: 100%;
   }
+
   .atlas-row {
     width: 100%;
   }
@@ -585,7 +603,8 @@ body {
     margin-top: -33px;
     width: 20%;
   }
-  .w-75{
+
+  .w-75 {
     width: 95% !important;
 
   }

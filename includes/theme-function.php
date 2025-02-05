@@ -599,6 +599,60 @@
         return preg_match($pattern, $mobile);
     }
 
+    function atlas_upload_file($file, int $oldfile = 0)
+    {
+
+        $massage = '';
+
+        // پردازش و ذخیره عکس
+        if (! empty($file[ 'name' ])) {
+
+            $maxFileSize = 2048 * 1024 * 1024; // 10MB
+
+            if ($file[ 'size' ] > $maxFileSize) {
+                $massage .= '<div class="alert alert-danger" role="alert">خطایی در زمان بارگزاری رخ داده لطفا دوباره تلاش کنید.</div>';
+            } else {
+
+                if (! function_exists('wp_handle_upload')) {
+                    require_once ABSPATH . 'wp-admin/includes/file.php';
+                }
+                $uploadedfile = $file;
+
+                $upload_overrides = [ 'test_form' => false ];
+
+                $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+
+                if ($movefile && ! isset($movefile[ 'error' ])) {
+
+                    $wp_upload_dir = wp_upload_dir();
+                    $attachment    = [
+                        'guid'           => $wp_upload_dir[ 'url' ] . '/' . basename($movefile[ 'file' ]),
+                        'post_mime_type' => $movefile[ 'type' ],
+                        'post_title'     => preg_replace('/\.[^.]+$/', '', basename($movefile[ 'file' ])),
+                        'post_content'   => '',
+                        'post_status'    => 'inherit',
+                     ];
+
+                    $attach_id = wp_insert_attachment($attachment, $movefile[ 'file' ]);
+
+                    if (absint($oldfile)) {
+                        wp_delete_attachment($oldfile, true);
+                    }
+
+                } else {
+                    $massage .= '<div class="alert alert-danger" role="alert">خطایی در زمان بارگزاری رخ داده لطفا دوباره تلاش کنید.</div>';
+
+                }
+            }
+        } else {
+            $massage .= '<div class="alert alert-danger" role="alert">لطفاً یک فایل انتخاب کنید.</div>';
+
+        }
+
+        return ($massage == '') ? [ 'code' => 1, 'massage' => $attach_id ] : [ 'code' => 0, 'massage' => $massage ];
+
+    }
+
     function sanitize_text_no_item($item)
     {
         $new_item = [  ];
@@ -638,9 +692,9 @@
     <div class="mb-3 px-3 atlas-comment-content fw-bold">
         <p><?php echo $comment_content ?></p>
     </div>
-</div>       <?php
-           }
-               } else {
-                   echo '<p>هنوز نظری ثبت نشده است.</p>';
-           }
-       }
+</div>                         <?php
+                             }
+                                 } else {
+                                     echo '<p>هنوز نظری ثبت نشده است.</p>';
+                             }
+                         }

@@ -17,75 +17,142 @@ get_header(); ?>
 
 
 <style>
-body,
-html {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8f9fa;
-}
 
-.login-box {
-    width: 450px;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
-.timer {
-    font-size: 1.2em;
-    margin-top: 10px;
+
+footer {
+    position: absolute;
+    bottom: 0;
 }
 </style>
 
 
 
 
+<div class="h-100 mt-5 p-5">
+    <div class="d-flex justify-content-center align-content-center  login-box">
+
+        <form id="loginForm" class="w-50 bg-white">
+
+            <div id="mobileForm">
+                <h3 class="text-center mt-2">ورود / ثبت نام</h3>
+                <p class="text-center">جهت ورود به مسابقه</p>
+
+                <?php wp_nonce_field('oni_login_page' . atlas_cookie()); ?>
+
+                <div class="form-group text-start">
+                    <label for="mobile">شماره موبایل</label>
 
 
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="sendsms"><i class="bi bi-phone"></i></span>
+                        <input type="text" inputmode="numeric" pattern="\d*" class="form-control  onlyNumbersInput"
+                            id="mobile" maxlength="11" placeholder="شماره موبایل خود را وارد کنید"
+                            aria-describedby="sendsms">
 
+                    </div>
+                </div>
+                <div class="form-group d-grid mt-2 ">
+                    <button type="submit" class="btn btn-primary bg-gradiant  btn-block">ورود</button>
 
-<div class="login-box">
-
-    <form id="loginForm">
-        
-        <div id="mobileForm">
-            <h3 class="text-center">ورود</h3>
-
-            <?php wp_nonce_field('atlas_login_page' . atlas_cookie()); ?>
-
-            <div class="form-group text-start">
-                <label for="mobile">شماره موبایل</label>
-                <input type="text" inputmode="numeric" pattern="\d*" class="form-control mt-2 onlyNumbersInput"
-                    id="mobile" maxlength="11" placeholder="شماره موبایل خود را وارد کنید">
+                </div>
             </div>
-            <div class="form-group d-grid mt-2 ">
-                <button type="submit" class="btn btn-primary btn-block">ورود</button>
+            <div id="codeVerification" class="text-start" style="display: none;">
+                <h4 class="text-center">کد تایید</h4>
+                <div class="form-group d-grid mt-2">
+                    <label for="verificationCode">کد تایید</label>
 
-            </div>
-        </div>
-        <div id="codeVerification" class="text-start" style="display: none;">
-            <h4 class="text-center">کد تایید</h4>
-            <div class="form-group d-grid mt-2">
-                <label for="verificationCode">کد تایید</label>
-                <input type="text" inputmode="numeric" pattern="\d*" class="form-control onlyNumbersInput"
-                    id="verificationCode" maxlength="<?=$atlas_option[ 'set_code_count' ]?>"
-                    placeholder="کد تایید را وارد کنید">
-            </div>
-            <div class="d-grid mt-2 gap-2">
-                <div class="timer text-center" id="timer">00:00</div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="verify"><i class="bi bi-person-fill"></i></span>
+                        <input autocomplete="one-time-code" type="text" inputmode="numeric" pattern="\d*"
+                            class="form-control onlyNumbersInput" id="verificationCode"
+                            maxlength="<?php echo $oni_option[ 'set_code_count' ] ?>"
+                            placeholder="کد تایید را وارد کنید" aria-describedby="verify">
 
-                <button type="submit" class="btn btn-primary btn-block" id="verifyCode">تایید کد</button>
-                <button type="button" class="btn btn-secondary btn-block" id="resendCode" disabled>ارسال مجدد
-                    کد</button>
-                <button type="button" class="btn btn-link btn-block" id="editNumber">ویرایش شماره</button>
+                    </div>
+                </div>
+                <div class="d-grid mt-2 gap-2">
+                    <div class="timer text-center" id="timer">00:00</div>
+
+                    <button type="submit" class="btn btn-primary bg-gradiant btn-block" id="verifyCode">تایید
+                        کد</button>
+                    <button type="button" class="btn btn-secondary btn-block" id="resendCode" disabled>ارسال مجدد
+                        کد</button>
+                    <button type="button" class="btn btn-link btn-block" id="editNumber">ویرایش شماره</button>
+                </div>
             </div>
-        </div>
-    </form>
-    <div id="login-alert" class="alert alert-danger mt-2 d-none" role="alert"></div>
+            <div id="login-alert" class="alert alert-danger mt-2 d-none" role="alert"></div>
+
+        </form>
+
+    </div>
+
+
+
 
 </div>
+
+
+
+<script>
+if ('OTPCredential' in window) {
+    const verifyCodeButton = document.getElementById('verifyCode');
+
+    // انتخاب فیلد ورودی
+    const inputVerificationCode = document.getElementById('verificationCode');
+
+    if (inputVerificationCode) {
+        //return; // پایان اسکریپت در صورت عدم وجود فیلد ورودی
+
+
+        const ac = new AbortController();
+
+        navigator.credentials
+            .get({
+                otp: {
+                    transport: ['sms'],
+                },
+                signal: ac.signal,
+            })
+            .then((otp) => {
+
+                if (otp && otp.code) {
+                    inputVerificationCode.value = otp.code;
+
+                    verifyCodeButton.click();
+
+                    verifyLogin(otp.code);
+
+
+                } else {}
+
+                ac.abort();
+            })
+            .catch((err) => {
+
+                if (ac.signal.aborted === false) {
+                    ac.abort();
+                }
+            });
+    }
+} else {
+
+    console.warn('OTPCredential API is not supported in this browser.');
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <?php get_footer(); ?>

@@ -6,13 +6,14 @@ add_action('init', 'atlas_user_submit_init');
 
 function atlas_user_submit_init()
 {
-    if (isset($_POST[ 'act_user' ]) && $_POST[ 'act_user' ] == 'form_submit') {
+    if (isset($_POST[ 'act_user' ]) && isset($_REQUEST[ 'post' ]) && $_POST[ 'act_user' ] == 'form_submit') {
         $post_update = false;
 
         if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce_user_submit' . get_current_user_id())) {
 
             $args = [
                 'author'         => get_current_user_id(),                                  // شناسه نویسنده
+                'p'              => absint($_REQUEST[ 'post' ]),                            // شناسه نویسنده
                 'post_type'      => 'institute',                                            // نوع پست (می‌تونی 'page' یا نوع‌های کاستوم هم بگذاری)
                 'post_status'    => [ 'publish', 'draft', 'pending', 'private', 'future' ], // همه وضعیت‌ها
                 'posts_per_page' => 1,                                                      // تعداد پست‌ها (برای همه پست‌ها: -1)
@@ -30,12 +31,12 @@ function atlas_user_submit_init()
                     $post_id          = get_the_ID();
                     $post_title       = get_the_title();
                     $post_description = get_the_excerpt();
+                    $attachment_id    = has_post_thumbnail() ? get_post_thumbnail_id($post_id) : '';
 
                 }
 
                 $atlas_institute_old = [
 
-                    'responsible' => get_post_meta($post_id, '_atlas_responsible', true),
                     'center-mode' => get_post_meta($post_id, '_atlas_center-mode', true),
                     'center-type' => get_post_meta($post_id, '_atlas_center-type', true),
                     'phone'       => atlas_to_enghlish(get_post_meta($post_id, '_atlas_phone', true)),
@@ -55,7 +56,6 @@ function atlas_user_submit_init()
                  ];
 
                 $atlas_institute = [
-                    'responsible' => (isset($_POST[ 'atlas' ][ 'responsible' ]) && $_POST[ 'atlas' ][ 'responsible' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'responsible' ]) : '',
                     'center-mode' => (isset($_POST[ 'atlas' ][ 'center-mode' ]) && $_POST[ 'atlas' ][ 'center-mode' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-mode' ]) : 'public',
                     'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'Institute',
                     'phone'       => (isset($_POST[ 'atlas' ][ 'phone' ]) && $_POST[ 'atlas' ][ 'phone' ]) ? atlas_to_enghlish($_POST[ 'atlas' ][ 'phone' ]) : '',
@@ -110,7 +110,17 @@ function atlas_user_submit_init()
                         'post_status'  => 'pending',
                      ]);
 
-                    update_post_meta($post_id, '_atlas_responsible', $atlas_institute[ 'responsible' ]);
+                    if (! empty($_FILES[ 'fileInput' ][ 'name' ])) {
+
+                        $upload = atlas_upload_file($_FILES[ 'fileInput' ], absint($attachment_id));
+
+                        if ($upload[ 'code' ]) {
+
+                            set_post_thumbnail($post_id, $upload[ 'massage' ]);
+
+                        }
+                    }
+
                     update_post_meta($post_id, '_atlas_center-mode', $atlas_institute[ 'center-mode' ]);
                     update_post_meta($post_id, '_atlas_center-type', $atlas_institute[ 'center-type' ]);
                     update_post_meta($post_id, '_atlas_phone', $atlas_institute[ 'phone' ]);
@@ -135,4 +145,32 @@ function atlas_user_submit_init()
         }
 
     }
+
+    if (isset($_POST[ 'act_user' ]) && isset($_REQUEST[ 'profile' ]) && $_POST[ 'act_user' ] == 'form_submit_profile') {
+        if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce_user_submit' . get_current_user_id())) {
+            $current_user_id = get_current_user_id();
+
+            $first_name = sanitize_text_field($_POST[ 'first_name' ]);
+            $last_name  = sanitize_text_field($_POST[ 'last_name' ]);
+
+            if ($first_name != "") {
+                update_user_meta($current_user_id, 'first_name', $first_name);
+            }
+
+            if ($last_name != "") {
+                update_user_meta($current_user_id, 'last_name', $last_name);
+            }
+
+            $full_name = $first_name . ' ' . $last_name;
+
+            update_user_meta($current_user_id, 'nickname', $full_name);
+
+            wp_update_user([
+                'ID'           => $current_user_id,
+                'display_name' => $full_name,
+             ]);
+
+        }
+    }
+
 }
