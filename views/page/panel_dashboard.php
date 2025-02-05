@@ -20,7 +20,7 @@
                 $status = (get_post_status() == 'publish') ? 'light' : 'warning';
                 $img    = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
                 echo '
-                    <a href="/atlas/panel/?post=' . get_the_ID() . '" class="alert alert-light w-100 d-flex flex-row gap-3 justify-content-start align-items-center" role="alert">
+                    <a href=" ' . atlas_base_url('panel/?post=' . get_the_ID()) . '" class="alert alert-light w-100 d-flex flex-row gap-3 justify-content-start align-items-center" role="alert">
                         <img src="' . $img . '" class="img-fluid rounded-circle mb-2" style=" height: 50px; border: 1px solid #3899a0;">
                         <span class="btn">' . get_the_title() . '</span>
                     </a>';
