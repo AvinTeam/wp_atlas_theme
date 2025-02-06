@@ -13,7 +13,7 @@ if (pageLogin) {
         if (validateMobile(mobile)) {
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', oni_js.ajaxurl, true);
+            xhr.open('POST', atlas_js.ajaxurl, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function () {
 
@@ -38,7 +38,7 @@ if (pageLogin) {
                     loginAlert.textContent = response.data;
                 }
             };
-            xhr.send(`action=oni_sent_sms&nonce=${oni_js.nonce}&mobileNumber=${mobile}`);
+            xhr.send(`action=atlas_sent_sms&nonce=${atlas_js.nonce}&mobileNumber=${mobile}`);
 
         } else {
 
@@ -67,7 +67,7 @@ if (pageLogin) {
         let verificationCode = document.getElementById('verificationCode').value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', oni_js.ajaxurl, true);
+        xhr.open('POST', atlas_js.ajaxurl, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
 
@@ -85,7 +85,7 @@ if (pageLogin) {
                 loginAlert.textContent = response.data;
             }
         };
-        xhr.send(`action=oni_sent_verify&nonce=${oni_js.nonce}&otpNumber=${verificationCode}&mobileNumber=${mobile}`);
+        xhr.send(`action=atlas_sent_verify&nonce=${atlas_js.nonce}&otpNumber=${verificationCode}&mobileNumber=${mobile}`);
 
 
     });
@@ -108,7 +108,7 @@ if (pageLogin) {
 
         if (end) { clearInterval(interval); } else {
 
-            let timer = Number(oni_js.option.set_timer) * 60,
+            let timer = Number(atlas_js.option.set_timer) * 60,
                 minutes, seconds;
             interval = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
