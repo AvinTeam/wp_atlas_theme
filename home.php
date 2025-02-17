@@ -31,12 +31,9 @@
                         src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
                     <a href=" <?php echo atlas_base_url('all')?>"><img class="search-button-all"
                             src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
-
-
                 </div>
             </div>
-
-            <img class="w-75 float-lg-end mx-auto d-block" src="<?php echo atlas_panel_image('aye.png') ?>">
+            <!-- <img class="w-75 float-lg-end mx-auto d-block" src="<?php echo atlas_panel_image('aye.png') ?>"> -->
         </div>
     </div>
 </div>
