@@ -94,6 +94,10 @@ add_filter('comment_form_defaults', 'custom_comment_form_with_hoverable_stars');
 
 function display_comment_rating($comment_text, $comment)
 {
+    if (!$comment || !isset($comment->comment_ID)) {
+        return $comment_text;
+    }
+
     $rating = get_comment_meta($comment->comment_ID, 'rating', true);
     if ($rating) {
         $stars = str_repeat('⭐', $rating);

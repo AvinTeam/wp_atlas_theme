@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
 add_action('init', 'atlas_panel_rewrite');
 function atlas_panel_rewrite()
 {

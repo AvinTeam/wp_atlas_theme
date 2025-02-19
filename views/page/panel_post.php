@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
     $args = [
         'author'      => get_current_user_id(), // شناسه نویسنده
         'post_type'   => 'institute',           // نوع پست (می‌تونی 'page' یا نوع‌های کاستوم هم بگذاری)

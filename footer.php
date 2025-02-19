@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
     $atlas = get_query_var('atlas');
 
     $atlas = ($_SERVER[ 'REQUEST_METHOD' ] === 'POST' && isset($_POST[ 'act_user' ]) && $_POST[ 'act_user' ] == 'form_submit') ? 'panel' : $atlas;
@@ -123,7 +125,7 @@
         </div>
         <div class=" mx-auto atlas-row footercopy rounded-bottom-4 text-center d-flex justify-content-center align-items-center text-white" style="height: 59px;">
             <span>کلیه حقوق این سامانه متعلق به سامانه جامع زندگی با آیه ها می باشد.</span>
-        </div>d
+        </div>
     </div>
 
 </footer>

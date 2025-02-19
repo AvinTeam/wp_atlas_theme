@@ -1,4 +1,8 @@
-<?php get_header();
+<?php
+
+use atlasclass\Iran_Area;
+
+ get_header();
 
     $iran = new Iran_Area;
 

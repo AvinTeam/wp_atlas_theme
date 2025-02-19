@@ -1,4 +1,7 @@
 <?php
+
+use atlasclass\Iran_Area;
+
 (defined('ABSPATH')) || exit;
 
 add_action('add_meta_boxes', 'atlas_meta_box');

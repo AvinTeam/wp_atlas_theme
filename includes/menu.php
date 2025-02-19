@@ -1,4 +1,7 @@
 <?php
+
+use atlasclass\Iran_Area;
+
 (defined('ABSPATH')) || exit;
 
 add_action('admin_menu', 'mph_admin_menu');

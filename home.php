@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
     $atlas_body = 'atlas-home';
 
     get_header();

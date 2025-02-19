@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
 add_action('wp_ajax_atlas_get_city', 'atlas_get_city');
 add_action('wp_ajax_nopriv_atlas_get_city', 'atlas_get_city');
 
@@ -15,15 +17,10 @@ function atlas_get_city()
 
         foreach ($ostan as $value) {
             if ($value->province_id == absint($_POST[ 'ostanId' ])) {
-
                 $city_row .= '<option value="' . $value->id . '">' . $value->name . '</option>' . PHP_EOL;
-
             }
-
         }
-
         wp_send_json_success($city_row);
-
     }
 
 }
@@ -32,7 +29,6 @@ add_action('wp_ajax_atlas_delete_city', 'handle_atlas_delete_city');
 
 function handle_atlas_delete_city()
 {
-
     if (current_user_can('manage_options')) {
         check_ajax_referer('ajax-nonce', 'nonce');
 

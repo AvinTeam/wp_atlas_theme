@@ -1,0 +1,18 @@
+{
+    "name": "mrrashidpour/atlas",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "atlasclass\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mohammadreza Rashidpour",
+            "email": "rashidpour1995@gmail.com"
+        }
+    ]
+}

@@ -1,4 +1,7 @@
 <?php
+
+use atlasclass\Iran_Area;
+
 (defined('ABSPATH')) || exit;
 
 function add_institute_columns($columns)

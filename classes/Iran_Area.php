@@ -1,5 +1,7 @@
 <?php
 
+namespace atlasclass;
+
 class Iran_Area
 {
     private $wpdb;

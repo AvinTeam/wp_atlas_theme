@@ -1,4 +1,7 @@
 <?php
+
+use atlasclass\Iran_Area;
+
 $iran = new Iran_Area();
 
 $province = $iran->get('id', absint($_GET[ 'province' ]));

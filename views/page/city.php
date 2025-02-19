@@ -1,4 +1,7 @@
 <?php
+
+use atlasclass\Iran_Area;
+
     $inrow       = 18;
     $atlas       = get_query_var('atlas');
     $this_page   = explode('=', $atlas);

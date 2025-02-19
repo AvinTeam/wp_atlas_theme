@@ -1,5 +1,7 @@
 <?php
 
+use atlasclass\Iran_Area;
+
 (defined('ABSPATH')) || exit;
 
 add_action('admin_init', 'handle_download');
