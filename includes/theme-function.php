@@ -697,9 +697,6 @@
 
     }
 
-    
-
-
     function display_commenters_list($comments)
     {
 

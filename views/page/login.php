@@ -38,8 +38,6 @@ footer {
                 <h3 class="text-center mt-2">ورود / ثبت نام</h3>
                 <p class="text-center">جهت ورود به مسابقه</p>
 
-                <?php wp_nonce_field('oni_login_page' . atlas_cookie()); ?>
-
                 <div class="form-group text-start">
                     <label for="mobile">شماره موبایل</label>
 
@@ -66,7 +64,7 @@ footer {
                         <span class="input-group-text" id="verify"><i class="bi bi-person-fill"></i></span>
                         <input autocomplete="one-time-code" type="text" inputmode="numeric" pattern="\d*"
                             class="form-control onlyNumbersInput" id="verificationCode"
-                            maxlength="<?php echo $oni_option[ 'set_code_count' ] ?>"
+                            maxlength="<?php echo $atlas_option[ 'set_code_count' ] ?>"
                             placeholder="کد تایید را وارد کنید" aria-describedby="verify">
 
                     </div>

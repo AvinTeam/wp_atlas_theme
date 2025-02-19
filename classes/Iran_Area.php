@@ -1,5 +1,4 @@
 <?php
-
 namespace atlasclass;
 
 class Iran_Area
@@ -21,6 +20,27 @@ class Iran_Area
 
         foreach ($data as $key => $value) {
             $data[ $key ] = $value;
+        }
+
+        $inserted = $this->wpdb->insert(
+            $this->tablename,
+            $data,
+            $format
+
+        );
+
+        return ($inserted) ? $this->wpdb->insert_id : false;
+
+    }
+
+    public function new_insert(array $data): int | false
+    {
+
+        $format = [  ];
+        foreach ($data as $key => $value) {
+            $data[ $key ] = $value;
+            $format[  ]   = $this->set_type($value);
+
         }
 
         $inserted = $this->wpdb->insert(
@@ -134,7 +154,7 @@ class Iran_Area
 
     }
 
-    public function get($key, $value): object | array | false
+    public function get($key, $value): object | array | false | null
     {
         $result = false;
         if ($value) {
@@ -146,6 +166,25 @@ class Iran_Area
                 )
             );
         }
+        return $result;
+    }
+
+    public function new_get(array $data, string $output = OBJECT): object | array | false | null
+    {
+
+        if (empty($data)) {return false;}
+
+        $where = '1=1';
+
+        foreach ($data as $key => $value) {
+            $where .= $this->wpdb->prepare(' AND %i = ' . $this->set_type($value), $key, $value);
+        }
+
+        $result = $this->wpdb->get_row(
+            "SELECT * FROM `$this->tablename` WHERE $where",
+            $output
+        );
+
         return $result;
     }
 
@@ -164,6 +203,24 @@ class Iran_Area
         }
 
         return $result;
+
+    }
+
+    protected function set_type($item)
+    {
+        switch (gettype($item)) {
+            case 'integer':
+                return '%d';
+                break;
+
+            case 'string':
+                return '%s';
+                break;
+
+            default:
+                return '%d';
+                break;
+        }
 
     }
 

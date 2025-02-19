@@ -76,9 +76,40 @@ function mph_admin_menu(string $context): void
 
     }
 
+
+    $add_file_ayeh_suffix = add_submenu_page(
+        'atlas',
+        'افزودن با اکسل',
+        'افزودن با اکسل',
+        'manage_options',
+        'add_file_ayeh',
+        'add_file_ayeh',
+    );
+
+    function add_file_ayeh()
+    {
+        $atlas_option = atlas_start_working();
+
+        require_once ATLAS_VIEWS . 'menu/add_file.php';
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     add_action('load-' . $province_suffix, 'atlas__province');
     add_action('load-' . $setting_suffix, 'atlas__submit');
     add_action('load-' . $sms_panels_suffix, 'atlas__submit');
+    add_action('load-' . $add_file_ayeh_suffix, 'atlas__add_file');
+
 
     function atlas__province()
     {
@@ -267,6 +298,53 @@ function mph_admin_menu(string $context): void
         }
 
     }
+
+
+    function atlas__add_file()
+    {
+
+        if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == "atlas__import") {
+
+            if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
+
+                require_once ATLAS_INCLUDES . 'import-file.php';
+
+                if ($count_row) {
+                    wp_admin_notice(
+                        "تعداد $count_row سوال از اکسل فراخوانی شد.",
+                        [
+                            'id'          => 'atlas_message',
+                            'type'        => 'success',
+                            'dismissible' => true,
+                         ]
+                    );
+                } else {
+                    wp_admin_notice(
+                        'استخراج به مشکل خورده لطفا اکسل رو بررسی کنید و دوباره امتحان کنید',
+                        [
+                            'id'                 => 'atlas_message',
+                            'type'               => 'error',
+                            'additional_classes' => [ '' ],
+                            'dismissible'        => true,
+                         ]
+                    );
+                }
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     add_submenu_page(
         'edit.php?post_type=institute',         // اسلاگ پست تایپ
