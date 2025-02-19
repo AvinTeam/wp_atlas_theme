@@ -551,7 +551,6 @@
 
         return $output;
     }
-
     function atlas_to_enghlish($text)
     {
 
@@ -698,6 +697,9 @@
 
     }
 
+    
+
+
     function display_commenters_list($comments)
     {
 
@@ -707,27 +709,28 @@
                 $comment_content = $comment->comment_content;
             $rating          = get_comment_meta($comment->comment_ID, 'rating', true); ?>
 
-<div class="d-flex flex-column bg-body rounded p-3 mt-3">
-    <div class="p-3 d-flex flex-row justify-content-between align-items-center">
-        <b><?php echo $author_name ?></b>
-        <div class=" rating-stars" style="direction: ltr;">
-            <?php
-                for ($i = 1; $i < 6; $i++) {
-                                if (absint($rating) >= $i) {
-                                    echo '<i class="bi bi-star-fill"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star"></i>';
-                                }
-                        }?>
-        </div>
-    </div>
-    <hr>
-    <div class="mb-3 px-3 atlas-comment-content fw-bold">
-        <p><?php echo $comment_content ?></p>
-    </div>
-</div> <?php
+        <div class="d-flex flex-column bg-body rounded p-3 mt-3">
+            <div class="p-3 d-flex flex-row justify-content-between align-items-center">
+                <b><?php echo $author_name ?></b>
+                <div class=" rating-stars" style="direction: ltr;">
+                    <?php
+                        for ($i = 1; $i < 6; $i++) {
+                                        if (absint($rating) >= $i) {
+                                            echo '<i class="bi bi-star-fill"></i>';
+                                        } else {
+                                            echo '<i class="bi bi-star"></i>';
+                                        }
+                                }?>
+                </div>
+            </div>
+            <hr>
+            <div class="mb-3 px-3 atlas-comment-content fw-bold">
+                <p><?php echo $comment_content ?></p>
+            </div>
+        </div> <?php
            }
                } else {
                    echo '<p>هنوز نظری ثبت نشده است.</p>';
            }
-       }
+       
+    }

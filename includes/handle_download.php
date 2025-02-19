@@ -152,7 +152,9 @@ function handle_download()
                     case 'besij':
                         $center_type = 'پایگاه قرآنی مساجد';
                         break;
-
+                    case 'home':
+                        $center_type = 'جلسات خانگی';
+                        break;
                     default:
                         $center_type = 'نامشخص';
 

@@ -76,6 +76,9 @@
                     case 'besij':
                         $center_type = 'پایگاه قرآنی مساجد';
                         break;
+                    case 'home':
+                        $center_type = 'جلسات خانگی';
+                        break;
 
                     default:
                         $center_type = 'نامشخص';
@@ -426,22 +429,22 @@
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('instagram.png') ?>"></a>
                                     <?php endif; ?>
-                                    <?php if (! empty($link[ 'telegram' ])): ?>
+<?php if (! empty($link[ 'telegram' ])): ?>
                                     <a href="<?php echo $link[ 'telegram' ] ?>" title="کانال تلگرام"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('telegram.png') ?>"></a>
                                     <?php endif; ?>
-                                    <?php if (! empty($link[ 'rubika' ])): ?>
+<?php if (! empty($link[ 'rubika' ])): ?>
                                     <a href="<?php echo $link[ 'rubika' ] ?>" title="کانال روبیکا"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('rubika.png') ?>"></a>
                                     <?php endif; ?>
-                                    <?php if (! empty($link[ 'bale' ])): ?>
+<?php if (! empty($link[ 'bale' ])): ?>
                                     <a href="<?php echo $link[ 'bale' ] ?>" title="کانال بله"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('bale.png ') ?>"></a>
                                     <?php endif; ?>
-                                    <?php if (! empty($link[ 'eitaa' ])): ?>
+<?php if (! empty($link[ 'eitaa' ])): ?>
                                     <a href="<?php echo $link[ 'eitaa' ] ?>" title="کانال ایتا"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('eitaa.png') ?>"></a>
@@ -558,7 +561,7 @@ const markerImage = "<?php echo atlas_panel_image('marker.png') ?>";
 
 const province = "<?php echo $province_neme ?>";
 
-const points = <?php echo json_encode($points); ?>;
+const points =               <?php echo json_encode($points); ?>;
 
 const city = "<?php echo $city_neme ?>";
 

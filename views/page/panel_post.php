@@ -115,24 +115,24 @@ get_header(); ?>
     ?>
 
 
-		<div class="container mt-5">
-		    <div class="alert alert-warning" role="alert">
-		        مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
-		    </div>
-		</div>
+<div class="container mt-5">
+    <div class="alert alert-warning" role="alert">
+        مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
+    </div>
+</div>
 
-		<?php endif; ?>
+<?php endif; ?>
 <div class="container mt-5">
     <form accept="" method="POST" enctype="multipart/form-data">
         <div class="form-group mt-2 d-flex flex-row justify-content-between ">
             <div>
                 <label for="fileInput">لوگو مرکز قرآنی</label>
-                <input type="file" class="form-control mt-2" id="fileInput" name="fileInput" accept="image/*" onchange="updateImage(event)">
+                <input type="file" class="form-control mt-2" id="fileInput" name="fileInput" accept="image/*"
+                    onchange="updateImage(event)">
             </div>
 
-            <img id="fileImage"  src="<?php echo $post_image; ?>"
-                        alt="Profile Image" class="img-fluid rounded-circle mb-2"
-                        style="width: 100px;  border: 1px solid #3899a0;">
+            <img id="fileImage" src="<?php echo $post_image; ?>" alt="Profile Image"
+                class="img-fluid rounded-circle mb-2" style="width: 100px;  border: 1px solid #3899a0;">
 
         </div>
         <div class="form-group mt-2">
@@ -159,7 +159,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="Institute" name="atlas[center-type]"
-                        value="Institute"                                                                                   <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
+                        value="Institute" <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="Institute">موسسه</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -175,13 +175,19 @@ get_header(); ?>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="education" name="atlas[center-type]"
-                        value="education"                                                                                   <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
+                        value="education" <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="education">آموزش پرورش</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="besij" name="atlas[center-type]" value="besij"
                         <?php echo checked('besij', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="besij">پایگاه قرآنی مساجد</label>
+                </div>
+                
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="home" name="atlas[center-type]" value="home"
+                        <?php echo checked('home', $atlas_institute[ 'center-type' ]) ?>>
+                    <label class="form-check-label" for="home">جلسات خانگی</label>
                 </div>
             </div>
         </div>
@@ -272,7 +278,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="atlas[gender][]" type="checkbox" id="gender-woman"
-                        value="woman"                                                                           <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
+                        value="woman" <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
                     <label class="form-check-label" for="gender-woman">خانم</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -422,5 +428,3 @@ get_header(); ?>
         </div>
     </form>
 </div>
-
-
