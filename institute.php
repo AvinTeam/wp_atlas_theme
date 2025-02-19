@@ -76,7 +76,7 @@
                     case 'besij':
                         $center_type = 'پایگاه قرآنی مساجد';
                         break;
-                        
+
                     default:
                         $center_type = 'نامشخص';
 
@@ -146,10 +146,10 @@
                 foreach ($comments as $comment) {
 
                     $rating = intval(get_comment_meta($comment->comment_ID, 'rating', true));
-                    $sum_rating += $rating ;
+                    $sum_rating += $rating;
                 }
 
-                $avg_rating =($sum_rating) ? ceil(($sum_rating / count($comments))) : 0;
+                $avg_rating = ($sum_rating) ? ceil(($sum_rating / count($comments))) : 0;
             ?>
 
 
@@ -200,7 +200,7 @@
             </div>
 
             <div class="d-flex flex-row align-items-center justify-content-center text-white mt-2 mt-sm-0">
-                <span><?php echo count($comments)?> نظر, <b><?=$avg_rating?></b></span>
+                <span><?php echo count($comments) ?> نظر, <b><?php echo $avg_rating ?></b></span>
                 <img src="<?php echo atlas_panel_image('star.svg') ?>" style="width: 26px;">
             </div>
         </div>
@@ -241,7 +241,8 @@
 
             <div id="info" class="mt-2">
                 <div class="institute-info px-4 py-3">
-                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره مرکز قرآنی
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('info.svg') ?>"> درباره مرکز
+                        قرآنی
                     </p>
                     <hr class="">
 
@@ -375,7 +376,7 @@
             <div id="contact" class="mt-3">
                 <div class="institute-info px-4 py-3">
                     <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('phone-i.png') ?>"> ارتباط با
-                    مرکز قرآنی</p>
+                        مرکز قرآنی</p>
                     <hr class="">
 
                     <div class="row atlas-block-info">
@@ -454,7 +455,8 @@
 
             <div id="address" class="mt-3">
                 <div class="institute-info px-4 py-3">
-                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('address.png') ?>"> آدرس مرکز قرآنی
+                    <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('address.png') ?>"> آدرس مرکز
+                        قرآنی
                     </p>
                     <hr class="">
 
@@ -487,16 +489,11 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                     </div>
                     <hr class="">
 
                     <div class="row atlas-block-info">
                         <div id="map-city" class="rounded-4" style="height: 300px; max-height: 500px;"></div>
-
                     </div>
                 </div>
             </div>
@@ -505,6 +502,12 @@
                 <div class="institute-info px-4 py-3">
                     <p class="atlas-title fw-bold"><img src="<?php echo atlas_panel_image('comment.png') ?>"> نظرات</p>
                     <hr class="">
+
+                    <?php if (isset($_GET[ 'comment-status' ]) && $_GET[ 'comment-status' ] == 'pending'): ?>
+                    <div class="alert alert-success" role="alert">
+                        <div class="comment-notification">✅ نظر شما ثبت شد و پس از تأیید مدیر نمایش داده خواهد شد.</div>
+                    </div>
+                    <?php endif; ?>
                     <div class="row atlas-block-info">
                         <?php comment_form(); ?>
                         <hr>
@@ -623,10 +626,6 @@ fetch(url)
     })
     .catch(error => console.error("خطا در دریافت اطلاعات:", error));
 
-
-
-
-
 document.querySelectorAll('.atlas-table-list').forEach(item => {
     item.addEventListener('click', function() {
         const dataBlock = this.getAttribute('data-block');
@@ -639,10 +638,6 @@ document.querySelectorAll('.atlas-table-list').forEach(item => {
         });
 
         this.classList.add('atlas-active');
-
-
-
-
 
         const mapSection = document.getElementById(dataBlock);
         mapSection.scrollIntoView({

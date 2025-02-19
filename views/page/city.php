@@ -32,6 +32,7 @@
         $cites = $iran->select($province_id);
 
         $all_iran = 'city';
+        $search   = $iran->all_city($province_id);
 
     } elseif ($this_page[ 0 ] == 'province') {
         $all_iran = 'province';
@@ -55,6 +56,9 @@
         $provinces = $iran->select(0);
 
         $cites = $iran->select($province_id);
+
+        $search = $iran->all_city($province_id);
+
     } elseif ($this_page[ 0 ] == 'search') {
 
         function atlas_title_filter_search($title)
@@ -192,11 +196,11 @@
             if (! empty($map[ 'lat' ]) && ! empty($map[ 'lng' ])) {
 
                 $info = '<div style="text-align: center;">
-												<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
-												<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
-												<p>' . $coaches . ' مربی</p>
-												<p>' . $contacts . ' قرآن‌آموز</p>
-											</div>';
+																				<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
+																				<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
+																				<p>' . $coaches . ' مربی</p>
+																				<p>' . $contacts . ' قرآن‌آموز</p>
+																			</div>';
 
                 $points[  ] = [
                     "lat"  => $map[ 'lat' ],
@@ -217,6 +221,12 @@
     $all_institute_new = array_slice($all_institute, $start_show, $inrow, true);
 
 get_header(); ?>
+
+<style>
+.city-head-box {
+    background-image: url('<?php echo atlas_panel_image('province/bg' . $province_id . '.png') ?>');
+}
+</style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
@@ -395,7 +405,7 @@ get_header(); ?>
                     src="' . atlas_panel_image('prev-page-active.svg') . '"></a>';
                     }
                 ?>
-                <div class="atlas-paginate d-flex flex-row justify-content-center">
+                <div class="atlas-paginate d-flex flex-row justify-content-center gap-1 gap-md-3">
                     <?php echo paginate($total, $inpage); ?>
                 </div>
                 <?php
@@ -454,7 +464,7 @@ const customIcon = L.icon({
 });
 let city = "";
 const province = "<?php echo $province_neme ?>";
-const points =                                           <?php echo json_encode($points); ?>;
+const points =                             <?php echo json_encode($points); ?>;
 query = province;
 </script>
 

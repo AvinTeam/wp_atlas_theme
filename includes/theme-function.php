@@ -472,49 +472,81 @@
 
         $output = '';
 
-        // محاسبه صفحات قابل نمایش
-        $start = max(1, $current_page - 2);
-        $end   = min($total_pages, $current_page + 2);
+        // // محاسبه صفحات قابل نمایش
+        // $start = max(1, $current_page - 2);
+        // $end   = min($total_pages, $current_page + 2);
 
-        if ($start > 5) {
+        // if ($current_page >= 4) {
+        //     $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', 1)) . "'>1</a>";
 
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i == $current_page) {
-                    $output .= "<span  class='current rounded-circle d-block text-center'>$i</span>";
-                } else {
-                    $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
-                }
-            }
+        //     if ($current_page >= 5) {
+        //         $output .= '...';
+        //     }
 
-            $output .= '...';
+        // }
 
+        // if ($start > 5) {
+
+        //     for ($i = 1; $i <= 5; $i++) {
+        //         if ($i == $current_page) {
+        //             $output .= "<span  class='current rounded-circle d-block text-center'>$i</span>";
+        //         } else {
+        //             $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
+        //         }
+        //     }
+
+        //     $output .= '...';
+
+        // }
+
+        // // نمایش صفحات
+        // for ($i = $start; $i <= $end; $i++) {
+        //     if ($i == $current_page) {
+        //         $output .= "<span class='current rounded-circle d-block text-center'>$i</span>";
+        //     } else {
+        //         $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
+        //     }
+        // }
+
+        // $end_start = $total_pages - 4;
+
+        // // اگر صفحه فعلی نزدیک انتهای صفحات باشد
+        // if ($total_pages - $start >= 10) {
+
+        //     $output .= '...';
+
+        //     for ($i = $end_start; $i <= $total_pages; $i++) {
+        //         $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
+
+        //     }
+        // } else {
+        //     for ($i = $end + 1; $i <= $total_pages; $i++) {
+        //         $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
+
+        //     }
+        // }
+
+        // if ($current_page >= 4) {
+
+        //     if ($current_page >= 5) {
+        //         $output .= '...';
+        //     }
+
+        //     $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', 1)) . "'>1</a>";
+
+        // }
+
+        $start = $current_page - 1;
+
+        if ($start >= 1) {
+            $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $start)) . "'>$start</a>";
         }
 
-        // نمایش صفحات
-        for ($i = $start; $i <= $end; $i++) {
-            if ($i == $current_page) {
-                $output .= "<span class='current rounded-circle d-block text-center'>$i</span>";
-            } else {
-                $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
-            }
-        }
+        $output .= "<span  class='current rounded-circle d-block text-center'> $current_page</span>";
 
-        $end_start = $total_pages - 4;
-
-        // اگر صفحه فعلی نزدیک انتهای صفحات باشد
-        if ($total_pages - $start >= 10) {
-
-            $output .= '...';
-
-            for ($i = $end_start; $i <= $total_pages; $i++) {
-                $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
-
-            }
-        } else {
-            for ($i = $end + 1; $i <= $total_pages; $i++) {
-                $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $i)) . "'>$i</a>";
-
-            }
+        $next = $current_page + 1;
+        if ($total_pages >= $next) {
+            $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $next)) . "'>$next</a>";
         }
 
         return $output;
@@ -674,6 +706,7 @@
                 $author_name     = $comment->comment_author;
                 $comment_content = $comment->comment_content;
             $rating          = get_comment_meta($comment->comment_ID, 'rating', true); ?>
+
 <div class="d-flex flex-column bg-body rounded p-3 mt-3">
     <div class="p-3 d-flex flex-row justify-content-between align-items-center">
         <b><?php echo $author_name ?></b>
@@ -692,9 +725,9 @@
     <div class="mb-3 px-3 atlas-comment-content fw-bold">
         <p><?php echo $comment_content ?></p>
     </div>
-</div>                         <?php
-                             }
-                                 } else {
-                                     echo '<p>هنوز نظری ثبت نشده است.</p>';
-                             }
-                         }
+</div> <?php
+           }
+               } else {
+                   echo '<p>هنوز نظری ثبت نشده است.</p>';
+           }
+       }

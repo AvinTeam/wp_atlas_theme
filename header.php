@@ -3,6 +3,7 @@
 
 global $atlas_body;
 
+
 ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -36,7 +37,7 @@ global $atlas_body;
         <!-- لینک دیگر -->
         <div class="col-12 col-md-4 text-center text-md-end d-none d-md-block">
             <a href="https://zendegibaayeha.ir/">
-                <img src="<?php echo atlas_panel_image('zendegibaayeha.svg') ?>" alt="زندگی با آیه‌ها" class="additional-link-img">
+                <img src="<?php echo atlas_panel_image('zendegibaayeha.png') ?>" alt="زندگی با آیه‌ها" style="height: 100px;" class="additional-link-img">
             </a>
         </div>
     </div>

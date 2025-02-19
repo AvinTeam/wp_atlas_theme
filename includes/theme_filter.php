@@ -110,3 +110,12 @@ function display_comment_rating($comment_text, $comment)
     return $comment_text;
 }
 add_filter('comment_text', 'display_comment_rating', 10, 2);
+
+
+function custom_comment_redirect( $location, $comment ) {
+    if ($comment->comment_approved == 0) {
+        return add_query_arg('comment-status', 'pending', get_permalink($comment->comment_post_ID));
+    }
+    return $location;
+}
+add_filter('comment_post_redirect', 'custom_comment_redirect', 10, 2);

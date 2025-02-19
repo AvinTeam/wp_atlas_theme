@@ -1,34 +1,55 @@
 @font-face {
-  font-family: "vazir";
-  src: url("../fonts/Vazir-FD.eot");
-  src: url("../fonts/Vazir-FD.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/Vazir-FD.woff2") format("woff2"),
-    url("../fonts/Vazir-FD.woff") format("woff"),
-    url("../fonts/Vazir-FD.ttf") format("truetype");
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/IranSansX/IRANSansXFaNum-Black.woff') format('woff'),
+    url('../fonts/IranSansX/IRANSansXFaNum-Black.woff2') format('woff2'),
+    url("../fonts/IranSansX/IRANSansXFaNum-Black.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "vazir";
-  src: url("../fonts/Vazir-Bold-FD.eot");
-  src: url("../fonts/Vazir-Bold-FD.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/Vazir-Bold-FD.woff2") format("woff2"),
-    url("../fonts/Vazir-Bold-FD.woff") format("woff"),
-    url("../fonts/Vazir-Bold-FD.ttf") format("truetype");
+  font-family: IRANSansX;
+  font-style: normal;
   font-weight: bold;
+  src: url('../fonts/IranSansX/IRANSansXFaNum-Bold.woff') format('woff'),
+    url('../fonts/IranSansX/IRANSansXFaNum-Bold.woff2') format('woff2'),
+    url("../fonts/IranSansX/IRANSansXFaNum-Bold.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 1000;
+  src: url('../fonts/IranSansX/IRANSansXFaNum-Heavy.woff') format('woff'),
+    url('../fonts/IranSansX/IRANSansXFaNum-Heavy.woff2') format('woff2'),
+    url("../fonts/IranSansX/IRANSansXFaNum-Heavy.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/IranSansX/IRANSansXFaNum-Medium.woff') format('woff'),
+    url('../fonts/IranSansX/IRANSansXFaNum-Medium.woff2') format('woff2'),
+    url("../fonts/IranSansX/IRANSansXFaNum-Medium.ttf") format("truetype");
+}
+
+
+
+
 
 * {
-  font-family: vazir !important;
+  font-family: IRANSansX;
 }
 
 select,
 select option {
-  font-family: vazir !important;
+  font-family: IRANSansX !important;
 }
 
 select,
 select option {
-  font-family: Vazir !important;
+  font-family: IRANSansX !important;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -104,7 +125,7 @@ body {
 }
 
 .city-head-box {
-  background: url('../image/city_head.png') no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
 }
 
@@ -377,7 +398,7 @@ body {
   background-clip: padding-box;
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .ostan-list {
@@ -516,6 +537,50 @@ body {
   height: 100px;
 }
 
+.bg-linear-gradient {
+  background: linear-gradient(-90deg, rgba(55, 190, 193, 1) 0%, rgba(57, 60, 151, 1) 100%), url('../image/Vector.png');
+  background-position-x: 0%, 0%;
+  background-position-y: 0%, 0%;
+  background-size: auto, auto;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+}
+
+.footer-link img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(25%) hue-rotate(47deg) brightness(105%) contrast(105%);
+}
+
+.footercopy{
+  background-color: #393C97;
+}
+
+.fw-heavy {
+  font-weight: 1000;
+}
+
+@media (max-width: 576px) {
+
+  .home-search-box img,
+  .ostan {
+    width: 100% !important;
+  }
+
+  .home-search-box-input select {
+    font-size: 14px;
+    padding: 15px 10px;
+  }
+
+  .ostan-list .chose_ostan {
+    margin-top: -35px !important;
+    width: 40% !important;
+  }
+
+  .select2.select2-container.select2-container--bootstrap-5 {
+    width: 100% !important;
+  }
+}
+
 @media (max-width: 768px) {
 
   .atlas-subject {
@@ -568,24 +633,9 @@ body {
     height: 80px;
   }
 
-
-
   .ostan-list .chose_ostan {
-    margin-top: -24px;
-    width: 35%;
-  }
-}
-
-@media (max-width: 576px) {
-
-  .home-search-box img,
-  .ostan {
-    width: 100% !important;
-  }
-
-  .home-search-box-input select {
-    font-size: 14px;
-    padding: 15px 10px;
+    margin-top: -24px !important;
+    width: 35% !important;
   }
 }
 

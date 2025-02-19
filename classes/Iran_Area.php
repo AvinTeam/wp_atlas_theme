@@ -63,12 +63,14 @@ class Iran_Area
 
     }
 
-    public function all_city(): array | object | null
+    public function all_city($province_id = 0): array | object | null
     {
+
+        $whare = ($province_id) ? 'province_id =' . absint($province_id) : 'province_id !=0';
 
         $mpn_row = $this->wpdb->get_results(
             $this->wpdb->prepare(
-                "SELECT * FROM %i WHERE province_id !=0 ",
+                "SELECT * FROM %i WHERE $whare ",
                 [ $this->tablename ]
             )
         );
@@ -81,7 +83,7 @@ class Iran_Area
 
                 $province = $this->get('id', $row->province_id);
 
-                $city2                   = (isset($row->city2) && !empty($row->city2)) ? ' - ' . $row->city2 : '';
+                $city2                   = (isset($row->city2) && ! empty($row->city2)) ? ' - ' . $row->city2 : '';
                 $mpn_row_new[ $row->id ] = $row->name . $city2 . ' - ' . $province->name;
             }
             $mpn_row = $mpn_row_new;
