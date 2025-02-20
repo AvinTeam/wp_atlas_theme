@@ -2,7 +2,7 @@
 (defined('ABSPATH')) || exit;
 header('Content-Type: text/html; charset=utf-8');
 
-define('ATLAS_VERSION', '1.6.6');
+define('ATLAS_VERSION', '1.6.8');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -49,6 +49,7 @@ if (is_admin()) {
     require_once ATLAS_INCLUDES . '/edit_column_institute.php';
     require_once ATLAS_INCLUDES . '/edit_user_table.php';
     require_once ATLAS_INCLUDES . '/handle_download.php';
+    require_once ATLAS_INCLUDES . '/user_filed.php';
 
 }
 

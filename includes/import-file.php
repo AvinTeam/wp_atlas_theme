@@ -176,18 +176,18 @@ if (isset($_FILES[ 'excel_file' ]) && $_FILES[ 'excel_file' ][ 'error' ] === UPL
                     update_post_meta($post_id, '_atlas_ayeha', 'no');
                     update_post_meta($post_id, '_operator', get_current_user_id());
 
-                    if (! absint($ostan)) {error_log('row exel: ' . $rowIndex . ' not  province');}
-                    if (! absint($city)) {error_log('row exel: ' . $rowIndex . ' not  city');}
-                    if (empty($atlas_institute[ 'responsible-mobile' ])) {error_log('row exel: ' . $rowIndex . ' not  responsible mobile');}
+                    if (! absint($ostan)) {error_log('Error row exel: ' . $rowIndex . ' not  province');}
+                    if (! absint($city)) {error_log('Error row exel: ' . $rowIndex . ' not  city');}
+                    if (empty($atlas_institute[ 'responsible-mobile' ])) {error_log('Error row exel: ' . $rowIndex . ' not  responsible mobile');}
 
                     error_log('----------------------------- post_id : ' . $post_id . ' -----------------------------');
 
                 } else {
-                    error_log('row exel: ' . $rowIndex . ' not insert institute');
+                    error_log('Error row exel: ' . $rowIndex . ' not insert institute');
                 }
             } catch (Exception $e) {
 
-                error_log('row exel: ' . $rowIndex . ' is nat ok catch');
+                error_log('Error row exel: ' . $rowIndex . ' is nat ok catch');
                 error_log("Error processing item: " . $e->getMessage());
             }
 

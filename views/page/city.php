@@ -1,6 +1,6 @@
 <?php
 
-use atlasclass\Iran_Area;
+    use atlasclass\Iran_Area;
 
     $inrow       = 18;
     $atlas       = get_query_var('atlas');
@@ -199,11 +199,11 @@ use atlasclass\Iran_Area;
             if (! empty($map[ 'lat' ]) && ! empty($map[ 'lng' ])) {
 
                 $info = '<div style="text-align: center;">
-																				<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
-																				<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
-																				<p>' . $coaches . ' مربی</p>
-																				<p>' . $contacts . ' قرآن‌آموز</p>
-																			</div>';
+																										<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
+																										<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
+																										<p>' . $coaches . ' مربی</p>
+																										<p>' . $contacts . ' قرآن‌آموز</p>
+																									</div>';
 
                 $points[  ] = [
                     "lat"  => $map[ 'lat' ],
@@ -252,7 +252,7 @@ get_header(); ?>
             <img class="search-button" src="<?php echo atlas_panel_image('arrow.svg') ?>">
             <a class="text-white" href="<?php echo atlas_base_url('city=' . $city_id) ?>/"><?php echo $city_neme ?></a>
             <?php endif; ?>
-<?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <div class="d-flex justify-content-center my-2">
@@ -400,25 +400,28 @@ get_header(); ?>
 
             <?php if (sizeof($all_institute) > $inrow): ?>
             <div class="mt-5 d-flex flex-row justify-content-between">
-                <?php
-                    if ($inpage == 1) {
-                        echo '<img src="' . atlas_panel_image('prev-page-no-active.svg') . '">';
-                    } else {
-                        echo '<a class="" href="' . esc_url(atlas_end_url('page', ($inpage - 1))) . '"><img
-                    src="' . atlas_panel_image('prev-page-active.svg') . '"></a>';
-                    }
-                ?>
+                <?php $prev_disabled = ($inpage == 1) ? 'disabled' : ''; ?>
+
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2 <?php echo $prev_disabled ?>"
+                    href="<?php echo esc_url(atlas_end_url('page', ($inpage - 1))) ?>">
+                    <i class="bi bi-arrow-right"></i>
+                    <div>|</div>
+                    <span>صفحه قبلی</span>
+                </a>
+
                 <div class="atlas-paginate d-flex flex-row justify-content-center gap-1 gap-md-3">
                     <?php echo paginate($total, $inpage); ?>
                 </div>
-                <?php
-                    if ($inpage == $total) {
-                        echo '<img src="' . atlas_panel_image('next-page-no-active.svg') . '">';
-                    } else {
-                        echo '<a class="" href="' . esc_url(atlas_end_url('page', ($inpage + 1))) . '"><img
-                    src="' . atlas_panel_image('next-page-active.svg') . '"></a>';
-                    }
-                ?>
+
+                <?php $next_disabled = ($inpage == $total) ? 'disabled' : ''; ?>
+
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2 <?php echo $next_disabled ?>"
+                    href="<?php echo esc_url(atlas_end_url('page', ($inpage + 1))) ?>">
+                    <i class="bi bi-arrow-left"></i>
+                    <div>|</div>
+                    <span>صفحه بعد</span>
+                </a>
+
             </div>
             <?php endif; ?>
         </div>
@@ -467,7 +470,7 @@ const customIcon = L.icon({
 });
 let city = "";
 const province = "<?php echo $province_neme ?>";
-const points =                             <?php echo json_encode($points); ?>;
+const points = <?php echo json_encode($points); ?>;
 query = province;
 </script>
 

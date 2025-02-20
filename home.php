@@ -1,6 +1,6 @@
 <?php
 
-    use atlasclass\Iran_Area;
+use atlasclass\Iran_Area;
 
     $atlas_body = 'atlas-home';
 
@@ -31,8 +31,7 @@
 
                     <img class="search-button me-1  d-none d-lg-block"
                         src="<?php echo atlas_panel_image('btn-advanced-search.svg') ?>">
-                    <a
-                        href="                                                                                        <?php echo atlas_base_url('all') ?>"><img
+                    <a href="                                                           <?php echo atlas_base_url('all') ?>"><img
                             class="search-button-all" src="<?php echo atlas_panel_image('btn-show-all.svg') ?>"></a>
                 </div>
             </div>
@@ -50,8 +49,8 @@
             <?php foreach ($iran->select() as $ostan): ?>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center mb-3 ostan-item">
                 <a href="<?php echo atlas_base_url('province=' . $ostan->id) ?>"
-                    class="d-flex justify-content-center align-items-center ostan px-4 py-3 text-white fw-bold gap-1">
-                    <?php echo $ostan->name ?>
+                    class="d-flex justify-content-center align-items-center ostan py-3 text-white fw-bold">
+                        <?php echo $ostan->name ?>
                 </a>
             </div>
             <?php endforeach; ?>

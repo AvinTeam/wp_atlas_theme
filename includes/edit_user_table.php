@@ -11,6 +11,7 @@ function add_institute_posts_column($columns)
         unset($columns[ 'posts' ]);
     }
     $columns[ 'institute_posts' ] = 'تعداد مرکز قرآنی';
+    $columns[ 'mobile' ]          = 'شماره موبایل';
     return $columns;
 }
 
@@ -18,25 +19,23 @@ add_action('manage_users_custom_column', 'show_institute_posts_count', 10, 3);
 function show_institute_posts_count($output, $column_name, $user_id)
 {
 
-   
-
     if ($column_name === 'institute_posts') {
 
         $args = [
-            'post_type' => 'institute',
-            'post_status' => [ 'pending', 'publish' ],
-            'meta_query' => [
+            'post_type'      => 'institute',
+            'post_status'    => [ 'pending', 'publish' ],
+            'meta_query'     => [
                 [
-                    'key' => '_operator',
-                    'value' => $user_id,
+                    'key'     => '_operator',
+                    'value'   => $user_id,
                     'compare' => '=',
                  ],
              ],
-            'fields' => 'ids',
+            'fields'         => 'ids',
             'posts_per_page' => -1,
          ];
 
-        $query = new WP_Query($args);
+        $query      = new WP_Query($args);
         $post_count = $query->found_posts;
 
         update_user_meta($user_id, 'post_operator', $post_count);
@@ -49,7 +48,15 @@ function show_institute_posts_count($output, $column_name, $user_id)
 
         $output = ($user_cap && $user_cap->has_cap('operator')) ? $output : '-';
     }
-    return (!empty($output)) ? $output : '-';
+
+    if ($column_name === 'mobile') {
+
+        $mobile = get_user_meta($user_id, 'mobile', true);
+
+        $output = (is_mobile($mobile)) ? sanitize_phone($mobile) : '-';
+    }
+
+    return $output;
 
 }
 
@@ -64,13 +71,12 @@ add_filter('users_list_table_query_args', 'dsl_users_sortable_query');
 function dsl_users_sortable_query($args)
 {
 
-    if (is_admin() && !empty($_GET[ 'orderby' ]) && $_GET[ 'orderby' ] == 'institute_posts') {
+    if (is_admin() && ! empty($_GET[ 'orderby' ]) && $_GET[ 'orderby' ] == 'institute_posts') {
 
-        $args[ 'orderby' ] = 'meta_value_num';
+        $args[ 'orderby' ]  = 'meta_value_num';
         $args[ 'meta_key' ] = 'post_operator';
 
     }
 
     return $args;
 }
-

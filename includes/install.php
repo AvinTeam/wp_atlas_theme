@@ -61,8 +61,8 @@ function atlas_row_install()
     $wpdb_collate_atlas_row = $wpdb->collate;
     $sql_iran_area          = "CREATE TABLE IF NOT EXISTS `$tabel_iran_area_row` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `name` varchar(19) NOT NULL,
-        `city2` varchar(50) NOT NULL,
+        `name` varchar(100) NOT NULL,
+        `city2` varchar(100) NOT NULL,
         `province_id` int NOT NULL,
         PRIMARY KEY (`id`)
       ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=$wpdb_collate_atlas_row";

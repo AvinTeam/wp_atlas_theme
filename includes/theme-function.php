@@ -539,14 +539,14 @@
         $start = $current_page - 1;
 
         if ($start >= 1) {
-            $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $start)) . "'>$start</a>";
+            $output .= "<a class='d-block text-center text-primary' href='" . esc_url(atlas_end_url('page', $start)) . "'>$start</a>";
         }
 
-        $output .= "<span  class='current rounded-circle d-block text-center'> $current_page</span>";
+        $output .= "<span  class='current rounded-circle d-block text-center text-white bg-primary'> $current_page</span>";
 
         $next = $current_page + 1;
         if ($total_pages >= $next) {
-            $output .= "<a class='d-block text-center' href='" . esc_url(atlas_end_url('page', $next)) . "'>$next</a>";
+            $output .= "<a class='d-block text-center text-primary' href='" . esc_url(atlas_end_url('page', $next)) . "'>$next</a>";
         }
 
         return $output;
