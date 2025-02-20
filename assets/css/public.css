@@ -38,25 +38,27 @@
 
 
 :root {
-  --primary-color: #393C97;
-  --primary-100-color: #F3F5FF;
-  --primary-200-color: #D8DBF0;
-  --primary-300-color: #BEC0E1;
-  --primary-400-color: #A3A6D2;
-  --primary-500-color: #898BC4;
-  --primary-600-color: #6E71B5;
-  --primary-600-color: #6E71B5;
-  --primary-700-color: #5456A6;
-  --primary-800-color: #393C97;
-  --secondary-color: #37BEC1;
-  --secondary-100-color: #FFFFF5;
-  --secondary-200-color: #E2F6EE;
-  --secondary-300-color: #C6ECE6;
-  --secondary-400-color: #A9E3DF;
-  --secondary-500-color: #8DDAD7;
-  --secondary-600-color: #70D1D0;
-  --secondary-700-color: #54C7C8;
-  --secondary-800-color: #37BEC1;
+
+  --primary-color: #37BEC1;
+  --primary-100-color: #FFFFF5;
+  --primary-200-color: #E2F6EE;
+  --primary-300-color: #C6ECE6;
+  --primary-400-color: #A9E3DF;
+  --primary-500-color: #8DDAD7;
+  --primary-600-color: #70D1D0;
+  --primary-700-color: #54C7C8;
+  --primary-800-color: #37BEC1;
+  --secondary-color: #393C97;
+  --secondary-100-color: #F3F5FF;
+  --secondary-200-color: #D8DBF0;
+  --secondary-300-color: #BEC0E1;
+  --secondary-400-color: #A3A6D2;
+  --secondary-500-color: #898BC4;
+  --secondary-600-color: #6E71B5;
+  --secondary-600-color: #6E71B5;
+  --secondary-700-color: #5456A6;
+  --secondary-800-color: #393C97;
+
   --red-color: #FF3378;
   --red-100-color: #FFE5EE;
   --red-800-color: #FF3378;
@@ -67,14 +69,16 @@
   --sixthly-color: #999999;
   --seventy-color: #973939;
 
-  --secondary-filter: brightness(0) saturate(100%) invert(84%) sepia(95%) saturate(4387%) hue-rotate(132deg) brightness(81%) contrast(82%);
-  --secondary-100-filter: brightness(0) saturate(100%) invert(99%) sepia(34%) saturate(248%) hue-rotate(347deg) brightness(100%) contrast(104%);
-  --secondary-400-filter: brightness(0) saturate(100%) invert(97%) sepia(7%) saturate(1528%) hue-rotate(127deg) brightness(93%) contrast(90%);
-  --primary-filter: brightness(0) saturate(100%) invert(26%) sepia(23%) saturate(3729%) hue-rotate(209deg) brightness(88%) contrast(84%);
-  --primary-400-filter: brightness(0) saturate(100%) invert(71%) sepia(55%) saturate(238%) hue-rotate(199deg) brightness(86%) contrast(90%);
+  --primary-filter: brightness(0) saturate(100%) invert(84%) sepia(95%) saturate(4387%) hue-rotate(132deg) brightness(81%) contrast(82%);
+  --primary-100-filter: brightness(0) saturate(100%) invert(99%) sepia(34%) saturate(248%) hue-rotate(347deg) brightness(100%) contrast(104%);
+  --primary-400-filter: brightness(0) saturate(100%) invert(97%) sepia(7%) saturate(1528%) hue-rotate(127deg) brightness(93%) contrast(90%);
+
+  --secondary-filter: brightness(0) saturate(100%) invert(26%) sepia(23%) saturate(3729%) hue-rotate(209deg) brightness(88%) contrast(84%);
+  --secondary-400-filter: brightness(0) saturate(100%) invert(71%) sepia(55%) saturate(238%) hue-rotate(199deg) brightness(86%) contrast(90%);
   --FFFFFF-filter: brightness(0) saturate(100%) invert(88%) sepia(99%) saturate(5%) hue-rotate(266deg) brightness(110%) contrast(97%);
 
-  --bs-primary-rgb: 57, 60, 151;
+  --bs-primary-rgb: 55, 190, 193;
+  --bs-secondary-rgb: 57, 60, 151;
   --btn-active-color: #37BEC1;
 
 }
@@ -661,7 +665,7 @@ body {
   filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(25%) hue-rotate(47deg) brightness(105%) contrast(105%);
 }
 
-.footercopy{
+.footercopy {
   background-color: #393C97;
 }
 
