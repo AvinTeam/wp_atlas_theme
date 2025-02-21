@@ -37,12 +37,11 @@
 
             <!-- لینک دیگر -->
             <div
-                class="col-12 col-md-4 text-center text-md-end d-flex flex-row justify-content-around align-items-center">
-                <a class="btn btn-primary d-flex flex-row justify-content-center align-items-center "
-                    href="<?php echo atlas_base_url('panel') ?>">
-                    <span>ورود موسسه</span>
+                class="col-12 col-md-4 text-center text-md-end d-flex flex-row justify-content-end gap-3 align-items-center ">
+                <a class="btn btn-primary" style="white-space: nowrap;"
+                    href="<?php echo atlas_base_url('panel') ?>">ورود موسسه
                 </a>
-                <a class=" d-none d-md-block" href="https://zendegibaayeha.ir/">
+                <a class=" d-none d-lg-block" href="https://zendegibaayeha.ir/">
                     <img src="<?php echo atlas_panel_image('zendegibaayeha.png') ?>" alt="زندگی با آیه‌ها"
                         style="height: 100px;" class="additional-link-img">
                 </a>

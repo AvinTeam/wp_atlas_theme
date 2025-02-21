@@ -220,27 +220,47 @@ use atlasclass\Iran_Area;
         <div class="col-3 d-none d-sm-block px-2 ">
 
             <div class="border border-1 border-warning rounded-2 p-3 position-sticky atlas-table-parent">
-                <div data-block="info" class="rounded px-3 py-2 mb-2 atlas-table-list atlas-active">
-                    <img src="<?php echo atlas_panel_image('info-t.svg') ?>"> <b>درباره مرکز قرآنی</b>
+                <div data-block="info" class="rounded px-3 py-2 mb-2 atlas-table-list d-flex flex-row align-items-center gap-2 atlas-active">
+
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('info-t.svg') ?>">
+                    </div>
+                    <b>درباره مرکز
+                        قرآنی</b>
                 </div>
-                <div data-block="subject" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('bord-t.svg') ?>"> <b>دوره ها</b>
+                <div data-block="subject" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('bord-t.svg') ?>">
+                    </div> <b>دوره ها</b>
                 </div>
 
-                <div data-block="teacher" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('teacher-t.svg') ?>"> <b>مربیان</b>
+                <div data-block="teacher" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('teacher-t.svg') ?>">
+                    </div>
+                    <b>مربیان</b>
                 </div>
 
-                <div data-block="contact" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('contact-t.svg') ?>"> <b>ارتباط با مرکز قرآنی</b>
+                <div data-block="contact" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('contact-t.svg') ?>">
+                    </div>
+                    <b>ارتباط با
+                        مرکز قرآنی</b>
                 </div>
 
-                <div data-block="address" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('address-t.svg') ?>"> <b>آدرس مرکز قرآنی</b>
+                <div data-block="address" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('address-t.svg') ?>">
+                    </div> <b>آدرس مرکز
+                        قرآنی</b>
                 </div>
 
-                <div data-block="comment" class="rounded px-3 py-2  mb-2 atlas-table-list">
-                    <img src="<?php echo atlas_panel_image('comment-t.svg') ?>"> <b>نظرات</b>
+                <div data-block="comment" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                    <div class="rounded-circle p-1 img">
+                        <img class="w-100" src="<?php echo atlas_panel_image('comment-t.svg') ?>">
+                    </div>
+                    <b>نظرات</b>
                 </div>
             </div>
         </div>
@@ -433,22 +453,22 @@ use atlasclass\Iran_Area;
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('instagram.png') ?>"></a>
                                     <?php endif; ?>
-<?php if (! empty($link[ 'telegram' ])): ?>
+                                    <?php if (! empty($link[ 'telegram' ])): ?>
                                     <a href="<?php echo $link[ 'telegram' ] ?>" title="کانال تلگرام"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('telegram.png') ?>"></a>
                                     <?php endif; ?>
-<?php if (! empty($link[ 'rubika' ])): ?>
+                                    <?php if (! empty($link[ 'rubika' ])): ?>
                                     <a href="<?php echo $link[ 'rubika' ] ?>" title="کانال روبیکا"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('rubika.png') ?>"></a>
                                     <?php endif; ?>
-<?php if (! empty($link[ 'bale' ])): ?>
+                                    <?php if (! empty($link[ 'bale' ])): ?>
                                     <a href="<?php echo $link[ 'bale' ] ?>" title="کانال بله"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('bale.png ') ?>"></a>
                                     <?php endif; ?>
-<?php if (! empty($link[ 'eitaa' ])): ?>
+                                    <?php if (! empty($link[ 'eitaa' ])): ?>
                                     <a href="<?php echo $link[ 'eitaa' ] ?>" title="کانال ایتا"
                                         class="p-1 border border-warning rounded-circle"><img class="m-1"
                                             src="<?php echo atlas_panel_image('eitaa.png') ?>"></a>
@@ -565,7 +585,7 @@ const markerImage = "<?php echo atlas_panel_image('marker.png') ?>";
 
 const province = "<?php echo $province_neme ?>";
 
-const points =               <?php echo json_encode($points); ?>;
+const points = <?php echo json_encode($points); ?>;
 
 const city = "<?php echo $city_neme ?>";
 

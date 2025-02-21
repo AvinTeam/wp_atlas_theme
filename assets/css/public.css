@@ -339,9 +339,11 @@ body {
 
 
 
-.atlas-table-list img {
+.atlas-table-list .img {
   width: 32px;
   height: 32px;
+  background-color: #F3F5FF;
+
 }
 
 .atlas-table-list.atlas-active,
@@ -350,15 +352,14 @@ body {
   color: #FFF;
 }
 
-.atlas-table-list.atlas-active img {
-
-  filter: invert(100%) brightness(300%);
+.atlas-table-list:hover .img,
+.atlas-table-list.atlas-active .img {
+    background-color: #70D1D0;
 
 }
-
-.atlas-table-list:hover img {
-  filter: invert(100%) brightness(300%);
-
+.atlas-table-list:hover img,
+.atlas-table-list.atlas-active img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7493%) hue-rotate(299deg) brightness(107%) contrast(103%);
 }
 
 
