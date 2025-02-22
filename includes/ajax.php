@@ -54,34 +54,12 @@ function atlas_sent_sms()
         if ($_POST[ 'mobileNumber' ] !== "") {
             $mobile = sanitize_text_field($_POST[ 'mobileNumber' ]);
 
-            $args = [
-                'post_type'      => 'institute',
-                'post_status'    => [ 'pending', 'publish', 'draft' ],
-                'meta_query'     => [
-                    [
-                        'key'     => '_atlas_responsible-mobile',
-                        'value'   => $mobile,
-                        'compare' => '=',
-                     ],
-                 ],
-                'fields'         => 'ids',
-                'posts_per_page' => -1,
-             ];
+            $atlas_send_sms = atlas_send_sms($mobile, 'otp');
 
-            $query      = new WP_Query($args);
-            $post_count = $query->found_posts;
-
-            if ($post_count >= 1) {
-
-                $atlas_send_sms = atlas_send_sms($mobile, 'otp');
-
-                if ($atlas_send_sms[ 'code' ] == 1) {
-                    wp_send_json_success($atlas_send_sms[ 'massage' ]);
-                }
-                wp_send_json_error($atlas_send_sms[ 'massage' ], 403);
-
+            if ($atlas_send_sms[ 'code' ] == 1) {
+                wp_send_json_success($atlas_send_sms[ 'massage' ]);
             }
-            wp_send_json_error('شما مجاز به وارد شوید', 403);
+            wp_send_json_error($atlas_send_sms[ 'massage' ], 403);
 
         }
         wp_send_json_error('شماره شما به درستی وارد نشده است', 403);
@@ -126,46 +104,51 @@ function atlas_sent_verify()
 
                 } else {
 
-                    $args = [
-                        'post_type'      => 'institute',
-                        'post_status'    => [ 'pending', 'publish', 'draft' ],
-                        'meta_query'     => [
-                            [
-                                'key'     => '_atlas_responsible-mobile',
-                                'value'   => $mobile,
-                                'compare' => '=',
+                    $user_id = wp_create_user($mobile, wp_generate_password(), $mobile . '@example.com');
+
+                    if (! is_wp_error($user_id)) {
+                        update_user_meta($user_id, 'mobile', $mobile);
+
+
+
+                        $user = new WP_User($user_id);
+                        $user->set_role('responsible');
+
+                        wp_set_current_user($user_id);
+                        wp_set_auth_cookie($user_id, true);
+
+                        $massage = 'ثبت‌ نام با موفقیت انجام شد و شما وارد شدید!';
+
+                        $args = [
+                            'post_type'      => 'institute',
+                            'post_status'    => [ 'publish' ],
+                            'meta_query'     => [
+                                [
+                                    'key'     => '_atlas_responsible-mobile',
+                                    'value'   => $mobile,
+                                    'compare' => '=',
+                                 ],
                              ],
-                         ],
-                        'fields'         => 'ids',
-                        'posts_per_page' => -1,
-                     ];
+                            'fields'         => 'ids',
+                            'posts_per_page' => -1,
+                         ];
 
-                    $query = new WP_Query($args);
+                        $query = new WP_Query($args);
 
-                    $post_count = $query->found_posts;
-                    if ($post_count >= 1 && $query->have_posts()) {
+                        if ( $query->have_posts()) {
 
-                        $post_id = $query->posts[ 0 ];
+                            $post_id = $query->posts[ 0 ];
 
-                        $full_name = get_post_meta($post_id, '_atlas_responsible', true);
+                            $full_name = get_post_meta($post_id, '_atlas_responsible', true);
 
-                        $user_id = wp_create_user($mobile, wp_generate_password(), $mobile . '@example.com');
-
-                        if (! is_wp_error($user_id)) {
-                            update_user_meta($user_id, 'nickname', $full_name);
-                            update_user_meta($user_id, 'mobile', $mobile);
                             update_user_meta($user_id, 'first_name', $full_name);
 
-                            $user = new WP_User($user_id);
-                            $user->set_role('responsible');
+                            update_user_meta($user_id, 'nickname', $full_name);
 
                             wp_update_user([
                                 'ID'           => $user_id,
                                 'display_name' => $full_name,
                              ]);
-
-                            wp_set_current_user($user_id);
-                            wp_set_auth_cookie($user_id, true);
 
                             while ($query->have_posts()) {
                                 $query->the_post();
@@ -181,8 +164,13 @@ function atlas_sent_verify()
 
                             }
 
-                            $massage = 'ثبت‌ نام با موفقیت انجام شد و شما وارد شدید!';
                         }
+
+
+
+
+
+
 
                     }
 

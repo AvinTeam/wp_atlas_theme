@@ -656,9 +656,6 @@ fetch(url)
 document.querySelectorAll('.atlas-table-list').forEach(item => {
     item.addEventListener('click', function() {
         const dataBlock = this.getAttribute('data-block');
-        console.log(dataBlock);
-
-
 
         document.querySelectorAll('.atlas-table-list').forEach(el => {
             el.classList.remove('atlas-active');

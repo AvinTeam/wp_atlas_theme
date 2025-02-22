@@ -335,7 +335,6 @@ jQuery(document).ready(function ($) {
         } else {
             goTo = '/all';
         }
-        console.log(goTo);
         window.location.href = atlas_js.page_base + goTo;
 
     });
@@ -620,8 +619,6 @@ jQuery(document).ready(function ($) {
                 data: formData,
                 dataType: 'json',
                 success: function (response) {
-
-                    console.log(response);
                     $('#city').html(response.data);
                 }
             });

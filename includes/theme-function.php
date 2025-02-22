@@ -30,7 +30,18 @@
                 default:
                     $view = '404';
                     break;
+
             }
+            // if ($view == 'dashboard' && ! isset($_GET[ 'profile' ])) {
+            //     $this_user = wp_get_current_user();
+
+            //     if (! $this_user->first_name || ! $this_user->last_name) {
+
+            //         wp_redirect(atlas_base_url('panel/?profile'));
+            //         exit;
+
+            //     }
+            // }
 
             return ATLAS_VIEWS . 'page/' . $view . '.php';
 
@@ -630,7 +641,7 @@
         return preg_match($pattern, $mobile);
     }
 
-    function atlas_upload_file($file, int $oldfile = 0)
+    function atlas_upload_file($file, int $oldfile = 0, int $post_id = 0)
     {
 
         $massage = '';
@@ -664,7 +675,14 @@
                         'post_status'    => 'inherit',
                      ];
 
-                    $attach_id = wp_insert_attachment($attachment, $movefile[ 'file' ]);
+
+
+                    $attach_id = wp_insert_attachment($attachment, $movefile[ 'file' ], $post_id);
+                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                    $attach_data = wp_generate_attachment_metadata($attach_id, $movefile[ 'file' ]);
+                    wp_update_attachment_metadata($attach_id, $attach_data);
+
+
 
                     if (absint($oldfile)) {
                         wp_delete_attachment($oldfile, true);
@@ -706,28 +724,28 @@
                 $comment_content = $comment->comment_content;
             $rating          = get_comment_meta($comment->comment_ID, 'rating', true); ?>
 
-        <div class="d-flex flex-column bg-body rounded p-3 mt-3">
-            <div class="p-3 d-flex flex-row justify-content-between align-items-center">
-                <b><?php echo $author_name ?></b>
-                <div class=" rating-stars" style="direction: ltr;">
-                    <?php
-                        for ($i = 1; $i < 6; $i++) {
-                                        if (absint($rating) >= $i) {
-                                            echo '<i class="bi bi-star-fill"></i>';
-                                        } else {
-                                            echo '<i class="bi bi-star"></i>';
-                                        }
-                                }?>
-                </div>
-            </div>
-            <hr>
-            <div class="mb-3 px-3 atlas-comment-content fw-bold">
-                <p><?php echo $comment_content ?></p>
-            </div>
-        </div> <?php
-           }
-               } else {
-                   echo '<p>هنوز نظری ثبت نشده است.</p>';
-           }
-       
-    }
+<div class="d-flex flex-column bg-body rounded p-3 mt-3">
+    <div class="p-3 d-flex flex-row justify-content-between align-items-center">
+        <b><?php echo $author_name ?></b>
+        <div class=" rating-stars" style="direction: ltr;">
+            <?php
+                for ($i = 1; $i < 6; $i++) {
+                                if (absint($rating) >= $i) {
+                                    echo '<i class="bi bi-star-fill"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star"></i>';
+                                }
+                        }?>
+        </div>
+    </div>
+    <hr>
+    <div class="mb-3 px-3 atlas-comment-content fw-bold">
+        <p><?php echo $comment_content ?></p>
+    </div>
+</div>             <?php
+                 }
+                     } else {
+                         echo '<p>هنوز نظری ثبت نشده است.</p>';
+                     }
+
+             }

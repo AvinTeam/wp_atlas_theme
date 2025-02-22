@@ -20,6 +20,8 @@ function atlas_panel_rewrite()
 
     flush_rewrite_rules();
 
+
+
 }
 
 add_filter('query_vars', 'atlas_query_vars');

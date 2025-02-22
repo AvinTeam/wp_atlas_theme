@@ -1,74 +1,110 @@
 <?php
 
-use atlasclass\Iran_Area;
+    use atlasclass\Iran_Area;
 
-    $args = [
-        'author'      => get_current_user_id(), // شناسه نویسنده
-        'post_type'   => 'institute',           // نوع پست (می‌تونی 'page' یا نوع‌های کاستوم هم بگذاری)
-        'post_status' => 'any',                 // همه وضعیت‌ها
-        'p'           => absint($_GET[ 'post' ]),
-        'fields'      => 'ids', // برگرداندن فقط شناسه‌ها
+    $post_id          = 0;
+    $post_title       = '';
+    $post_description = '';
+    $status           = '';
+    $post_image       = atlas_panel_image('default.png');
+
+    $atlas_institute = [
+
+        'center-mode' => 'public',
+        'center-type' => 'Institute',
+        'phone'       => '',
+        'ostan'       => 0,
+        'city'        => 0,
+        'map'         => [ 'lat' => '', 'lng' => '' ],
+        'address'     => '',
+        'link'        => [ 'site' => '', 'eitaa' => '', 'bale' => '', 'rubika' => '', 'telegram' => '', 'instagram' => '' ],
+        'gender'      => [  ],
+        'age'         => [  ],
+        'contacts'    => '',
+        'course-type' => [  ],
+        'subject'     => '',
+        'coaches'     => '',
+        'teacher'     => [  ],
+        'ayeha'       => 'no',
      ];
 
-    // اجرای کوئری
-    $query = new WP_Query($args);
+    if (isset($_GET[ 'post' ]) && ! empty($_GET[ 'post' ])) {
 
-    // گرفتن داده‌های پست‌ها
-    if ($query->have_posts()) {
-        $posts = [  ];
-
-        while ($query->have_posts()) {
-            $query->the_post();
-
-            $post_id          = get_the_ID();
-            $post_title       = get_the_title();
-            $post_description = get_the_excerpt();
-            $status           = get_post_status();
-            $post_image       = has_post_thumbnail() ? get_the_post_thumbnail_url($post_id, 'medium') : atlas_panel_image('default.png');
-
-        }
-
-        $center_mode = get_post_meta($post_id, '_atlas_center-mode', true);
-        $center_type = get_post_meta($post_id, '_atlas_center-type', true);
-        $phone       = get_post_meta($post_id, '_atlas_phone', true);
-        $ostan       = get_post_meta($post_id, '_atlas_ostan', true);
-        $city        = get_post_meta($post_id, '_atlas_city', true);
-        $map         = get_post_meta($post_id, '_atlas_map', true);
-        $address     = get_post_meta($post_id, '_atlas_address', true);
-        $link        = get_post_meta($post_id, '_atlas_link', true);
-        $gender      = get_post_meta($post_id, '_atlas_gender', true);
-        $age         = get_post_meta($post_id, '_atlas_age', true);
-        $contacts    = get_post_meta($post_id, '_atlas_contacts', true);
-        $course_type = get_post_meta($post_id, '_atlas_course-type', true);
-        $subject     = get_post_meta($post_id, '_atlas_subject', true);
-        $coaches     = get_post_meta($post_id, '_atlas_coaches', true);
-        $teacher     = get_post_meta($post_id, '_atlas_teacher', true);
-        $ayeha       = get_post_meta($post_id, '_atlas_ayeha', true);
-
-        $atlas_institute = [
-
-            'center-mode' => ($center_mode) ? $center_mode : 'public',
-            'center-type' => ($center_type) ? $center_type : 'Institute',
-            'phone'       => ($phone) ? $phone : '',
-            'ostan'       => ($ostan) ? $ostan : 0,
-            'city'        => ($city) ? $city : 0,
-            'map'         => (is_array($map)) ? $map : [ 'lat' => '', 'lng' => '' ],
-            'address'     => ($address) ? $address : '',
-            'link'        => (is_array($link)) ? $link : [ 'site' => '', 'eitaa' => '', 'bale' => '', 'rubika' => '', 'telegram' => '', 'instagram' => '' ],
-            'gender'      => (is_array($gender)) ? $gender : [  ],
-            'age'         => (is_array($age)) ? $age : [  ],
-            'contacts'    => ($contacts) ? $contacts : '',
-            'course-type' => (is_array($course_type)) ? $course_type : [  ],
-            'subject'     => ($subject) ? $subject : '',
-            'coaches'     => ($coaches) ? $coaches : '',
-            'teacher'     => (is_array($teacher)) ? $teacher : [  ],
-            'ayeha'       => ($ayeha) ? $ayeha : 'no',
+        $args = [
+            'author'      => get_current_user_id(), // شناسه نویسنده
+            'post_type'   => 'institute',           // نوع پست (می‌تونی 'page' یا نوع‌های کاستوم هم بگذاری)
+            'post_status' => 'any',                 // همه وضعیت‌ها
+            'p'           => absint($_GET[ 'post' ]),
+            'fields'      => 'ids',
+            'meta_query'  => [
+                [
+                    'key'     => '_atlas_responsible-mobile',
+                    'value'   => $this_user->mobile,
+                    'compare' => '=',
+                 ],
+             ],
          ];
 
-        // ریست کردن کوئری
-        wp_reset_postdata();
-    }
+        // اجرای کوئری
+        $query = new WP_Query($args);
 
+        // گرفتن داده‌های پست‌ها
+        if ($query->have_posts()) {
+            $posts = [  ];
+
+            while ($query->have_posts()) {
+                $query->the_post();
+
+                $post_id          = get_the_ID();
+                $post_title       = get_the_title();
+                $post_description = get_the_excerpt();
+                $status           = get_post_status();
+                $post_image       = has_post_thumbnail() ? get_the_post_thumbnail_url($post_id, 'medium') : atlas_panel_image('default.png');
+
+            }
+
+            $center_mode = get_post_meta($post_id, '_atlas_center-mode', true);
+            $center_type = get_post_meta($post_id, '_atlas_center-type', true);
+            $phone       = get_post_meta($post_id, '_atlas_phone', true);
+            $ostan       = get_post_meta($post_id, '_atlas_ostan', true);
+            $city        = get_post_meta($post_id, '_atlas_city', true);
+            $map         = get_post_meta($post_id, '_atlas_map', true);
+            $address     = get_post_meta($post_id, '_atlas_address', true);
+            $link        = get_post_meta($post_id, '_atlas_link', true);
+            $gender      = get_post_meta($post_id, '_atlas_gender', true);
+            $age         = get_post_meta($post_id, '_atlas_age', true);
+            $contacts    = get_post_meta($post_id, '_atlas_contacts', true);
+            $course_type = get_post_meta($post_id, '_atlas_course-type', true);
+            $subject     = get_post_meta($post_id, '_atlas_subject', true);
+            $coaches     = get_post_meta($post_id, '_atlas_coaches', true);
+            $teacher     = get_post_meta($post_id, '_atlas_teacher', true);
+            $ayeha       = get_post_meta($post_id, '_atlas_ayeha', true);
+
+            $atlas_institute = [
+
+                'center-mode' => ($center_mode) ? $center_mode : 'public',
+                'center-type' => ($center_type) ? $center_type : 'Institute',
+                'phone'       => ($phone) ? $phone : '',
+                'ostan'       => ($ostan) ? $ostan : 0,
+                'city'        => ($city) ? $city : 0,
+                'map'         => (is_array($map)) ? $map : [ 'lat' => '', 'lng' => '' ],
+                'address'     => ($address) ? $address : '',
+                'link'        => (is_array($link)) ? $link : [ 'site' => '', 'eitaa' => '', 'bale' => '', 'rubika' => '', 'telegram' => '', 'instagram' => '' ],
+                'gender'      => (is_array($gender)) ? $gender : [  ],
+                'age'         => (is_array($age)) ? $age : [  ],
+                'contacts'    => ($contacts) ? $contacts : '',
+                'course-type' => (is_array($course_type)) ? $course_type : [  ],
+                'subject'     => ($subject) ? $subject : '',
+                'coaches'     => ($coaches) ? $coaches : '',
+                'teacher'     => (is_array($teacher)) ? $teacher : [  ],
+                'ayeha'       => ($ayeha) ? $ayeha : 'no',
+             ];
+
+            // ریست کردن کوئری
+            wp_reset_postdata();
+        }
+
+    }
     $irandb = new Iran_Area;
     $ostan  = $irandb->select(0);
     $city   = (absint($atlas_institute[ 'ostan' ])) ? $irandb->select($atlas_institute[ 'ostan' ]) : [  ];
@@ -78,8 +114,6 @@ get_header(); ?>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
@@ -95,7 +129,7 @@ get_header(); ?>
 }
 </style>
 
-<?php if ($status != "publish"):
+<?php if ($status != "publish" && $post_id != 0):
 
         switch ($status) {
             case 'draft':
@@ -117,15 +151,16 @@ get_header(); ?>
     ?>
 
 
-<div class="container mt-5">
-    <div class="alert alert-warning" role="alert">
-        مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
-    </div>
-</div>
+	<div class="container mt-5">
+	    <div class="alert alert-warning" role="alert">
+	        مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
+	    </div>
+	</div>
 
-<?php endif; ?>
+	<?php endif; ?>
 <div class="container mt-5">
     <form accept="" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="post_id" value="<?php echo $post_id ?>">
         <div class="form-group mt-2 d-flex flex-row justify-content-between ">
             <div>
                 <label for="fileInput">لوگو مرکز قرآنی</label>
@@ -161,7 +196,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="Institute" name="atlas[center-type]"
-                        value="Institute" <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
+                        value="Institute"                                          <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="Institute">موسسه</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -177,7 +212,7 @@ get_header(); ?>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="education" name="atlas[center-type]"
-                        value="education" <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
+                        value="education"                                          <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="education">آموزش پرورش</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -185,7 +220,7 @@ get_header(); ?>
                         <?php echo checked('besij', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="besij">پایگاه قرآنی مساجد</label>
                 </div>
-                
+
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="home" name="atlas[center-type]" value="home"
                         <?php echo checked('home', $atlas_institute[ 'center-type' ]) ?>>
@@ -280,7 +315,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="atlas[gender][]" type="checkbox" id="gender-woman"
-                        value="woman" <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
+                        value="woman"                                      <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
                     <label class="form-check-label" for="gender-woman">خانم</label>
                 </div>
                 <div class="form-check form-check-inline">

@@ -113,12 +113,73 @@ function atlas_save_bax($post_id, $post, $updata)
 
         // }
 
+        $responsible        = (isset($_POST[ 'atlas' ][ 'responsible' ]) && $_POST[ 'atlas' ][ 'responsible' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'responsible' ]) : '';
+        $responsible_mobile = "";
+        if (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) {
 
+            $responsible_mobile = sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]);
+
+            $user_query = new WP_User_Query([
+                'meta_key'   => 'mobile',
+                'meta_value' => $responsible_mobile,
+                'number'     => 1,
+             ]);
+
+            if (! empty($user_query->get_results())) {
+                $this_user = $user_query->get_results()[ 0 ];
+
+                $this_user = get_user($this_user->ID);
+
+                $args = [
+                    'post_type'      => 'institute',
+                    'post_status'    => 'any',
+                    'meta_query'     => [
+                        [
+                            'key'     => '_atlas_responsible-mobile',
+                            'value'   => $responsible_mobile,
+                            'compare' => '=',
+                         ],
+                     ],
+                    'fields'         => 'ids',
+                    'posts_per_page' => -1,
+                 ];
+
+                $query = new WP_Query($args);
+
+                if ($this_user->nickname != $responsible && $responsible != "") {
+
+                    update_user_meta($this_user->ID, 'nickname', $responsible);
+
+                    wp_update_user([
+                        'ID'           => $this_user->ID,
+                        'display_name' => $responsible,
+                     ]);
+
+                    if ($query->have_posts()) {
+
+                        while ($query->have_posts()) {
+                            $query->the_post();
+
+                            $post_data = [
+                                'ID'          => get_the_ID(),
+                                'post_author' => $this_user->ID,
+                             ];
+
+                            update_post_meta(get_the_ID(), '_atlas_responsible', $responsible);
+
+                            wp_update_post($post_data, true);
+
+                        }
+
+                    }
+                }
+            }
+        }
 
         $atlas_institute = [
 
-            'responsible'        => (isset($_POST[ 'atlas' ][ 'responsible' ]) && $_POST[ 'atlas' ][ 'responsible' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'responsible' ]) : '',
-            'responsible-mobile' => (is_mobile(sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]))) ? sanitize_phone($_POST[ 'atlas' ][ 'responsible-mobile' ]) : '',
+            'responsible'        => $responsible,
+            'responsible-mobile' => $responsible_mobile,
             'center-mode'        => (isset($_POST[ 'atlas' ][ 'center-mode' ]) && $_POST[ 'atlas' ][ 'center-mode' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-mode' ]) : 'public',
             'center-type'        => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'Institute',
             'phone'              => (isset($_POST[ 'atlas' ][ 'phone' ]) && $_POST[ 'atlas' ][ 'phone' ]) ? atlas_to_enghlish($_POST[ 'atlas' ][ 'phone' ]) : '',

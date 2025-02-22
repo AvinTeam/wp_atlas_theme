@@ -3,6 +3,10 @@
 (defined('ABSPATH')) || exit;
 function atlas_row_install()
 {
+
+    remove_role('responsible');
+    remove_role('operator');
+
     if (get_role('responsible') == null) {
         add_role(
             'responsible',
@@ -12,6 +16,8 @@ function atlas_row_install()
                 'edit_atlas'  => true,
                 'read_atlas'  => true,
                 'edit_atlass' => true,
+                'upload_files' => true,
+
              ]
         );
     }
@@ -30,6 +36,8 @@ function atlas_row_install()
                 'edit_published_atlass' => true,
                 'edit_private_atlass'   => true,
                 'read_private_atlass'   => true,
+                'upload_files' => true,
+
              ]
         );
 

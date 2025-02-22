@@ -49,11 +49,13 @@ get_header(); ?>
     <div class="d-flex flex-row justify-content-between align-items-start mx-auto atlas-row my-2">
         <div class="d-flex flex-row justify-content-start align-items-center gap-2">
             <a class="btn btn-light" href="<?php echo atlas_base_url('panel') ?>">داشبورد</a>
-            <span><?php echo $this_user->nickname ?> خوش آمدید!  ( <a class="btn btn-link p-0 m-0" href="<?php echo atlas_base_url('panel/?profile') ?>">ویرایش</a> )</span>
+            <a class="btn btn-primary" href="<?php echo atlas_base_url('panel/?post') ?>">ثبت محفل جدید</a>
+            <span><?php echo $this_user->nickname ?> خوش آمدید! ( <a class="btn btn-link p-0 m-0"
+                    href="<?php echo atlas_base_url('panel/?profile') ?>">ویرایش</a> )</span>
         </div>
 
         <div class="d-flex flex-row justify-content-end align-items-center gap-2">
-            <a class="btn btn-light" href="<?php echo site_url()?>">بازگشت به صفحه نخست</a>
+            <a class="btn btn-light" href="<?php echo site_url() ?>">بازگشت به صفحه نخست</a>
             <a class="btn btn-danger" href="<?php echo atlas_base_url('logout') ?>">خروج</a>
         </div>
     </div>
@@ -61,7 +63,7 @@ get_header(); ?>
 
     <?php
 
-        if (isset($_GET[ 'post' ]) && ! empty($_GET[ 'post' ])) {
+       if (isset($_GET[ 'post' ])) {
             require_once ATLAS_VIEWS . '/page/panel_post.php';
 
         } elseif (isset($_GET[ 'profile' ])) {

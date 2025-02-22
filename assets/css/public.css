@@ -354,9 +354,10 @@ body {
 
 .atlas-table-list:hover .img,
 .atlas-table-list.atlas-active .img {
-    background-color: #70D1D0;
+  background-color: #70D1D0;
 
 }
+
 .atlas-table-list:hover img,
 .atlas-table-list.atlas-active img {
   filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7493%) hue-rotate(299deg) brightness(107%) contrast(103%);
@@ -526,13 +527,11 @@ body {
 }
 
 .ostan-list .ostan {
-  background:
-    linear-gradient(-90deg, rgba(55, 190, 193, 1) 0%, rgba(57, 60, 151, 1) 100%),
-    url('../image/Vector.png');
-  background-size: cover;
-  background-position: center;
   border-radius: 10px;
   text-align: center;
+  background: url('../image/Vector.png'), linear-gradient(-90deg, rgba(55, 190, 193, 1) 0%, rgba(57, 60, 151, 1) 100%);
+  text-align: center;
+  background-blend-mode: color-dodge;
 }
 
 
@@ -653,13 +652,9 @@ body {
 }
 
 .bg-linear-gradient {
-  background: linear-gradient(-90deg, rgba(55, 190, 193, 1) 0%, rgba(57, 60, 151, 1) 100%), url('../image/Vector.png');
-  background-position-x: 0%, 0%;
-  background-position-y: 0%, 0%;
-  background-size: auto, auto;
-  background-size: cover;
-  background-position: center;
+  background: url('../image/Vector.png'), linear-gradient(-90deg, rgba(55, 190, 193, 1) 0%, rgba(57, 60, 151, 1) 100%);
   text-align: center;
+  background-blend-mode: color-dodge;
 }
 
 .footer-link img {
