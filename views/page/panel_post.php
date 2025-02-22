@@ -6,7 +6,9 @@
     $post_title       = '';
     $post_description = '';
     $status           = '';
-    $post_image       = atlas_panel_image('default.png');
+    $permalink        = '';
+
+    $post_image = atlas_panel_image('default.png');
 
     $atlas_institute = [
 
@@ -53,9 +55,10 @@
             $posts = [  ];
 
             while ($query->have_posts()) {
-                $query->the_post();
+                $this_post = $query->the_post();
 
                 $post_id          = get_the_ID();
+                $permalink        = get_permalink();
                 $post_title       = get_the_title();
                 $post_description = get_the_excerpt();
                 $status           = get_post_status();
@@ -129,35 +132,25 @@ get_header(); ?>
 }
 </style>
 
-<?php if ($status != "publish" && $post_id != 0):
-
-        switch ($status) {
-            case 'draft':
-                $status_message = 'پیش‌نویس';
-                break;
-            case 'pending':
-                $status_message = 'در انتظار بررسی';
-                break;
-            case 'private':
-                $status_message = 'خصوصی';
-                break;
-            case 'future':
-                $status_message = 'منتظر زمان‌بندی';
-                break;
-            default:
-                $status_message = 'نامشخص';
-        }
-
-    ?>
+<?php if ($post_id != 0): ?>
+    <?php if ($status != "publish"): ?>
 
 
-	<div class="container mt-5">
-	    <div class="alert alert-warning" role="alert">
-	        مرکز قرآنی شما در وضعیت <b><?php echo $status_message ?></b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
-	    </div>
-	</div>
+    <div class="container mt-5">
+        <div class="alert alert-warning" role="alert">
+            مرکز قرآنی شما در وضعیت <b>در انتظار بررسی</b> میباشد بعد از تایید مدیریت نمایش داده خواهد شد.
+        </div>
+    </div>
 
-	<?php endif; ?>
+    <?php else: ?>
+
+    <div class="container mt-5">
+        <a href="<?php echo $permalink?>" class="alert alert-success" role="alert">
+           مشاهده صفحه مرکز
+        </a>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
 <div class="container mt-5">
     <form accept="" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="post_id" value="<?php echo $post_id ?>">
@@ -196,7 +189,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="Institute" name="atlas[center-type]"
-                        value="Institute"                                          <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
+                        value="Institute" <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="Institute">موسسه</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -212,7 +205,7 @@ get_header(); ?>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="education" name="atlas[center-type]"
-                        value="education"                                          <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
+                        value="education" <?php echo checked('education', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="education">آموزش پرورش</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -315,7 +308,7 @@ get_header(); ?>
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" name="atlas[gender][]" type="checkbox" id="gender-woman"
-                        value="woman"                                      <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
+                        value="woman" <?php if (in_array('woman', $atlas_institute[ 'gender' ])) {echo 'checked';}?>>
                     <label class="form-check-label" for="gender-woman">خانم</label>
                 </div>
                 <div class="form-check form-check-inline">

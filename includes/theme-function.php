@@ -318,7 +318,7 @@
 
             if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-                $is_key_cookie = atlas_rand_string(15);
+                $is_key_cookie = wp_generate_password(15);
                 ob_start();
 
                 setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
@@ -337,17 +337,6 @@
 
         }
         return $is_key_cookie;
-    }
-
-    function atlas_rand_string($length = 20)
-    {
-        $characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; // اعداد و حروف
-        $charactersLength = strlen($characters);
-        $randomString     = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[ rand(0, $charactersLength - 1) ];
-        }
-        return $randomString;
     }
 
     function atlas_mask_mobile($mobile)

@@ -184,8 +184,8 @@ use atlasclass\Iran_Area;
         </div>
 
         <div class="d-flex justify-content-center my-2">
-            <div class="p-2">
-                <img class="mb-2 rounded-circle w-100" src="<?php echo $img ?>">
+            <div class="p-2 text-center">
+                <img class="mb-2 rounded-circle"  style="width: 90px;"  src="<?php echo $img ?>">
 
                 <div class="px-3 py-2 text-center fw-bold text-white">
                     <span><?php echo get_the_title($post_id) ?></span>
