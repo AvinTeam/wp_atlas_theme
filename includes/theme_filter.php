@@ -123,3 +123,15 @@ function custom_comment_redirect( $location, $comment ) {
     return $location;
 }
 add_filter('comment_post_redirect', 'custom_comment_redirect', 10, 2);
+
+
+// فیلتر کردن لینک پست برای پست تایپ institute
+function custom_institute_permalink($post_link, $post) {
+    if ('institute' === $post->post_type) {
+        // ساختار لینک به صورت institute/{post_id}
+        $post_link = home_url('institute/' . $post->ID . '/');
+    }
+    return $post_link;
+}
+add_filter('post_type_link', 'custom_institute_permalink', 10, 2);
+

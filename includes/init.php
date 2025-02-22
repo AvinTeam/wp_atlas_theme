@@ -19,9 +19,12 @@ function atlas_panel_rewrite()
     //     'top'
     // );
 
-    flush_rewrite_rules();
 
-
+    add_rewrite_rule(
+        '^institute/([0-9]+)/?$',
+        'index.php?post_type=institute&p=$matches[1]',
+        'top'
+    );
 
 }
 
