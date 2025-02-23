@@ -98,14 +98,15 @@
     {
 
         if (! is_user_logged_in()) {
+            if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-            if (isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+                $is_key_cookie = wp_generate_password(15);
+                ob_start();
 
-                $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
-
+                setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
+                ob_end_flush();
             } else {
-                header("Refresh:0");
-                exit;
+                $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
             }
         } else {
 
@@ -452,10 +453,10 @@
     <div class="mb-3 px-3 atlas-comment-content fw-bold">
         <p><?php echo $comment_content ?></p>
     </div>
-</div> <?php
-                       }
-                           } else {
-                               echo '<p>هنوز نظری ثبت نشده است.</p>';
-                           }
+</div>       <?php
+           }
+               } else {
+                   echo '<p>هنوز نظری ثبت نشده است.</p>';
+               }
 
-                   }
+       }

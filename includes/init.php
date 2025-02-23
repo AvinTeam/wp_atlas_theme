@@ -150,7 +150,5 @@ add_action('comment_post', 'save_comment_rating');
  * @param \WP $wp Current WordPress environment instance (passed by reference).
  */
 add_action('wp', function (\WP $wp): void {
-    if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
-        setcookie("setcookie_atlas_nonce", wp_generate_password(15), time() + 1800, "/");
-    }
+    atlas_cookie();
 });
