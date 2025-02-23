@@ -5,7 +5,6 @@ use atlasclass\Iran_Area;
 add_action('init', 'atlas_panel_rewrite');
 function atlas_panel_rewrite()
 {
-    atlas_cookie();
 
     add_rewrite_rule(
         ATLAS_PAGE_BASE . '/([^/]+)/?',
@@ -144,3 +143,14 @@ function save_comment_rating($comment_id)
 
 }
 add_action('comment_post', 'save_comment_rating');
+
+/**
+ * Fires once the WordPress environment has been set up.
+ *
+ * @param \WP $wp Current WordPress environment instance (passed by reference).
+ */
+add_action('wp', function (\WP $wp): void {
+    if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+        setcookie("setcookie_atlas_nonce", wp_generate_password(15), time() + 1800, "/");
+    }
+});

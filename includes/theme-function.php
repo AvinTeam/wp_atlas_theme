@@ -99,20 +99,13 @@
 
         if (! is_user_logged_in()) {
 
-            if (! isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
+            if (isset($_COOKIE[ "setcookie_atlas_nonce" ])) {
 
-                $is_key_cookie = wp_generate_password(15);
-                ob_start();
-
-                setcookie("setcookie_atlas_nonce", $is_key_cookie, time() + 1800, "/");
-
-                ob_end_flush();
-
-                header("Refresh:0");
-                exit;
+                $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
 
             } else {
-                $is_key_cookie = $_COOKIE[ "setcookie_atlas_nonce" ];
+                header("Refresh:0");
+                exit;
             }
         } else {
 
@@ -355,7 +348,7 @@
         }
 
     }
-  
+
     function is_mobile($mobile)
     {
         $pattern = '/^(\+98|0)?9\d{9}$/';
@@ -396,14 +389,10 @@
                         'post_status'    => 'inherit',
                      ];
 
-
-
                     $attach_id = wp_insert_attachment($attachment, $movefile[ 'file' ], $post_id);
-                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                    require_once ABSPATH . 'wp-admin/includes/image.php';
                     $attach_data = wp_generate_attachment_metadata($attach_id, $movefile[ 'file' ]);
                     wp_update_attachment_metadata($attach_id, $attach_data);
-
-
 
                     if (absint($oldfile)) {
                         wp_delete_attachment($oldfile, true);
@@ -463,10 +452,10 @@
     <div class="mb-3 px-3 atlas-comment-content fw-bold">
         <p><?php echo $comment_content ?></p>
     </div>
-</div>             <?php
-                 }
-                     } else {
-                         echo '<p>هنوز نظری ثبت نشده است.</p>';
-                     }
+</div> <?php
+                       }
+                           } else {
+                               echo '<p>هنوز نظری ثبت نشده است.</p>';
+                           }
 
-             }
+                   }
