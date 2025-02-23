@@ -24,7 +24,7 @@ if (isset($_GET[ 'city' ]) && !empty($_GET[ 'city' ])) {
     $city_btn = "بروزرسانی شهر";
 
     if (absint($_GET[ 'province' ]) != $city->province_id) {
-        echo '<a href="' . admin_url('admin.php?page=province&province=' . absint($_GET[ 'province' ])) . '" style="width: 50%;text-align: center;margin: 50px auto;padding: 50px;"  class="button" >برگشت</a>';
+        echo '<a href="' . admin_url('admin.php?page=atlas&province=' . absint($_GET[ 'province' ])) . '" style="width: 50%;text-align: center;margin: 50px auto;padding: 50px;"  class="button" >برگشت</a>';
         exit;
     }
 
@@ -119,7 +119,7 @@ wp_editor($description, 'description', $editor_array)?>
                                     value="atlas_city_submit"><?=$city_btn?></button>
                                 <?php if (!empty($city_name)): ?>
 
-                                <a href="<?=admin_url('admin.php?page=province&province=' . absint($_GET[ 'province' ]))?>"
+                                <a href="<?=admin_url('admin.php?page=atlas&province=' . absint($_GET[ 'province' ]))?>"
                                     class="button">برگشت</a>
 
                                 <?php endif; ?>
@@ -174,7 +174,7 @@ wp_editor($description, 'description', $editor_array)?>
                                 href="<?=admin_url('edit.php?post_type=institute&city=' . $city->id)?>"><?=$post_count?></a>
                         </td>
                         <td>
-                            <a href="<?=admin_url('admin.php?page=province&province=' . absint($_GET[ 'province' ]) . '&city=' . $city->id)?>"
+                            <a href="<?=admin_url('admin.php?page=atlas&province=' . absint($_GET[ 'province' ]) . '&city=' . $city->id)?>"
                                 class="button button-primary"> ویرایش </a>
                             <button class="button button-primary button-error delete-city-btn"
                                 data-city-id="<?=$city->id?>"> حذف </button>

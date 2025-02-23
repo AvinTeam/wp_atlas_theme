@@ -2,7 +2,7 @@
 (defined('ABSPATH')) || exit;
 header('Content-Type: text/html; charset=utf-8');
 
-define('ATLAS_VERSION', '1.6.22');
+define('ATLAS_VERSION', '1.6.25');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -41,7 +41,6 @@ require_once ATLAS_INCLUDES . '/init_user_submit.php';
 
 // require_once ATLAS_INCLUDES . '/jdf.php';
 
-$atlas_option = atlas_start_working();
 
 if (is_admin()) {
     //require_once ATLAS_CLASS . '/List_Table.php';

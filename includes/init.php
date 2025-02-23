@@ -19,7 +19,6 @@ function atlas_panel_rewrite()
     //     'top'
     // );
 
-
     add_rewrite_rule(
         '^institute/([0-9]+)/?$',
         'index.php?post_type=institute&p=$matches[1]',
@@ -67,17 +66,16 @@ function atlas_template_include($template)
     return $template;
 }
 
-
 function restrict_admin_access()
 {
-    if (!is_user_logged_in()) {
+    if (! is_user_logged_in()) {
         return;
     }
 
-    $user = wp_get_current_user();
+    $user             = wp_get_current_user();
     $restricted_roles = [ 'subscriber', 'responsible' ];
 
-    if (array_intersect($restricted_roles, $user->roles) && !defined('DOING_AJAX')) {
+    if (array_intersect($restricted_roles, $user->roles) && ! defined('DOING_AJAX')) {
         wp_redirect(home_url());
         exit;
     }
@@ -89,7 +87,7 @@ add_filter('show_admin_bar', 'disable_admin_bar_for_specific_roles');
 function disable_admin_bar_for_specific_roles($show)
 {
     if (is_user_logged_in()) {
-        $user = wp_get_current_user();
+        $user             = wp_get_current_user();
         $restricted_roles = [ 'subscriber', 'responsible' ];
 
         if (array_intersect($restricted_roles, $user->roles)) {
@@ -100,13 +98,9 @@ function disable_admin_bar_for_specific_roles($show)
     return $show;
 }
 
-
-
-
-
 $atlas_iran_area = new Iran_Area;
 
-if (!$atlas_iran_area->num()) {
+if (! $atlas_iran_area->num()) {
     $atlas = $atlas_iran_area->insert_old_data();
 }
 
@@ -131,19 +125,22 @@ function hide_default_meta_boxes($hidden, $screen)
 }
 add_filter('default_hidden_meta_boxes', 'hide_default_meta_boxes', 10, 2);
 
-
-
 function save_comment_rating($comment_id)
 {
     if (isset($_POST[ 'rating' ]) && ! empty($_POST[ 'rating' ])) {
         $rating = intval($_POST[ 'rating' ]);
         add_comment_meta($comment_id, 'rating', $rating);
     }
-    if (isset($_POST[ 'mobile' ]) && ! empty($_POST[ 'mobile' ])) {
+
+    if (is_user_logged_in()) {
+
+        $this_user = wp_get_current_user();
+        add_comment_meta($comment_id, 'mobile', $this_user->mobile);
+
+    } elseif (isset($_POST[ 'mobile' ]) && ! empty($_POST[ 'mobile' ])) {
         $mobile = sanitize_phone($_POST[ 'mobile' ]);
         add_comment_meta($comment_id, 'mobile', $mobile);
     }
+
 }
 add_action('comment_post', 'save_comment_rating');
-
-

@@ -669,6 +669,10 @@ body {
   font-weight: 1000;
 }
 
+#loginForm{
+  width: 50%;
+}
+
 @media (max-width: 576px) {
 
   .home-search-box img,
@@ -750,7 +754,9 @@ body {
 }
 
 @media (max-width: 999px) {
-
+  #loginForm{
+    width: 100%;
+  }
   .home-search-box-input {
     width: 100%;
   }

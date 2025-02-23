@@ -1,134 +1,4 @@
-const pageLogin = document.getElementById('loginForm');
-if (pageLogin) {
 
-
-    let isSendSms = true;
-
-    function validateMobile(mobile) {
-        let regex = /^09\d{9}$/;
-        return regex.test(mobile);
-    }
-    function send_sms() {
-        let mobile = document.getElementById('mobile').value;
-        if (validateMobile(mobile)) {
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', atlas_js.ajaxurl, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-
-                const response = JSON.parse(xhr.responseText);
-
-                if (xhr.status === 200) {
-                    if (response.success) {
-                        document.getElementById('mobileForm').style.display = 'none';
-                        document.getElementById('codeVerification').style.display = 'block';
-                        document.getElementById('resendCode').disabled = true;
-                        startTimer();
-                        let otpInput = document.getElementById('verificationCode');
-
-                        // اعمال فوکوس روی فیلد
-                        otpInput.focus();
-                    }
-                } else {
-
-                    let loginAlert = document.getElementById('login-alert');
-
-                    loginAlert.classList.remove('d-none');
-                    loginAlert.textContent = response.data;
-                }
-            };
-            xhr.send(`action=atlas_sent_sms&nonce=${atlas_js.nonce}&mobileNumber=${mobile}`);
-
-        } else {
-
-            let loginAlert = document.getElementById('login-alert');
-            isSendSms = true
-
-            loginAlert.classList.remove('d-none');
-            loginAlert.textContent = 'شماره موبایل نامعتبر است';
-
-        }
-    }
-
-    pageLogin.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        if (isSendSms) {
-            isSendSms = false;
-            send_sms();
-        }
-    });
-
-
-    document.getElementById('verifyCode').addEventListener('click', function () {
-        let mobile = document.getElementById('mobile').value;
-
-        let verificationCode = document.getElementById('verificationCode').value;
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', atlas_js.ajaxurl, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function () {
-
-            const response = JSON.parse(xhr.responseText);
-
-            if (xhr.status === 200) {
-                if (response.success) {
-                    location.reload();
-                }
-            } else {
-
-                let loginAlert = document.getElementById('login-alert');
-
-                loginAlert.classList.remove('d-none');
-                loginAlert.textContent = response.data;
-            }
-        };
-        xhr.send(`action=atlas_sent_verify&nonce=${atlas_js.nonce}&otpNumber=${verificationCode}&mobileNumber=${mobile}`);
-
-
-    });
-
-
-    document.getElementById('editNumber').addEventListener('click', function () {
-        document.getElementById('mobileForm').style.display = 'block';
-        document.getElementById('codeVerification').style.display = 'none';
-        isSendSms = true;
-        startTimer(true);
-
-    });
-
-    document.getElementById('resendCode').addEventListener('click', function () {
-        send_sms();
-    });
-
-
-    function startTimer(end = false) {
-
-        if (end) { clearInterval(interval); } else {
-
-            let timer = Number(atlas_js.option.set_timer) * 60,
-                minutes, seconds;
-            interval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                document.getElementById('timer').textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    clearInterval(interval);
-                    document.getElementById('resendCode').disabled = false;
-                }
-            }, 1000);
-        }
-    }
-
-
-}
 
 function updateImage(event) {
     const file = event.target.files[0];
@@ -251,10 +121,6 @@ jQuery(document).ready(function ($) {
             }
         });
     });
-
-
-
-
 
     $('#select2modal').select2({
         placeholder: 'جستجوی شهر، استان و ...',
@@ -588,8 +454,9 @@ jQuery(document).ready(function ($) {
 
 
     if (isMap) {
-        $('#subject').tagsInput({
-            'width': '340px',
+
+        $('input#subject').tagsInput({
+            'width': '300px',
             'defaultText': 'افزودن',
             'removeWithBackspace': true,
             'interactive': true,
@@ -830,7 +697,57 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    $('#user_item_send').submit(function (e) {
 
+
+        let title = $('#title').val();
+        let ostan = $('#ostan').val();
+        let city = $('#city').val();
+
+        let massege = "";
+
+
+        if (title == "") {
+            massege += `<div class="alert alert-danger" role="alert">
+           عنوان  مرکز قرآنی را وارد کنید
+        </div>`;
+        }
+
+        if (Number(ostan) == 0) {
+            massege += `<div class="alert alert-danger" role="alert">
+           استان مرکز قرآنی را وارد کنید
+        </div>`;
+        }
+
+
+        if (Number(city) == 0) {
+            massege += `<div class="alert alert-danger" role="alert">
+           شهر مرکز قرآنی را وارد کنید
+        </div>`;
+
+        }
+
+        if (marker == null) {
+
+            massege += `<div class="alert alert-danger" role="alert">
+             موقعیت مکانی مرکز قرآنی را وارد کنید
+         </div>`;
+        }
+
+        if (massege != "") {
+            $('#alert_item_danger').html(massege);
+            e.preventDefault();
+
+        }
+
+
+
+
+
+
+
+
+    });
 
 
 

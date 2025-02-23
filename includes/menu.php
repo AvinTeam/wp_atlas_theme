@@ -14,56 +14,22 @@ add_action('admin_menu', 'mph_admin_menu');
 function mph_admin_menu(string $context): void
 {
 
-    $setting_suffix = add_menu_page(
+    $province_suffix = add_menu_page(
         'اطلس',
         'اطلس',
         'manage_options',
         'atlas',
-        'setting_panels',
+        'atlas_menu_callback',
         'dashicons-hammer',
         55
     );
-
-    add_submenu_page(
-        'atlas',
-        'تنظیمات',
-        'تنظیمات',
-        'manage_options',
-        'atlas',
-        'setting_panels',
-    );
-
-    function setting_panels()
-    {
-        $atlas_option = atlas_start_working();
-
-        require_once ATLAS_VIEWS . 'menu/setting.php';
-
-    }
-
-    $sms_panels_suffix = add_submenu_page(
-        'atlas',
-        'تنظیمات پنل پیامک',
-        'تنظیمات پنل پیامک',
-        'manage_options',
-        'sms_panels',
-        'atlas_sms_panels',
-    );
-
-    function atlas_sms_panels()
-    {
-        $atlas_option = atlas_start_working();
-
-        require_once ATLAS_VIEWS . 'setting_sms_panels.php';
-
-    }
 
     $province_suffix = add_submenu_page(
         'atlas',
         'استان ها',
         'استان ها',
         'manage_options',
-        'province',
+        'atlas',
         'atlas_menu_callback',
     );
 
@@ -76,7 +42,6 @@ function mph_admin_menu(string $context): void
 
     }
 
-
     $add_file_ayeh_suffix = add_submenu_page(
         'atlas',
         'افزودن با اکسل',
@@ -88,28 +53,13 @@ function mph_admin_menu(string $context): void
 
     function add_file_ayeh()
     {
-        $atlas_option = atlas_start_working();
 
         require_once ATLAS_VIEWS . 'menu/add_file.php';
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
     add_action('load-' . $province_suffix, 'atlas__province');
-    add_action('load-' . $setting_suffix, 'atlas__submit');
-    add_action('load-' . $sms_panels_suffix, 'atlas__submit');
     add_action('load-' . $add_file_ayeh_suffix, 'atlas__add_file');
-
 
     function atlas__province()
     {
@@ -132,9 +82,9 @@ function mph_admin_menu(string $context): void
                     [
                         'id'                 => 'message',
                         'type'               => 'success',
-                        'additional_classes' => ['updated'],
+                        'additional_classes' => [ 'updated' ],
                         'dismissible'        => true,
-                    ]
+                     ]
                 );
 
             } else {
@@ -143,9 +93,9 @@ function mph_admin_menu(string $context): void
                     [
                         'id'                 => 'atlas_message',
                         'type'               => 'error',
-                        'additional_classes' => ['updated'],
+                        'additional_classes' => [ 'updated' ],
                         'dismissible'        => true,
-                    ]
+                     ]
                 );
             }
 
@@ -155,8 +105,6 @@ function mph_admin_menu(string $context): void
 
             if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
 
-
-           
                 $iran = new Iran_Area();
 
                 if (isset($_REQUEST[ 'city_id' ]) && absint($_REQUEST[ 'city_id' ])) {
@@ -167,7 +115,7 @@ function mph_admin_menu(string $context): void
                         'description' => wp_kses_post(wp_unslash(nl2br($_REQUEST[ 'description' ]))),
                      ];
                     $where        = [ 'id' => absint($_REQUEST[ 'city_id' ]) ];
-                    $format       = [ '%s' ,'%s' ,'%s' ];
+                    $format       = [ '%s', '%s', '%s' ];
                     $where_format = [ '%d' ];
 
                     $res = $iran->update($data, $where, $format, $where_format);
@@ -178,9 +126,9 @@ function mph_admin_menu(string $context): void
                             [
                                 'id'                 => 'atlas_message',
                                 'type'               => 'success',
-                                'additional_classes' => ['updated'],
+                                'additional_classes' => [ 'updated' ],
                                 'dismissible'        => true,
-                            ]
+                             ]
                         );
                     } else {
                         wp_admin_notice(
@@ -188,9 +136,9 @@ function mph_admin_menu(string $context): void
                             [
                                 'id'                 => 'atlas_message',
                                 'type'               => 'error',
-                                'additional_classes' => ['updated'],
+                                'additional_classes' => [ 'updated' ],
                                 'dismissible'        => true,
-                            ]
+                             ]
                         );
                     }
 
@@ -212,9 +160,9 @@ function mph_admin_menu(string $context): void
                             [
                                 'id'                 => 'atlas_message',
                                 'type'               => 'success',
-                                'additional_classes' => ['updated'],
+                                'additional_classes' => [ 'updated' ],
                                 'dismissible'        => true,
-                            ]
+                             ]
                         );
                     } else {
                         wp_admin_notice(
@@ -222,9 +170,9 @@ function mph_admin_menu(string $context): void
                             [
                                 'id'                 => 'atlas_message',
                                 'type'               => 'error',
-                                'additional_classes' => ['updated'],
+                                'additional_classes' => [ 'updated' ],
                                 'dismissible'        => true,
-                            ]
+                             ]
                         );
                     }
 
@@ -234,9 +182,9 @@ function mph_admin_menu(string $context): void
                         [
                             'id'                 => 'atlas_message',
                             'type'               => 'error',
-                            'additional_classes' => ['updated'],
+                            'additional_classes' => [ 'updated' ],
                             'dismissible'        => true,
-                        ]
+                         ]
                     );
                 }
 
@@ -247,58 +195,15 @@ function mph_admin_menu(string $context): void
                     [
                         'id'                 => 'atlas_message',
                         'type'               => 'error',
-                        'additional_classes' => ['updated'],
+                        'additional_classes' => [ 'updated' ],
                         'dismissible'        => true,
-                    ]
+                     ]
                 );
             }
 
         }
 
     }
-
-    function atlas__submit()
-    {
-
-        if (isset($_POST[ 'atlas_act' ]) && $_POST[ 'atlas_act' ] == 'atlas__submit') {
-
-            if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce' . get_current_user_id())) {
-                if (isset($_POST[ 'tsms' ])) {
-                    $_POST[ 'tsms' ] = array_map('sanitize_text_field', $_POST[ 'tsms' ]);
-                }
-                if (isset($_POST[ 'ghasedaksms' ])) {
-                    $_POST[ 'ghasedaksms' ] = array_map('sanitize_text_field', $_POST[ 'ghasedaksms' ]);
-                }
-
-                atlas_update_option($_POST);
-
-                wp_admin_notice(
-                    'تغییر شما با موفقیت ثبت شد',
-                    [
-                        'id'                 => 'message',
-                        'type'               => 'success',
-                        'additional_classes' => ['updated'],
-                        'dismissible'        => true,
-                    ]
-                );
-
-            } else {
-                wp_admin_notice(
-                    'ذخیره سازی به مشکل خورده دوباره تلاش کنید',
-                    [
-                        'id'                 => 'atlas_message',
-                        'type'               => 'error',
-                        'additional_classes' => ['updated'],
-                        'dismissible'        => true,
-                    ]
-                );
-
-            }
-
-        }
-
-    }
-
 
     function atlas__add_file()
     {
@@ -333,18 +238,6 @@ function mph_admin_menu(string $context): void
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     add_submenu_page(
         'edit.php?post_type=institute',         // اسلاگ پست تایپ

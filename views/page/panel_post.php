@@ -152,9 +152,9 @@ get_header(); ?>
     <?php endif; ?>
 <?php endif; ?>
 <div class="container mt-5">
-    <form accept="" method="POST" enctype="multipart/form-data">
+    <form id="user_item_send" accept="" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="post_id" value="<?php echo $post_id ?>">
-        <div class="form-group mt-2 d-flex flex-row justify-content-between ">
+        <div class="form-group mt-2 d-flex flex-column flex-lg-row justify-content-between ">
             <div>
                 <label for="fileInput">لوگو مرکز قرآنی</label>
                 <input type="file" class="form-control mt-2" id="fileInput" name="fileInput" accept="image/*"
@@ -167,7 +167,7 @@ get_header(); ?>
         </div>
         <div class="form-group mt-2">
             <label for="title">عنوان مرکز قرآنی</label>
-            <input type="text" class="form-control mt-2" id="title" name="title" value="<?php echo $post_title ?>">
+            <input type="text" class="form-control mt-2" id="title" name="title" value="<?php echo $post_title ?>" require>
         </div>
         <div class="form-group mt-2">
             <label for="center-mode">حالت مرکز</label>
@@ -231,7 +231,7 @@ get_header(); ?>
         <div class="form-group mt-2 panel-user">
             <label for="ostan">استان</label>
             <div>
-                <select name="atlas[ostan]" id="ostan" class="form-select select2map">
+                <select name="atlas[ostan]" id="ostan" class="form-select select2map" require>
                     <option value="0">انتخاب استان</option>
                     <?php foreach ($ostan as $key => $value): ?>
                     <option value="<?php echo $value->id ?>"
@@ -244,7 +244,7 @@ get_header(); ?>
         <div class="form-group mt-2 panel-user">
             <label for="city">شهر</label>
             <div>
-                <select name="atlas[city]" id="city" class="form-select select2map">
+                <select name="atlas[city]" id="city" class="form-select select2map" require>
                     <option value="0">انتخاب شهرستان</option>
                     <?php foreach ($city as $key => $value): ?>
                     <option value="<?php echo $value->id ?>"
@@ -258,9 +258,9 @@ get_header(); ?>
             <label for="city">موقعیت مکانی</label>
             <div class="mt-2">
                 <input type="hidden" name="atlas[map][lat]" id="map-lat"
-                    value="<?php echo $atlas_institute[ 'map' ][ 'lat' ] ?>">
+                    value="<?php echo $atlas_institute[ 'map' ][ 'lat' ] ?>" require>
                 <input type="hidden" name="atlas[map][lng]" id="map-lng"
-                    value="<?php echo $atlas_institute[ 'map' ][ 'lng' ] ?>">
+                    value="<?php echo $atlas_institute[ 'map' ][ 'lng' ] ?>" require>
                 <div style=" width: 100%;height: 500px;" id="map"></div>
             </div>
         </div>
@@ -446,12 +446,22 @@ get_header(); ?>
             <?php
                 wp_editor($post_description, 'content', [
                     'textarea_name' => 'post_content',
-                    'media_buttons' => true,
+                    'media_buttons' => false,
                     'textarea_rows' => 10,
+                    'quicktags'     => false,
+
                  ]);
             ?>
         </div>
         <?php wp_nonce_field('atlas_nonce_user_submit' . get_current_user_id()); ?>
+
+
+
+        <div id="alert_item_danger" class="container mt-5">
+    
+    </div>
+
+
 
         <div class="form-group mt-2">
             <button type="submit" class="btn btn-primary" name="act_user" value="form_submit">ارسال</button>

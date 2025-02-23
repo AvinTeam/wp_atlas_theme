@@ -219,11 +219,23 @@ function atlas_save_bax($post_id, $post, $updata)
 
         $operator = get_post_meta($post_id, '_operator', true);
         if (! $operator) {
-            update_post_meta($post_id, '_operator', $post->post_author);
+            $iduser          = $post->post_author;
+            $this_user_cap   = get_userdata(get_current_user_id());
+            $author_user_cap = get_userdata($iduser);
 
-            $post_operator = absint(get_user_meta($post->post_author, 'post_operator', true));
+            if ($this_user_cap->has_cap('operator') && $author_user_cap && ! $author_user_cap->has_cap('operator')) {
 
-            update_user_meta($post->post_author, 'post_operator', $post_operator++);
+                update_post_meta($post_id, '_operator', get_current_user_id());
+
+                $iduser = get_current_user_id();
+            } else {
+                update_post_meta($post_id, '_operator', $iduser);
+
+            }
+
+            $post_operator = absint(get_user_meta($iduser, 'post_operator', true));
+
+            update_user_meta($iduser, 'post_operator', $post_operator++);
 
         }
 

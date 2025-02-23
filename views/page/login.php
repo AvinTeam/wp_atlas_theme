@@ -32,11 +32,11 @@ footer {
 <div class="h-100 mt-5 p-5">
     <div class="d-flex justify-content-center align-content-center  login-box">
 
-        <form id="loginForm" class="w-50 bg-white">
+        <form id="loginForm" class="bg-white">
 
             <div id="mobileForm">
                 <h3 class="text-center mt-2">ورود / ثبت نام</h3>
-                <p class="text-center">جهت ورود به مسابقه</p>
+                <p class="text-center">جهت ورود</p>
 
                 <div class="form-group text-start">
                     <label for="mobile">شماره موبایل</label>
@@ -64,9 +64,7 @@ footer {
                         <span class="input-group-text" id="verify"><i class="bi bi-person-fill"></i></span>
                         <input autocomplete="one-time-code" type="text" inputmode="numeric" pattern="\d*"
                             class="form-control onlyNumbersInput" id="verificationCode"
-                            maxlength="<?php echo $atlas_option[ 'set_code_count' ] ?>"
                             placeholder="کد تایید را وارد کنید" aria-describedby="verify">
-
                     </div>
                 </div>
                 <div class="d-grid mt-2 gap-2">
@@ -82,6 +80,7 @@ footer {
             <div id="login-alert" class="alert alert-danger mt-2 d-none" role="alert"></div>
 
         </form>
+        <div style="height: 100px;"></div>
 
     </div>
 

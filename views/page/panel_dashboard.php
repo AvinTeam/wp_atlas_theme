@@ -24,12 +24,20 @@
             while ($query->have_posts()) {
                 $query->the_post();
 
-                $status = (get_post_status() == 'publish') ? 'light' : 'warning';
-                $img    = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
+                $status      = (get_post_status() == 'publish') ? 'light' : 'warning';
+                $status_text = (get_post_status() != 'publish') ? 'در انتظار بررسی میباشد' : '';
+                $img         = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
                 echo '
                     <a href=" ' . atlas_base_url('panel/?post=' . get_the_ID()) . '" class="alert alert-' . $status . ' w-100 d-flex flex-row gap-3 justify-content-start align-items-center" role="alert">
-                        <img src="' . $img . '" class="img-fluid rounded-circle mb-2" style=" height: 50px; width: 50px; border: 1px solid #3899a0;">
-                        <span class="btn">' . get_the_title() . '</span>
+                        <img src="' . $img . '" class="img-fluid rounded-circle" style=" height: 50px; width: 50px; border: 1px solid #3899a0;">
+         <div class=" d-flex flex-row justify-content-between w-100 align-items-center " >
+                        <span class="btn">' . get_the_title() . ' </span>
+                       <div>
+                        <span class="btn btn-link">وبرایش</span>
+                        <b>
+                        ' . $status_text . '</b>
+                        </div>
+         </div>
                     </a>';
             }
             wp_reset_postdata();

@@ -15,7 +15,7 @@ if (isset($_GET[ 'province' ]) && !empty($_GET[ 'province' ])) {
         <hr class="wp-header-end">
         <div class="province-list">
             <?php foreach ($iran->select() as $province): ?>
-            <a href="<?=admin_url('admin.php?page=province&province=' . $province->id)?>"
+            <a href="<?=admin_url('admin.php?page=atlas&province=' . $province->id)?>"
                 class="button province-item"><?=$province->name?></a>
             <?php endforeach; ?>
         </div>
