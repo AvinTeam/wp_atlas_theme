@@ -42,8 +42,7 @@
                     href="<?php echo atlas_base_url('panel') ?>">
                     <img style="width:24px ;" src="<?= atlas_panel_image('login-icon.png') ?>" > 
                     <span>|</span>
-
-                    <span>ورود <?= (is_user_logged_in()) ?'پنل':'موسسه' ?></span>
+                    <span> <?= (is_user_logged_in()) ?'ورود پنل':'محفل ساز شو' ?></span>
                 </a>
                 <a class=" d-none d-lg-block" href="https://zendegibaayeha.ir/">
                     <img src="<?php echo atlas_panel_image('zendegibaayeha.png') ?>" alt="زندگی با آیه‌ها"
