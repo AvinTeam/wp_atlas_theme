@@ -1,6 +1,6 @@
 <?php
 
-use atlasclass\Iran_Area;
+    use atlasclass\Iran_Area;
 
     $atlas = get_query_var('atlas');
 
@@ -55,20 +55,20 @@ use atlasclass\Iran_Area;
                     <div class="mb-3">
                         <label for="course-modal" class="form-label">نحوه برگزاری کلاس</label>
                         <select id="course-modal" class="form-select form-select w-100" name="course">
-                            <option <?php selected($course, 'all')?> value="all">همه موارد</option>
-                            <option <?php selected($course, 'online')?> value="online">حضوری</option>
-                            <option <?php selected($course, 'offline')?> value="offline">مجازی</option>
+                            <option                                    <?php selected($course, 'all')?> value="all">همه موارد</option>
+                            <option                                    <?php selected($course, 'online')?> value="online">حضوری</option>
+                            <option                                    <?php selected($course, 'offline')?> value="offline">مجازی</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="age-modal" class="form-label">گروه سنی مخاطبین</label>
                         <select id="age-modal" class="form-select form-select w-100" name="age">
-                            <option <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
-                            <option <?php selected($age, 7)?> value="7">زیر 7 سال</option>
-                            <option <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
-                            <option <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
-                            <option <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
+                            <option                                    <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
+                            <option                                    <?php selected($age, 7)?> value="7">زیر 7 سال</option>
+                            <option                                    <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
+                            <option                                    <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
+                            <option                                    <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
 
                         </select>
                     </div>
@@ -77,8 +77,8 @@ use atlasclass\Iran_Area;
                         <label for="gender-modal" class="form-label">جنسیت</label>
                         <select id="gender-modal" class="form-select form-select w-100" name="gender">
                             <option value="all">همه ی جنسیت ها</option>
-                            <option <?php selected($gender, 'woman')?> value="woman">خواهران</option>
-                            <option <?php selected($gender, 'man')?> value="man">برادران</option>
+                            <option                                    <?php selected($gender, 'woman')?> value="woman">خواهران</option>
+                            <option                                    <?php selected($gender, 'man')?> value="man">برادران</option>
                         </select>
                     </div>
 
@@ -105,25 +105,28 @@ use atlasclass\Iran_Area;
 
 <footer class="container-fluid mt-2 my-md-5">
     <div class=" mx-auto atlas-row">
-        <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4" style="height: 136px;">
+        <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4"
+            style="height: 136px;">
             <span class="fw-heavy text-white">اطلس جامع قرآنی کشور در شبکه های اجتماعی</span>
             <div class="footer-link">
-                <a href="#" title="کانال ایتا" class="py-2 px-1 border border-warning rounded-circle"><img class="m-1"
+                  <a class="p-2 border border-warning rounded-circle" title="کانال ایتا"
+                    href="https://eitaa.com/joinchat/2527134304Ccdba67771f"><img
                         src="<?php echo atlas_panel_image('eitaa.png') ?>"></a>
-
-                <a href="#" title="کانال بله" class="py-2 px-1 border border-warning rounded-circle"><img class="m-1"
-                        src="<?php echo atlas_panel_image('bale.png ') ?>"></a>
-
-                <a href="#" title="کانال اینستاگرام" class="py-2 px-1 border border-warning rounded-circle"><img
-                        class="m-1" src="<?php echo atlas_panel_image('instagram.png') ?>"></a>
-
-                <a href="#" title="کانال تلگرام" class="py-2 px-1 border border-warning rounded-circle"><img class="m-1"
-                        src="<?php echo atlas_panel_image('telegram.png') ?>"></a>
-                <a href="#" title="کانال روبیکا" class="py-2 px-1 border border-warning rounded-circle"><img class="m-1"
-                        src="<?php echo atlas_panel_image('rubika.png') ?>"></a>
+                <a class="p-2 border border-warning rounded-circle"
+                    href="https://ble.ir/join/BBTz8iGZLf" title="کانال بله"><img src="<?php echo atlas_panel_image('bale.png') ?>"></a>
+                <a class="p-2 border border-warning rounded-circle"
+                    href="https://rubika.ir/zendegibaayeha"><img
+                        src="<?php echo atlas_panel_image('rubika.png') ?>" title="کانال روبیکا"></a>
+                <a class="p-2 border border-warning rounded-circle"
+                    href="https://www.aparat.com/mzbah.com"><img
+                        src="<?php echo atlas_panel_image('aparat.png') ?>" title="کانال آپارات"></a>
+                <a class="p-2 border border-warning rounded-circle"
+                    href="http://www.youtube.com/@zendegibaayeha"><img
+                        src="<?php echo atlas_panel_image('youtube.png') ?>" title="کانال یوتویب"></a>
             </div>
         </div>
-        <div class=" mx-auto atlas-row footercopy rounded-bottom-4 text-center d-flex justify-content-center align-items-center text-white" style="height: 59px;">
+        <div class=" mx-auto atlas-row footercopy rounded-bottom-4 text-center d-flex justify-content-center align-items-center text-white"
+            style="height: 59px;">
             <span>کلیه حقوق این سامانه متعلق به سامانه جامع زندگی با آیه ها می باشد.</span>
         </div>
     </div>
