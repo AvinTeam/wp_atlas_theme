@@ -186,6 +186,7 @@ jQuery(document).ready(function ($) {
         let goTo = "";
 
         let city = $('#select2modal').val();
+        let typeModal = $('#type-modal').val();
         let course = $('#course-modal').val();
         let age = $('#age-modal').val();
         let gender = $('#gender-modal').val();
@@ -193,6 +194,11 @@ jQuery(document).ready(function ($) {
         if (city != '') {
             let sq = (goTo == "") ? '?' : '&';
             goTo = goTo + sq + 'c=' + city;
+        }
+
+        if (typeModal != 'all') {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'type=' + typeModal;
         }
 
         if (course != 'all') {
@@ -244,6 +250,7 @@ jQuery(document).ready(function ($) {
         const courseValue = params.get('course');
         const ageValue = params.get('age');
         const genderValue = params.get('gender');
+        const typeValue = params.get('type');
 
         let goTo = '';
 
@@ -252,10 +259,17 @@ jQuery(document).ready(function ($) {
             goTo = goTo + sq + 'c=' + cValue;
         }
 
+        if (typeValue != null) {
+            let sq = (goTo == "") ? '?' : '&';
+            goTo = goTo + sq + 'type=' + typeValue;
+        }
+
         if (courseValue != null) {
             let sq = (goTo == "") ? '?' : '&';
             goTo = goTo + sq + 'course=' + courseValue;
         }
+
+
 
         if (ageValue != null) {
             let sq = (goTo == "") ? '?' : '&';

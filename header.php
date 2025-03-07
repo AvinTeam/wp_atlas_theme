@@ -22,7 +22,7 @@
                 <form id="search-header" class="atlas-search w-75 w-md-75 d-flex">
                     <img class="search-img me-2" src="<?php echo atlas_panel_image('search.svg') ?>" alt="جستجو">
                     <input type="text" name="search" id="search-header-input" class="form-control flex-grow-1"
-                        aria-label="Search" placeholder="مرکز قرآنی مد نظر خود را وارد کنید">
+                        aria-label="Search" value="<?php echo(isset($_GET[ 's' ])) ? sanitize_text_field($_GET[ 's' ]) : '' ?>" placeholder="مرکز قرآنی مد نظر خود را وارد کنید">
                     <img id="fiter-btn" class="search-button ms-2"
                         src="<?php echo atlas_panel_image('search_filter.svg') ?>">
                 </form>
@@ -38,9 +38,8 @@
             <!-- لینک دیگر -->
             <div
                 class="col-12 col-md-4 text-center text-md-end d-flex flex-row justify-content-end gap-3 align-items-center ">
-                <a class="btn btn-primary d-flex flex-row justify-content-center align-items-center gap-2"
-                    style="white-space: nowrap;" href="<?php echo atlas_base_url('panel') ?>">
-                    <img style="width:24px ;" src="<?php echo atlas_panel_image('login-icon.png')?>">
+                <a class="btn btn-primary d-flex flex-row justify-content-center align-items-center gap-2 text-nowrap" href="<?php echo atlas_base_url('panel') ?>">
+                    <img style="width:24px ;" src="<?php echo atlas_panel_image('login-icon.png') ?>">
                     <span>|</span>
                     <span>محفل ساز شو</span>
                 </a>

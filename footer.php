@@ -18,9 +18,10 @@
     } else {
         $city = (isset($_GET[ 'c' ]) && absint($_GET[ 'c' ])) ? absint($_GET[ 'c' ]) : '0';
     }
-    $course = (isset($_GET[ 'course' ]) && ! empty($_GET[ 'course' ])) ? sanitize_text_field($_GET[ 'course' ]) : 'all';
-    $age    = (isset($_GET[ 'age' ]) && ! empty($_GET[ 'age' ])) ? sanitize_text_field($_GET[ 'age' ]) : 'all';
-    $gender = (isset($_GET[ 'gender' ]) && ! empty($_GET[ 'gender' ])) ? sanitize_text_field($_GET[ 'gender' ]) : 'all';
+    $center_type = (isset($_GET[ 'type' ]) && ! empty($_GET[ 'type' ])) ? sanitize_text_field($_GET[ 'type' ]) : 'all';
+    $course      = (isset($_GET[ 'course' ]) && ! empty($_GET[ 'course' ])) ? sanitize_text_field($_GET[ 'course' ]) : 'all';
+    $age         = (isset($_GET[ 'age' ]) && ! empty($_GET[ 'age' ])) ? sanitize_text_field($_GET[ 'age' ]) : 'all';
+    $gender      = (isset($_GET[ 'gender' ]) && ! empty($_GET[ 'gender' ])) ? sanitize_text_field($_GET[ 'gender' ]) : 'all';
 
 ?>
 
@@ -49,6 +50,21 @@
                             <option<?php selected($city, $key)?> value="<?php echo $key ?>"><?php echo $value ?>
                                 </option>
                                 <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="type-modal" class="form-label">نوع مرکز</label>
+                        <select id="type-modal" class="form-select form-select w-100" name="type">
+                            <option <?php selected($center_type, 'all')?> value="all">همه موارد</option>
+                            <option <?php selected($center_type, 'mohfel')?> value="mohfel">محفل زندگی با آیه ها
+                            </option>
+                            <option <?php selected($center_type, 'Institute')?> value="Institute">موسسه</option>
+                            <option <?php selected($center_type, 'house_of_quran')?> value="house_of_quran">خانه قرآن
+                            </option>
+                            <option <?php selected($center_type, 'education')?> value="education">آموزش پرورش</option>
+                            <option <?php selected($center_type, 'besij')?> value="besij">پایگاه قرآنی مساجد</option>
+                            <option <?php selected($center_type, 'home')?> value="home">جلسات خانگی</option>
                         </select>
                     </div>
 
@@ -111,13 +127,13 @@
             <span class="fw-heavy text-white">اطلس محافل و تشکل های قرآنی</span>
             <div class="footer-link">
 
-            <?php wp_nav_menu([
-                    'theme_location' => 'footer-menu',
-                    'container'      => false,
-                    'menu_class'     => '',
-                    'items_wrap'     => '%3$s', // فقط آیتم‌های منو
-                    'walker'         => new Footer_Menu_Walker(),
-             ]); ?>
+                <?php wp_nav_menu([
+                        'theme_location' => 'footer-menu',
+                        'container'      => false,
+                        'menu_class'     => '',
+                        'items_wrap'     => '%3$s', // فقط آیتم‌های منو
+                        'walker'         => new Footer_Menu_Walker(),
+                 ]); ?>
 
             </div>
 

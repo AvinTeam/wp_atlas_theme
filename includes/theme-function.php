@@ -437,7 +437,7 @@
                 $center_type = 'خانه قرآن';
                 break;
             case 'mohfel':
-                $center_type = 'محفل';
+                $center_type = 'محفل زندگی با آیه ها';
                 break;
             case 'education':
                 $center_type = 'آموزش پرورش';
