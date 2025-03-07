@@ -138,31 +138,11 @@ function handle_download()
                     }, $gender);
                 }
 
-                switch ($center_type) {
-                    case 'Institute':
-                        $center_type = 'موسسه';
-                        break;
-                    case 'house_of_quran':
-                        $center_type = 'خانه قرآن';
-                        break;
-                    case 'mohfel':
-                        $center_type = 'محفل';
-                        break;
-                    case 'education':
-                        $center_type = 'آموزش پرورش';
-                        break;
-                    case 'besij':
-                        $center_type = 'پایگاه قرآنی مساجد';
-                        break;
-                    case 'home':
-                        $center_type = 'جلسات خانگی';
-                        break;
-                    default:
-                        $center_type = 'نامشخص';
 
-                        break;
-                }
+                $center_type = get_center_type($center_type);
 
+
+                
                 switch ($post->post_status) {
                     case 'publish':
                         $post_status = 'منتشر شده';

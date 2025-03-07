@@ -64,31 +64,9 @@ use atlasclass\Iran_Area;
                 $teacher     = (is_array($teacher)) ? $teacher : '';
                 $ayeha       = ($ayeha) ? $ayeha : 'no';
 
-                switch ($center_type) {
-                    case 'Institute':
-                        $center_type = 'موسسه';
-                        break;
-                    case 'house_of_quran':
-                        $center_type = 'خانه قرآن';
-                        break;
-                    case 'mohfel':
-                        $center_type = 'محفل';
-                        break;
-                    case 'education':
-                        $center_type = 'آموزش پرورش';
-                        break;
-                    case 'besij':
-                        $center_type = 'پایگاه قرآنی مساجد';
-                        break;
-                    case 'home':
-                        $center_type = 'جلسات خانگی';
-                        break;
+                $center_type = get_center_type($center_type);
 
-                    default:
-                        $center_type = 'نامشخص';
 
-                        break;
-                }
 
                 $translations_course_type = [
                     'online'  => 'حضوری',
@@ -171,7 +149,7 @@ use atlasclass\Iran_Area;
         <div class="d-flex flex-column flex-sm-row justify-content-between">
             <div class="breadcrumbs text-white d-flex flex-wrap gap-2  align-content-center justify-content-center">
                 <img src="<?php echo atlas_panel_image('home-icone.svg') ?>">
-                <a class="text-white" href="/">خانه</a>
+                <a class="text-white" href="<?=home_url()?>">صفحه نخست</a>
                 <img src="<?php echo atlas_panel_image('arrow.svg') ?>">
                 <a class="text-white"
                     href="<?php echo atlas_base_url('province=' . $province_id) ?>"><?php echo $province_neme ?></a>
@@ -185,7 +163,7 @@ use atlasclass\Iran_Area;
 
         <div class="d-flex justify-content-center my-2">
             <div class="p-2 text-center">
-                <img class="mb-2 rounded-circle"  style="width: 90px;"  src="<?php echo $img ?>">
+                <img class="mb-2 rounded-circle" style="width: 90px;" src="<?php echo $img ?>">
 
                 <div class="px-3 py-2 text-center fw-bold text-white">
                     <span><?php echo get_the_title($post_id) ?></span>
@@ -220,7 +198,8 @@ use atlasclass\Iran_Area;
         <div class="col-3 d-none d-sm-block px-2 ">
 
             <div class="border border-1 border-warning rounded-2 p-3 position-sticky atlas-table-parent">
-                <div data-block="info" class="rounded px-3 py-2 mb-2 atlas-table-list d-flex flex-row align-items-center gap-2 atlas-active">
+                <div data-block="info"
+                    class="rounded px-3 py-2 mb-2 atlas-table-list d-flex flex-row align-items-center gap-2 atlas-active">
 
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('info-t.svg') ?>">
@@ -228,20 +207,23 @@ use atlasclass\Iran_Area;
                     <b>درباره مرکز
                         قرآنی</b>
                 </div>
-                <div data-block="subject" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                <div data-block="subject"
+                    class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('bord-t.svg') ?>">
                     </div> <b>دوره ها</b>
                 </div>
 
-                <div data-block="teacher" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                <div data-block="teacher"
+                    class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('teacher-t.svg') ?>">
                     </div>
                     <b>مربیان</b>
                 </div>
 
-                <div data-block="contact" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                <div data-block="contact"
+                    class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('contact-t.svg') ?>">
                     </div>
@@ -249,14 +231,16 @@ use atlasclass\Iran_Area;
                         مرکز قرآنی</b>
                 </div>
 
-                <div data-block="address" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                <div data-block="address"
+                    class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('address-t.svg') ?>">
                     </div> <b>آدرس مرکز
                         قرآنی</b>
                 </div>
 
-                <div data-block="comment" class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
+                <div data-block="comment"
+                    class="rounded px-3 py-2  mb-2 atlas-table-list d-flex flex-row align-items-center gap-2">
                     <div class="rounded-circle p-1 img">
                         <img class="w-100" src="<?php echo atlas_panel_image('comment-t.svg') ?>">
                     </div>

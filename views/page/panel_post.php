@@ -13,7 +13,7 @@
     $atlas_institute = [
 
         'center-mode' => 'public',
-        'center-type' => 'Institute',
+        'center-type' => 'mohfel',
         'phone'       => '',
         'ostan'       => 0,
         'city'        => 0,
@@ -86,7 +86,7 @@
             $atlas_institute = [
 
                 'center-mode' => ($center_mode) ? $center_mode : 'public',
-                'center-type' => ($center_type) ? $center_type : 'Institute',
+                'center-type' => ($center_type) ? $center_type : 'mohfel',
                 'phone'       => ($phone) ? $phone : '',
                 'ostan'       => ($ostan) ? $ostan : 0,
                 'city'        => ($city) ? $city : 0,
@@ -166,7 +166,7 @@ get_header(); ?>
 
         </div>
         <div class="form-group mt-2">
-            <label for="title">عنوان مرکز قرآنی</label>
+            <label for="title">عنوان مرکز قرآنی <span class="text-danger">*</span></label>
             <input type="text" class="form-control mt-2" id="title" name="title" value="<?php echo $post_title ?>" require>
         </div>
         <div class="form-group mt-2">
@@ -188,6 +188,11 @@ get_header(); ?>
             <label for="title">نوع مرکز</label>
             <div>
                 <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="mohfel" name="atlas[center-type]" value="mohfel"
+                        <?php echo checked('mohfel', $atlas_institute[ 'center-type' ]) ?>>
+                    <label class="form-check-label" for="mohfel">محفل زندگی با آیه ها</label>
+                </div>
+                <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="Institute" name="atlas[center-type]"
                         value="Institute" <?php echo checked('Institute', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="Institute">موسسه</label>
@@ -197,11 +202,6 @@ get_header(); ?>
                         value="house_of_quran"
                         <?php echo checked('house_of_quran', $atlas_institute[ 'center-type' ]) ?>>
                     <label class="form-check-label" for="house_of_quran">خانه قرآن</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="mohfel" name="atlas[center-type]" value="mohfel"
-                        <?php echo checked('mohfel', $atlas_institute[ 'center-type' ]) ?>>
-                    <label class="form-check-label" for="mohfel">محفل</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" id="education" name="atlas[center-type]"
@@ -229,7 +229,7 @@ get_header(); ?>
         </div>
 
         <div class="form-group mt-2 panel-user">
-            <label for="ostan">استان</label>
+            <label for="ostan">استان<span class="text-danger">*</span></label>
             <div>
                 <select name="atlas[ostan]" id="ostan" class="form-select select2map" require>
                     <option value="0">انتخاب استان</option>
@@ -242,7 +242,7 @@ get_header(); ?>
             </div>
         </div>
         <div class="form-group mt-2 panel-user">
-            <label for="city">شهر</label>
+            <label for="city">شهر<span class="text-danger">*</span></label>
             <div>
                 <select name="atlas[city]" id="city" class="form-select select2map" require>
                     <option value="0">انتخاب شهرستان</option>
@@ -255,7 +255,7 @@ get_header(); ?>
             </div>
         </div>
         <div class="form-group mt-2">
-            <label for="city">موقعیت مکانی</label>
+            <label for="city">موقعیت مکانی<span class="text-danger">*</span></label>
             <div class="mt-2">
                 <input type="hidden" name="atlas[map][lat]" id="map-lat"
                     value="<?php echo $atlas_institute[ 'map' ][ 'lat' ] ?>" require>

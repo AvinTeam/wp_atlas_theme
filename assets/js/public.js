@@ -22,47 +22,73 @@ if (isMap) {
     // ایجاد نقشه و تنظیمات اولیه
     var map = L.map('map').setView([35.6892, 51.3890], 10); // شروع از تهران
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: ''
     }).addTo(map);
 
 
     var marker = null; // متغیر برای ذخیره مارکر
 
 
-    function atlasMap(state = 'تهران', city = 'تهران') {
+    function atlasMap(query = 'تهران', city = '') {
 
         const lat = document.getElementById('map-lat').value;
         const lng = document.getElementById('map-lng').value;
 
         if (lat != "" && lng != "") {
             marker = L.marker([lat, lng]).addTo(map).bindPopup("اینجا را انتخاب کردید").openPopup();
-            map.setView([lat, lng], 13);
+            map.setView([lat, lng], 10);
 
         } else {
+            if (city != "") {
+                query = query + ',' + city;
+            }
+            let url =
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&polygon_geojson=1&extratags=1`;
 
-            // 2. هندل دکمه نمایش روی نقشه
-            const url =
-                `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}&format=json`;
+
 
             if (url) {
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
+
                         if (data.length > 0) {
                             const {
                                 lat,
                                 lon
                             } = data[0];
-                            map.setView([lat, lon], 13);
 
-                        } else {
-                            alert("مکان مورد نظر یافت نشد!");
+                            if (city != "") {
+                                map.setView([lat, lon], 13);
+
+                            } else {
+
+                                map.setView([lat, lon], 11);
+                            }
+
+
                         }
                     })
-                    .catch(error => console.error("Error:", error));
+                    .catch(error => console.error("خطا در دریافت اطلاعات:", error));
+
+                // fetch(url)
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         if (data.length > 0) {
+                //             const {
+                //                 lat,
+                //                 lon
+                //             } = data[0];
+                //             map.setView([lat, lon], 13);
+
+                //         } else {
+                //             //alert("مکان مورد نظر یافت نشد!");
+                //         }
+                //     })
+                //     .catch(error => console.error("Error:", error));
             } else {
 
-                map.setView([35.6892, 51.3890], 13);
+                //map.setView([35.6892, 51.3890], 13);
 
             }
         }
@@ -474,6 +500,8 @@ jQuery(document).ready(function ($) {
         }
 
         $('#ostan').on('change', function () {
+            let ostan = $('#ostan option:selected').text();
+
 
             let formData = {
                 action: 'atlas_get_city',
@@ -487,8 +515,13 @@ jQuery(document).ready(function ($) {
                 dataType: 'json',
                 success: function (response) {
                     $('#city').html(response.data);
+
+                    atlasMap(ostan);
+
                 }
             });
+
+
 
         });
 

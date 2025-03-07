@@ -2,12 +2,14 @@
 
     use atlasclass\Iran_Area;
 
-    $inrow       = 18;
+    $inrow       = 30;
     $atlas       = get_query_var('atlas');
     $this_page   = explode('=', $atlas);
     $iran        = new Iran_Area;
     $city_id     = 0;
     $province_id = 0;
+
+    $inpage = (isset($_GET[ 'page' ])) ? absint($_GET[ 'page' ]) : 1;
 
     $all_iran = '';
 
@@ -94,7 +96,9 @@
 
     $args = [
         'post_type'      => 'institute',
-        'posts_per_page' => -1,
+        'posts_per_page' => $inrow,
+        'paged'          => $inpage,
+
      ];
 
     if (in_array($all_iran, [ 'city', 'province' ])) {
@@ -161,10 +165,10 @@
 
     $query = new WP_Query($args);
 
-    $all_amooz     = 0;
-    $all_teacher   = 0;
-    $all_institute = [  ];
-    $points        = [  ];
+    $all_amooz           = 0;
+    $all_teacher         = 0;
+    $all_institute       = [  ];
+    $total_max_num_pages = $query->max_num_pages;
 
     if ($query->have_posts()):
         while ($query->have_posts()): $query->the_post();
@@ -173,6 +177,9 @@
             $contacts = absint(get_post_meta(get_the_ID(), '_atlas_contacts', true));
             $city     = absint(get_post_meta(get_the_ID(), '_atlas_city', true));
             $map      = get_post_meta(get_the_ID(), '_atlas_map', true);
+
+            $center_type = get_post_meta(get_the_ID(), '_atlas_center-type', true);
+            $center_mode = get_post_meta(get_the_ID(), '_atlas_center-mode', true);
 
             if (! $city) {continue;}
 
@@ -186,24 +193,60 @@
             $link = esc_url(get_permalink(get_the_ID()));
 
             $all_institute[  ] = [
-                'id'       => get_the_ID(),
-                'link'     => $link,
-                'img'      => $img,
-                'title'    => get_the_title(),
-                'coaches'  => $coaches,
-                'contacts' => $contacts,
-                'location' => $ins_city[ 'province' ] . ', ' . $ins_city[ 'city' ],
-                'map'      => $map,
+                'id'          => get_the_ID(),
+                'link'        => $link,
+                'img'         => $img,
+                'title'       => get_the_title(),
+                'coaches'     => $coaches,
+                'contacts'    => $contacts,
+                'location'    => $ins_city[ 'province' ] . ', ' . $ins_city[ 'city' ],
+                'map'         => $map,
+                'center_type' => get_center_type($center_type),
+                'center_mode' => ($center_mode == 'public') ? 'عمومی' : 'خصوصی',
+                'city' => (empty($city_neme)) ? $ins_city[ 'city' ] : $city_neme ,
              ];
+
+        endwhile;
+        wp_reset_postdata();
+    endif;
+
+    $args[ 'meta_query' ][  ] =
+        [
+        'key'     => '_atlas_map',                               // متا کلید مورد نظر
+        'value'   => 'a:2:{s:3:"lat";s:0:"";s:3:"lng";s:0:"";}', // مقدار متا که نباید باشد
+        'compare' => '!=',                                       // عملگر مقایسه (نابرابر)
+
+     ];
+
+    $args[ 'posts_per_page' ] = -1;
+
+    unset($args[ 'paged' ]);
+
+    $query_points = new WP_Query($args);
+
+    $points = [  ];
+
+    if ($query_points->have_posts()) {
+        while ($query_points->have_posts()) {
+            $query_points->the_post();
+
+            $map = get_post_meta(get_the_ID(), '_atlas_map', true);
 
             if (! empty($map[ 'lat' ]) && ! empty($map[ 'lng' ])) {
 
+                $coaches  = absint(get_post_meta(get_the_ID(), '_atlas_coaches', true));
+                $contacts = absint(get_post_meta(get_the_ID(), '_atlas_contacts', true));
+
+                $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
+
+                $link = esc_url(get_permalink(get_the_ID()));
+
                 $info = '<div style="text-align: center;">
-																										<h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
-																										<img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
-																										<p>' . $coaches . ' مربی</p>
-																										<p>' . $contacts . ' قرآن‌آموز</p>
-																									</div>';
+                            <h5><a href="' . $link . '">' . get_the_title() . '</a></h5>
+                            <img src="' . $img . '" alt="' . get_the_title() . '" style="width: 100%; max-width: 150px; border-radius: 8px;">
+                            <p>' . $coaches . ' مربی</p>
+                            <p>' . $contacts . ' قرآن‌آموز</p>
+                        </div>';
 
                 $points[  ] = [
                     "lat"  => $map[ 'lat' ],
@@ -212,16 +255,14 @@
 
                  ];
             }
-        endwhile;
-        wp_reset_postdata();
-    endif;
 
-    $total  = ceil(sizeof($all_institute) / $inrow);
-    $inpage = (isset($_GET[ 'page' ]) && absint($_GET[ 'page' ]) <= $total) ? absint($_GET[ 'page' ]) : 1;
+        }
+    }
 
-    $start_show = ($inpage - 1) * $inrow;
+    // بازنشانی پست‌ها
+    wp_reset_postdata();
 
-    $all_institute_new = array_slice($all_institute, $start_show, $inrow, true);
+    $all_institute_new = $all_institute;
 
 get_header(); ?>
 
@@ -370,6 +411,11 @@ get_header(); ?>
                                 <a
                                     href="<?php echo $institute[ 'link' ] ?>"><b><?php echo $institute[ 'title' ] ?></b></a>
                             </div>
+                            <div class="d-flex flex-column gap-1 mt-1">
+                                <span class="f-12px">نوع مرکر: <b><?php echo $institute[ 'center_type' ] ?></b></span>
+                                <span class="f-12px">حالت مرکز: <b><?php echo $institute[ 'center_mode' ] ?></b></span>
+                                <span class="f-12px">شهر: <b><?php echo $institute[ 'city' ] ?></b></span>
+                            </div>
                             <div class="mt-1">
                                 <?php if (! empty($institute[ 'map' ][ 'lat' ]) && ! empty($institute[ 'map' ][ 'lng' ])): ?>
                                 <button class="onmap btn btn-new mt-2"
@@ -398,11 +444,14 @@ get_header(); ?>
                 $institute_count++;endforeach; ?>
             </div>
 
-            <?php if (sizeof($all_institute) > $inrow): ?>
+
+
+
+            <?php if (absint($total_max_num_pages) > 1): ?>
             <div class="mt-5 d-flex flex-row justify-content-between">
                 <?php $prev_disabled = ($inpage == 1) ? 'disabled' : ''; ?>
 
-                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2 <?php echo $prev_disabled ?>"
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo $prev_disabled ?>"
                     href="<?php echo esc_url(atlas_end_url('page', ($inpage - 1))) ?>">
                     <i class="bi bi-arrow-right"></i>
                     <div>|</div>
@@ -410,12 +459,12 @@ get_header(); ?>
                 </a>
 
                 <div class="atlas-paginate d-flex flex-row justify-content-center gap-1 gap-md-3">
-                    <?php echo paginate($total, $inpage); ?>
+                    <?php echo paginate($total_max_num_pages, $inpage); ?>
                 </div>
 
-                <?php $next_disabled = ($inpage == $total) ? 'disabled' : ''; ?>
+                <?php $next_disabled = ($inpage == $total_max_num_pages) ? 'disabled' : ''; ?>
 
-                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2 <?php echo $next_disabled ?>"
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo $next_disabled ?>"
                     href="<?php echo esc_url(atlas_end_url('page', ($inpage + 1))) ?>">
                     <i class="bi bi-arrow-left"></i>
                     <div>|</div>

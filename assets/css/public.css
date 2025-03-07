@@ -81,6 +81,9 @@
   --bs-secondary-rgb: 57, 60, 151;
   --btn-active-color: #37BEC1;
 
+  --bs-body-font-family: 'IRANSansX';
+
+
 }
 
 
@@ -668,7 +671,11 @@ body {
   font-weight: 1000;
 }
 
-#loginForm{
+.f-12px {
+  font-size: 12px;
+}
+
+#loginForm {
   width: 50%;
 }
 
@@ -753,9 +760,10 @@ body {
 }
 
 @media (max-width: 999px) {
-  #loginForm{
+  #loginForm {
     width: 100%;
   }
+
   .home-search-box-input {
     width: 100%;
   }

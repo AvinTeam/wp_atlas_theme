@@ -68,7 +68,7 @@ function atlas_user_submit_init()
 
                     $atlas_institute = [
                         'center-mode' => (isset($_POST[ 'atlas' ][ 'center-mode' ]) && $_POST[ 'atlas' ][ 'center-mode' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-mode' ]) : 'public',
-                        'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'Institute',
+                        'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'mohfel',
                         'phone'       => (isset($_POST[ 'atlas' ][ 'phone' ]) && $_POST[ 'atlas' ][ 'phone' ]) ? atlas_to_enghlish($_POST[ 'atlas' ][ 'phone' ]) : '',
                         'ostan'       => (isset($_POST[ 'atlas' ][ 'ostan' ]) && $_POST[ 'atlas' ][ 'ostan' ]) ? absint($_POST[ 'atlas' ][ 'ostan' ]) : 0,
                         'city'        => (isset($_POST[ 'atlas' ][ 'city' ]) && $_POST[ 'atlas' ][ 'city' ]) ? absint($_POST[ 'atlas' ][ 'city' ]) : 0,
@@ -165,7 +165,7 @@ function atlas_user_submit_init()
 
                 $atlas_institute = [
                     'center-mode' => (isset($_POST[ 'atlas' ][ 'center-mode' ]) && $_POST[ 'atlas' ][ 'center-mode' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-mode' ]) : 'public',
-                    'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'Institute',
+                    'center-type' => (isset($_POST[ 'atlas' ][ 'center-type' ]) && $_POST[ 'atlas' ][ 'center-type' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'center-type' ]) : 'mohfel',
                     'phone'       => (isset($_POST[ 'atlas' ][ 'phone' ]) && $_POST[ 'atlas' ][ 'phone' ]) ? atlas_to_enghlish($_POST[ 'atlas' ][ 'phone' ]) : '',
                     'ostan'       => (isset($_POST[ 'atlas' ][ 'ostan' ]) && $_POST[ 'atlas' ][ 'ostan' ]) ? absint($_POST[ 'atlas' ][ 'ostan' ]) : 0,
                     'city'        => (isset($_POST[ 'atlas' ][ 'city' ]) && $_POST[ 'atlas' ][ 'city' ]) ? absint($_POST[ 'atlas' ][ 'city' ]) : 0,

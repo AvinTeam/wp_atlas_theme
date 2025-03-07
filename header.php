@@ -40,9 +40,9 @@
                 class="col-12 col-md-4 text-center text-md-end d-flex flex-row justify-content-end gap-3 align-items-center ">
                 <a class="btn btn-primary d-flex flex-row justify-content-center align-items-center gap-2"
                     style="white-space: nowrap;" href="<?php echo atlas_base_url('panel') ?>">
-                    <img style="width:24px ;" src="<?= atlas_panel_image('login-icon.png') ?>">
+                    <img style="width:24px ;" src="<?php echo atlas_panel_image('login-icon.png')?>">
                     <span>|</span>
-                    <span> <?= (is_user_logged_in()) ?'ورود پنل':'محفل ساز شو' ?></span>
+                    <span>محفل ساز شو</span>
                 </a>
                 <a class=" d-none d-lg-block" href="<?php echo home_url() ?>">
                     <img src="<?php echo atlas_panel_image('zendegibaayeha.png') ?>" alt="زندگی با آیه‌ها"
