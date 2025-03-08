@@ -129,47 +129,53 @@
         return "شماره موبایل نامعتبر است.";
     }
 
-    function tarikh($data, $time = "")
-    {
-        $data1 = "";
-        if (! empty($data)) {
-            $arr  = explode(" ", $data);
-            $data = $arr[ 0 ];
+ 
 
-            $arrayData = [ '/', '-' ];
+function tarikh($data, $type = '')
+{
 
-            foreach ($arrayData as $arrayData) {
-                $x = explode($arrayData, $data);
-                if (sizeof($x) == 3) {
 
-                    list($gy, $gm, $gd) = explode($arrayData, $data);
+    $data_array = explode(" ", $data);
 
-                    if ($arrayData == '/') {
-                        $tagir = '-';
-                        $chen  = 'jalali_to_gregorian';
-                    }
-                    if ($arrayData == '-') {
-                        $tagir = '/';
-                        $chen  = 'gregorian_to_jalali';
-                    }
 
-                    $data1 = $chen($gy, $gm, $gd, $tagir);
+    $data = $data_array[ 0 ];
+    $time = (sizeof($data_array) >= 2) ? $data_array[ 1 ] : 0;
 
-                    break;
-                }
 
-            }
+    $has_mode = (strpos($data, '-')) ? '-' : '/';
 
-            if ($time == "d") {
-                $data1 = $data1;
-            } elseif ($time == "t") {
-                $data1 = $arr[ 1 ];
-            } else {
-                $data1 = $data1 . " " . $arr[ 1 ];
-            }
-        }
-        return $data1;
+
+    list($y, $m, $d) = explode($has_mode, $data);
+
+
+    $ch_date = (strpos($data, '-')) ? gregorian_to_jalali($y, $m, $d, '/') : jalali_to_gregorian($y, $m, $d, '-');
+
+
+    $has_mode = (strpos($ch_date, '-')) ? '-' : '/';
+
+
+    list($y, $m, $d) = explode($has_mode, $ch_date);
+    if ($m < 10) {$m = '0' . $m;}
+    if ($d < 10) {$d = '0' . $d;}
+
+
+    $ch_date = $y . $has_mode . $m . $has_mode . $d;
+
+
+    if ($type == 'time') {
+        $new_date = $time;
+    } elseif ($type == 'date') {
+        $new_date = $ch_date;
+    } else {
+        $new_date = ($time === 0) ? $ch_date : $ch_date . ' ' . $time;
     }
+
+
+    return $new_date;
+
+
+}
+
 
     function get_name_by_id($data, $id)
     {

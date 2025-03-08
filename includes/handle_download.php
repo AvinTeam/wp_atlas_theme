@@ -64,6 +64,8 @@ function handle_download()
 
             foreach ($query->posts as $post) {
 
+                $query->the_post();
+
                 $responsible = get_post_meta($post->ID, '_atlas_responsible', true);
                 $mobile      = get_post_meta($post->ID, '_atlas_responsible-mobile', true);
                 $center_mode = get_post_meta($post->ID, '_atlas_center-mode', true);
@@ -138,11 +140,8 @@ function handle_download()
                     }, $gender);
                 }
 
-
                 $center_type = get_center_type($center_type);
 
-
-                
                 switch ($post->post_status) {
                     case 'publish':
                         $post_status = 'منتشر شده';
@@ -204,6 +203,8 @@ function handle_download()
                 $row[ ' زندگی با آیه ها ' ]         = ($ayeha == 'yes') ? 'بله' : 'خیر';
                 $row[ 'توضیحات ' ]                       = sanitize_text_field(apply_filters('the_content', $post->post_content));
                 $row[ 'نام کاربری اپراتور' ]    = $operator;
+                $row[ 'تاریخ ثبت' ]                     = tarikh(get_the_date('Y-m-d'));
+                $row[ 'تاریخ بروزرسانی' ]         = tarikh(get_the_modified_date('Y-m-d'));
                 $row[ 'وضعیت' ]                            = $post_status;
 
                 $data[  ] = $row;

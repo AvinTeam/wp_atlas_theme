@@ -96,6 +96,7 @@
 
     $args = [
         'post_type'      => 'institute',
+        'post_status'    => 'publish',
         'posts_per_page' => $inrow,
         'paged'          => $inpage,
 
@@ -193,9 +194,6 @@
 
             $ins_city = $iran->one_city($city);
 
-            $all_teacher += $coaches;
-            $all_amooz += $contacts;
-
             $img = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'medium') : atlas_panel_image('default.png');
 
             $link = esc_url(get_permalink(get_the_ID()));
@@ -218,6 +216,60 @@
         wp_reset_postdata();
     endif;
 
+    $args[ 'posts_per_page' ] = -1;
+
+    $args[ 'fields' ] = 'ids';
+
+    unset($args[ 'paged' ]);
+
+    // Step 1: دریافت IDهای پست‌ها با WP_Query
+    // $args = array(
+    //     'post_type'      => 'post', // نوع پست را مشخص کنید
+    //     'posts_per_page' => -1,     // تمام پست‌ها را دریافت کنید
+    //     'meta_query'     => array(
+    //         'relation' => 'OR', // پست‌هایی که حداقل یکی از این متا فیلدها را دارند
+    //         array(
+    //             'key'     => '_atlas_coaches', // متا فیلد اول
+    //             'compare' => 'EXISTS',
+    //         ),
+    //         array(
+    //             'key'     => '_atlas_contacts', // متا فیلد دوم
+    //             'compare' => 'EXISTS',
+    //         ),
+    //     ),
+    //     'fields'         => 'ids', // فقط IDهای پست‌ها را دریافت کنید
+    // );
+
+    $query_sum = new WP_Query($args);
+    $post_ids  = $query_sum->posts; // دریافت IDهای پست‌ها
+
+    // Step 2: جمع‌آوری مقادیر متا فیلدها با wpdb
+    if (! empty($post_ids)) {
+        global $wpdb;
+
+        // تبدیل آرایه IDها به رشته برای استفاده در کوئری SQL
+        $post_ids_str = implode(',', array_map('intval', $post_ids));
+
+        // کوئری برای جمع‌آوری مقادیر _atlas_coaches
+        $all_teacher = $wpdb->get_var(
+            "SELECT SUM(meta_value)
+         FROM {$wpdb->postmeta}
+         WHERE meta_key = '_atlas_coaches'
+         AND post_id IN ($post_ids_str)"
+        );
+
+        // کوئری برای جمع‌آوری مقادیر _atlas_contacts
+        $all_amooz = $wpdb->get_var(
+            "SELECT SUM(meta_value)
+         FROM {$wpdb->postmeta}
+         WHERE meta_key = '_atlas_contacts'
+         AND post_id IN ($post_ids_str)"
+        );
+
+        $all_teacher ? $all_teacher : 0;
+        $all_amooz ? $all_amooz : 0;
+    }
+
     $args[ 'meta_query' ][  ] =
         [
         'key'     => '_atlas_map',                               // متا کلید مورد نظر
@@ -225,10 +277,6 @@
         'compare' => '!=',                                       // عملگر مقایسه (نابرابر)
 
      ];
-
-    $args[ 'posts_per_page' ] = -1;
-
-    unset($args[ 'paged' ]);
 
     $query_points = new WP_Query($args);
 
@@ -273,7 +321,7 @@
     $all_institute_new = $all_institute;
 
 get_header(); ?>
-<?php if($this_page[ 0 ] != 'search'):?>
+<?php if ($this_page[ 0 ] != 'search'): ?>
 <style>
 .city-head-box {
     background-image: url('<?php echo atlas_panel_image('province/bg' . $province_id . '.png') ?>');
@@ -470,7 +518,7 @@ get_header(); ?>
             <div class="mt-5 d-flex flex-row justify-content-between">
                 <?php $prev_disabled = ($inpage == 1) ? 'disabled' : ''; ?>
 
-                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <?php echo $prev_disabled ?>"
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $prev_disabled ?>"
                     href="<?php echo esc_url(atlas_end_url('page', ($inpage - 1))) ?>">
                     <i class="bi bi-arrow-right"></i>
                     <div>|</div>
@@ -483,7 +531,7 @@ get_header(); ?>
 
                 <?php $next_disabled = ($inpage == $total_max_num_pages) ? 'disabled' : ''; ?>
 
-                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <?php echo $next_disabled ?>"
+                <a class="btn btn-outline-primary d-flex flex-row justify-content-center align-items-center gap-2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $next_disabled ?>"
                     href="<?php echo esc_url(atlas_end_url('page', ($inpage + 1))) ?>">
                     <i class="bi bi-arrow-left"></i>
                     <div>|</div>

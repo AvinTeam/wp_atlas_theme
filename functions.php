@@ -2,7 +2,7 @@
 (defined('ABSPATH')) || exit;
 header('Content-Type: text/html; charset=utf-8');
 
-define('ATLAS_VERSION', '1.8.0');
+define('ATLAS_VERSION', '1.9.1');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -39,7 +39,7 @@ require_once ATLAS_INCLUDES . '/ajax.php';
 require_once ATLAS_INCLUDES . '/theme-function.php';
 require_once ATLAS_INCLUDES . '/init_user_submit.php';
 
-// require_once ATLAS_INCLUDES . '/jdf.php';
+require_once ATLAS_INCLUDES . '/jdf.php';
 
 
 if (is_admin()) {
