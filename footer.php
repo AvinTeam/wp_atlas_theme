@@ -56,35 +56,35 @@
                     <div class="mb-3">
                         <label for="type-modal" class="form-label">نوع مرکز</label>
                         <select id="type-modal" class="form-select form-select w-100" name="type">
-                            <option <?php selected($center_type, 'all')?> value="all">همه موارد</option>
-                            <option <?php selected($center_type, 'mohfel')?> value="mohfel">محفل زندگی با آیه ها
+                            <option                                                                       <?php selected($center_type, 'all')?> value="all">همه موارد</option>
+                            <option                                                                       <?php selected($center_type, 'mohfel')?> value="mohfel">محفل زندگی با آیه ها
                             </option>
-                            <option <?php selected($center_type, 'Institute')?> value="Institute">موسسه</option>
-                            <option <?php selected($center_type, 'house_of_quran')?> value="house_of_quran">خانه قرآن
+                            <option                                                                       <?php selected($center_type, 'Institute')?> value="Institute">موسسه</option>
+                            <option                                                                       <?php selected($center_type, 'house_of_quran')?> value="house_of_quran">خانه قرآن
                             </option>
-                            <option <?php selected($center_type, 'education')?> value="education">آموزش پرورش</option>
-                            <option <?php selected($center_type, 'besij')?> value="besij">پایگاه قرآنی مساجد</option>
-                            <option <?php selected($center_type, 'home')?> value="home">جلسات خانگی</option>
+                            <option                                                                       <?php selected($center_type, 'education')?> value="education">آموزش پرورش</option>
+                            <option                                                                       <?php selected($center_type, 'besij')?> value="besij">پایگاه قرآنی مساجد</option>
+                            <option                                                                       <?php selected($center_type, 'home')?> value="home">جلسات خانگی</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="course-modal" class="form-label">نحوه برگزاری کلاس</label>
                         <select id="course-modal" class="form-select form-select w-100" name="course">
-                            <option <?php selected($course, 'all')?> value="all">همه موارد</option>
-                            <option <?php selected($course, 'online')?> value="online">حضوری</option>
-                            <option <?php selected($course, 'offline')?> value="offline">مجازی</option>
+                            <option                                                                       <?php selected($course, 'all')?> value="all">همه موارد</option>
+                            <option                                                                       <?php selected($course, 'online')?> value="online">حضوری</option>
+                            <option                                                                       <?php selected($course, 'offline')?> value="offline">مجازی</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="age-modal" class="form-label">گروه سنی مخاطبین</label>
                         <select id="age-modal" class="form-select form-select w-100" name="age">
-                            <option <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
-                            <option <?php selected($age, 7)?> value="7">زیر 7 سال</option>
-                            <option <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
-                            <option <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
-                            <option <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
+                            <option                                                                       <?php selected($age, 'all')?> value="all">همه گروه سنی</option>
+                            <option                                                                       <?php selected($age, 7)?> value="7">زیر 7 سال</option>
+                            <option                                                                       <?php selected($age, 12)?> value="12">7 تا 12 سال</option>
+                            <option                                                                       <?php selected($age, 18)?> value="18">12 تا 18 سال</option>
+                            <option                                                                       <?php selected($age, 'old')?> value="old">18 سال به بالا</option>
 
                         </select>
                     </div>
@@ -93,8 +93,8 @@
                         <label for="gender-modal" class="form-label">جنسیت</label>
                         <select id="gender-modal" class="form-select form-select w-100" name="gender">
                             <option value="all">همه ی جنسیت ها</option>
-                            <option <?php selected($gender, 'woman')?> value="woman">خواهران</option>
-                            <option <?php selected($gender, 'man')?> value="man">برادران</option>
+                            <option                                                                       <?php selected($gender, 'woman')?> value="woman">خواهران</option>
+                            <option                                                                       <?php selected($gender, 'man')?> value="man">برادران</option>
                         </select>
                     </div>
 
@@ -122,7 +122,7 @@
 <footer class="container-fluid mt-2 my-md-5">
     <div class=" mx-auto atlas-row">
 
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4"
+        <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4"
             style="height: 136px;">
             <span class="fw-heavy text-white">اطلس محافل و تشکل های قرآنی</span>
             <div class="footer-link">
@@ -137,12 +137,10 @@
 
             </div>
 
-
-
         </div>
-        <div class=" mx-auto atlas-row footercopy rounded-bottom-4 text-center d-flex justify-content-center align-items-center text-white"
-            style="height: 59px;">
+        <div class=" mx-auto atlas-row footercopy rounded-bottom-4 text-center d-flex flex-column justify-content-center align-items-center text-white py-2">
             <span>کلیه حقوق این سامانه متعلق به سامانه جامع زندگی با آیه ها می باشد.</span>
+            <div class="w-100 text-center py-2"><a class=" text-white" href="https://avinmedia.ir/" target="_blank">طراحی و پشتیبانی: گروه هنری رسانه ای آوین</a></div>
         </div>
     </div>
 

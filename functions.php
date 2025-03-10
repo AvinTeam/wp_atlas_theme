@@ -2,7 +2,7 @@
 (defined('ABSPATH')) || exit;
 header('Content-Type: text/html; charset=utf-8');
 
-define('ATLAS_VERSION', '1.9.1');
+define('ATLAS_VERSION', '1.9.3');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
