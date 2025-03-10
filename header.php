@@ -12,7 +12,6 @@
     <title><?php wp_title('|', true, 'right'); ?></title>
     <?php wp_head(); ?>
     <script async defer src="https://tianji.ayeh.net/tracker.js" data-website-id="cm81frvegw9frul654y1ywdgn"></script>
-
 </head>
 
 <body class="<?php echo(isset($atlas_body) && ! empty($atlas_body)) ? $atlas_body : '' ?>">
