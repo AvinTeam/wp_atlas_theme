@@ -124,7 +124,7 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4"
             style="height: 136px;">
-            <span class="fw-heavy text-white">اطلس محافل و تشکل های قرآنی</span>
+            <span class="fw-heavy text-white"></span>
             <div class="footer-link">
 
                 <?php wp_nav_menu([

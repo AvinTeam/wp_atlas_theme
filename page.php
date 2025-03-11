@@ -26,7 +26,7 @@
 <div class="container-fluid mt-2">
 
     <div class="atlas-row mx-auto d-flex flex-row gap-2">
-        <div class="content"><?php the_content(); ?></div>
+        <div class="content w-100"><?php the_content(); ?></div>
     </div>
 </div>
 
