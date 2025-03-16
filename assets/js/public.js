@@ -750,6 +750,8 @@ jQuery(document).ready(function ($) {
         let title = $('#title').val();
         let ostan = $('#ostan').val();
         let city = $('#city').val();
+        let phone = $('#phone').val();
+        let contacts = $('#contacts').val();
 
         let massege = "";
 
@@ -757,6 +759,12 @@ jQuery(document).ready(function ($) {
         if (title == "") {
             massege += `<div class="alert alert-danger" role="alert">
            عنوان  مرکز قرآنی را وارد کنید
+        </div>`;
+        }
+
+        if (phone == "") {
+            massege += `<div class="alert alert-danger" role="alert">
+            شماره ارتباط با مرکز را وارد کنید
         </div>`;
         }
 
@@ -781,10 +789,15 @@ jQuery(document).ready(function ($) {
          </div>`;
         }
 
+        if (Number(contacts) == 0) {
+            massege += `<div class="alert alert-danger" role="alert">
+             تعداد مخاطبین را وارد کنید
+        </div>`;
+        }
+
         if (massege != "") {
             $('#alert_item_danger').html(massege);
             e.preventDefault();
-
         }
 
 

@@ -2,7 +2,7 @@
 (defined('ABSPATH')) || exit;
 header('Content-Type: text/html; charset=utf-8');
 
-define('ATLAS_VERSION', '1.9.5');
+define('ATLAS_VERSION', '1.10.0');
 
 define('ATLAS_PATH', get_template_directory() . "/");
 define('ATLAS_INCLUDES', ATLAS_PATH . 'includes/');
@@ -17,7 +17,6 @@ define('ATLAS_CSS', ATLAS_ASSETS . 'css/');
 define('ATLAS_JS', ATLAS_ASSETS . 'js/');
 define('ATLAS_IMAGE', ATLAS_ASSETS . 'image/');
 define('ATLAS_VENDOR', ATLAS_ASSETS . 'vendor/');
-
 
 if (! defined('ATLAS_PAGE_BASE')) {
     define('ATLAS_PAGE_BASE', 'a');
@@ -40,7 +39,6 @@ require_once ATLAS_INCLUDES . '/theme-function.php';
 require_once ATLAS_INCLUDES . '/init_user_submit.php';
 
 require_once ATLAS_INCLUDES . '/jdf.php';
-
 
 if (is_admin()) {
     //require_once ATLAS_CLASS . '/List_Table.php';

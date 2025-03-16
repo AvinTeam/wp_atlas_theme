@@ -39,7 +39,7 @@
             <div
                 class="col-12 col-md-4 text-center text-md-end d-flex flex-row justify-content-end gap-3 align-items-center ">
                 <a class="btn btn-primary d-flex flex-row justify-content-center align-items-center gap-2 text-nowrap" href="<?php echo atlas_base_url('panel') ?>">
-                    <img style="width:24px ;" src="<?php echo atlas_panel_image('login-icon.png') ?>">
+                    <img style="width:35px ;" src="<?php echo atlas_panel_image('login-icon.png') ?>">
                     <span>|</span>
                     <span>محفل ساز شو</span>
                 </a>

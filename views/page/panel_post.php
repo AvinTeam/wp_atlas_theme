@@ -27,7 +27,7 @@
         'subject'     => '',
         'coaches'     => '',
         'teacher'     => [  ],
-        'ayeha'       => 'no',
+        'ayeha'       => 'yes',
      ];
 
     if (isset($_GET[ 'post' ]) && ! empty($_GET[ 'post' ])) {
@@ -222,8 +222,8 @@ get_header(); ?>
             </div>
         </div>
         <div class="form-group mt-2">
-            <label for="phone">شماره ارتباط با مرکز</label>
-            <input type="text" class="form-control mt-2 onlyNumbersInput" id="phone" name="atlas[phone]"
+            <label for="phone">شماره ارتباط با مرکز <span class="text-danger">*</span></label>
+            <input type="text" class="form-control mt-2 onlyNumbersInput" id="phone" name="atlas[phone]" require
                 value="<?php echo $atlas_institute[ 'phone' ] ?>" aria-describedby="phone-description">
             <p class="description" id="phone-description">با کد استان و بدون اعلائم اضافه ثبت شود</p>
         </div>
@@ -346,8 +346,8 @@ get_header(); ?>
 
 
         <div class="form-group mt-2">
-            <label for="contacts">تعداد مخاطبین</label>
-            <input type="text" id="contacts" class="form-control mt-2 onlyNumbersInput" name="atlas[contacts]"
+            <label for="contacts">تعداد مخاطبین <span class="text-danger">*</span></label>
+            <input type="text" id="contacts" class="form-control mt-2 onlyNumbersInput" name="atlas[contacts]" require
                 value="<?php echo $atlas_institute[ 'contacts' ] ?>">
         </div>
 
@@ -457,9 +457,7 @@ get_header(); ?>
 
 
 
-        <div id="alert_item_danger" class="container mt-5">
-    
-    </div>
+        <div id="alert_item_danger" class="container mt-5"></div>
 
 
 

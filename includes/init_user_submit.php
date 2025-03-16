@@ -159,7 +159,16 @@ function atlas_user_submit_init()
         if (isset($_REQUEST[ 'post' ]) && ! absint($_POST[ 'post_id' ]) && $_POST[ 'act_user' ] == 'form_submit') {
             $post_update = false;
 
-            if (wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce_user_submit' . get_current_user_id())) {
+            if (isset($_POST[ '_wpnonce' ]) &&
+                wp_verify_nonce($_POST[ '_wpnonce' ], 'atlas_nonce_user_submit' . get_current_user_id()) &&
+                ! empty($_POST[ 'title' ]) &&
+                ! absint($_POST[ 'atlas' ][ 'ostan' ]) &&
+                ! absint($_POST[ 'atlas' ][ 'city' ]) &&
+                ! empty($_POST[ 'atlas' ][ 'map' ][ 'lat' ]) &&
+                ! empty($_POST[ 'atlas' ][ 'map' ][ 'lng' ]) &&
+                ! absint($_POST[ 'atlas' ][ 'contacts' ]) &&
+                ! empty($_POST[ 'atlas' ][ 'phone' ])
+            ) {
 
                 $this_user = wp_get_current_user();
 
@@ -174,7 +183,7 @@ function atlas_user_submit_init()
                     'link'        => (isset($_POST[ 'atlas' ][ 'link' ]) && is_array($_POST[ 'atlas' ][ 'link' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'link' ]) : [ 'site' => '', 'eitaa' => '', 'bale' => '', 'rubika' => '', 'telegram' => '', 'instagram' => '' ],
                     'gender'      => (isset($_POST[ 'atlas' ][ 'gender' ]) && is_array($_POST[ 'atlas' ][ 'gender' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'gender' ]) : [  ],
                     'age'         => (isset($_POST[ 'atlas' ][ 'age' ]) && is_array($_POST[ 'atlas' ][ 'age' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'age' ]) : [  ],
-                    'contacts'    => (isset($_POST[ 'atlas' ][ 'contacts' ]) && $_POST[ 'atlas' ][ 'contacts' ]) ? absint($_POST[ 'atlas' ][ 'contacts' ]) : '',
+                    'contacts'    => (isset($_POST[ 'atlas' ][ 'contacts' ]) && $_POST[ 'atlas' ][ 'contacts' ]) ? absint($_POST[ 'atlas' ][ 'contacts' ]) : 0,
                     'course-type' => (isset($_POST[ 'atlas' ][ 'course-type' ]) && is_array($_POST[ 'atlas' ][ 'course-type' ])) ? array_map('sanitize_text_field', $_POST[ 'atlas' ][ 'course-type' ]) : [  ],
                     'subject'     => (isset($_POST[ 'atlas' ][ 'subject' ]) && $_POST[ 'atlas' ][ 'subject' ]) ? sanitize_text_field($_POST[ 'atlas' ][ 'subject' ]) : '',
                     'coaches'     => (isset($_POST[ 'atlas' ][ 'coaches' ]) && $_POST[ 'atlas' ][ 'coaches' ]) ? absint($_POST[ 'atlas' ][ 'coaches' ]) : '',
@@ -194,7 +203,7 @@ function atlas_user_submit_init()
 
                     if (! empty($_FILES[ 'fileInput' ][ 'name' ])) {
 
-                        $upload = atlas_upload_file($_FILES[ 'fileInput' ],0, $post_id);
+                        $upload = atlas_upload_file($_FILES[ 'fileInput' ], 0, $post_id);
 
                         if ($upload[ 'code' ]) {
 
