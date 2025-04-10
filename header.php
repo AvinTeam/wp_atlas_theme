@@ -31,7 +31,7 @@
             <!-- لوگو -->
             <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
                 <a href="<?php echo home_url() ?>">
-                    <img src="<?php echo atlas_panel_image('logo.png') ?>" alt="لوگو" class="w-100">
+                    <img src="<?php echo atlas_panel_image('logo.png') ?>" alt="لوگو" class="w-75">
                 </a>
             </div>
 
