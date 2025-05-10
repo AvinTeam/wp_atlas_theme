@@ -209,7 +209,7 @@
                 'map'         => $map,
                 'center_type' => get_center_type($center_type),
                 'center_mode' => ($center_mode == 'public') ? 'عمومی' : 'خصوصی',
-                'city'        => (empty($city_neme)) ? $ins_city[ 'city' ] : $city_neme,
+                'city'        => ($city_neme == 'ایران' ) ? $ins_city[ 'city' ] : $city_neme,
              ];
 
         endwhile;
@@ -466,7 +466,7 @@ get_header(); ?>
             <div class="row p-2">
                 <?php if (! sizeof($all_institute)): ?>
                 <div class="alert alert-info text-center" role="alert">
-                    مرکز قرآنی ای یافت نشده است
+                    مرکز قرآنی ای یافت نشد
                 </div>
                 <?php endif; ?>
 

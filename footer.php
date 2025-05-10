@@ -119,7 +119,7 @@
     </div>
 </div>
 
-<footer class="container-fluid mt-2 my-md-5">
+<footer class="container-fluid mt-2 my-lg-5">
     <div class=" mx-auto atlas-row">
 
         <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center p-md-5 bg-linear-gradient rounded-2 gap-4"

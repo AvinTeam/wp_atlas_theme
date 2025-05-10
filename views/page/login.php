@@ -19,11 +19,23 @@ get_header(); ?>
 <style>
 
 
-
 footer {
     position: absolute;
     bottom: 0;
 }
+
+
+
+@media (max-width: 768px) {
+  
+footer {
+    position: relative;
+    bottom: 0;
+}
+  
+}
+
+
 </style>
 
 

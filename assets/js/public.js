@@ -361,6 +361,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
 
 
+        $('#type-modal').val('all');
         $('#course-modal').val('all');
         $('#age-modal').val('all');
         $('#gender-modal').val('all');
